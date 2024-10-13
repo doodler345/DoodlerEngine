@@ -1,5 +1,5 @@
 # About
-This SFML-Based 2D-Engine was my one-semester-approach trying to get a Engine running.
+This SFML-Based 2D-Engine started as a one-semester-approach trying to get an Engine running.
 It has simple but working features like:
 - ECS
 - InputManager
@@ -18,6 +18,6 @@ You can access it simply by running the application.
 1. Download [CMake](cmake.org/download/)
 2. Make sure CMake is in the User PATH VARIABLES
 3. VISUAL STUDIO:   run build.bat (automatically opens Visual Studio)
-4. ALTERNATIVE:     Generate into a new subdirectory called "build"
+4. ALTERNATIVE:     Generate into a new subdirectory called "build" with the IDE of your choice
 
     
