@@ -1,0 +1,12 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=url
+command=E:/Programme/CMake/bin/cmake.exe;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/download-imgui-populate.cmake;COMMAND;E:/Programme/CMake/bin/cmake.exe;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/verify-imgui-populate.cmake;COMMAND;E:/Programme/CMake/bin/cmake.exe;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/extract-imgui-populate.cmake
+source_dir=E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/imgui
+work_dir=E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build
+url(s)=https://github.com/ocornut/imgui/archive/docking.zip
+hash=
+      no_extract=
+

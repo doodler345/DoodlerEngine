@@ -1,0 +1,150 @@
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKEFILES\31C4CF9C615DAB81DEBC154EABC9A5DB\GLFW-POPULATE-MKDIR.RULE
+setlocal
+E:\Programme\CMake\bin\cmake.exe -Dcfgdir=/Debug -P E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate-prefix/tmp/glfw-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/Debug/glfw-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKEFILES\31C4CF9C615DAB81DEBC154EABC9A5DB\GLFW-POPULATE-DOWNLOAD.RULE
+setlocal
+cd E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\build\_deps
+if %errorlevel% neq 0 goto :cmEnd
+E:
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate-prefix/tmp/glfw-populate-gitclone.cmake
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/Debug/glfw-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKEFILES\31C4CF9C615DAB81DEBC154EABC9A5DB\GLFW-POPULATE-UPDATE.RULE
+setlocal
+cd E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\build\_deps\glfw-src
+if %errorlevel% neq 0 goto :cmEnd
+E:
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate-prefix/tmp/glfw-populate-gitupdate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKEFILES\31C4CF9C615DAB81DEBC154EABC9A5DB\GLFW-POPULATE-PATCH.RULE
+setlocal
+E:\Programme\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/Debug/glfw-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKEFILES\31C4CF9C615DAB81DEBC154EABC9A5DB\GLFW-POPULATE-CONFIGURE.RULE
+setlocal
+cd E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\build\_deps\glfw-build
+if %errorlevel% neq 0 goto :cmEnd
+E:
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/Debug/glfw-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKEFILES\31C4CF9C615DAB81DEBC154EABC9A5DB\GLFW-POPULATE-BUILD.RULE
+setlocal
+cd E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\build\_deps\glfw-build
+if %errorlevel% neq 0 goto :cmEnd
+E:
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/Debug/glfw-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKEFILES\31C4CF9C615DAB81DEBC154EABC9A5DB\GLFW-POPULATE-INSTALL.RULE
+setlocal
+cd E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\build\_deps\glfw-build
+if %errorlevel% neq 0 goto :cmEnd
+E:
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/Debug/glfw-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKEFILES\31C4CF9C615DAB81DEBC154EABC9A5DB\GLFW-POPULATE-TEST.RULE
+setlocal
+cd E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\build\_deps\glfw-build
+if %errorlevel% neq 0 goto :cmEnd
+E:
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/Debug/glfw-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKEFILES\33FBAF61A05139266E3FE1D5CE595EEE\GLFW-POPULATE-COMPLETE.RULE
+setlocal
+E:\Programme\CMake\bin\cmake.exe -E make_directory E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/Debug/glfw-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/Debug/glfw-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKEFILES\AFDB9C84232A202B1E8B09DDECEC14DF\GLFW-POPULATE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKELISTS.TXT
+setlocal
+E:\Programme\CMake\bin\cmake.exe -SE:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild -BE:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild --check-stamp-file E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

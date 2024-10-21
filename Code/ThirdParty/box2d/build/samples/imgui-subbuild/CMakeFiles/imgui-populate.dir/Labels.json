@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/imgui-populate"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/ed3af8bc7843665faadc2f54b3a5e694/imgui-populate.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/38cceb2961577e3066d9c5b35ed4fa54/imgui-populate-complete.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/f495e920a2ae1156abd9214ef15b5a63/imgui-populate-build.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/f495e920a2ae1156abd9214ef15b5a63/imgui-populate-configure.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/f495e920a2ae1156abd9214ef15b5a63/imgui-populate-download.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/f495e920a2ae1156abd9214ef15b5a63/imgui-populate-install.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/f495e920a2ae1156abd9214ef15b5a63/imgui-populate-mkdir.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/f495e920a2ae1156abd9214ef15b5a63/imgui-populate-patch.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/f495e920a2ae1156abd9214ef15b5a63/imgui-populate-test.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/f495e920a2ae1156abd9214ef15b5a63/imgui-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"imgui-populate"
+		],
+		"name" : "imgui-populate"
+	}
+}

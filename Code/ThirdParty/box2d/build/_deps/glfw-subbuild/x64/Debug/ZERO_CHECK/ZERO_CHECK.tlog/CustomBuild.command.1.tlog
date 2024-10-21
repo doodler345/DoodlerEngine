@@ -1,0 +1,10 @@
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\_DEPS\GLFW-SUBBUILD\CMAKEFILES\AFDB9C84232A202B1E8B09DDECEC14DF\GENERATE.STAMP.RULE
+setlocal
+E:\Programme\CMake\bin\cmake.exe -SE:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild -BE:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/glfw-populate.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

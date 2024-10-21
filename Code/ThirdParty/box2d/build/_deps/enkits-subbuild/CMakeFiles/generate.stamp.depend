@@ -1,0 +1,22 @@
+# CMake generation dependency list for this directory.
+E:/Programme/CMake/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake
+E:/Programme/CMake/share/cmake-3.30/Modules/CMakeGenericSystem.cmake
+E:/Programme/CMake/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake
+E:/Programme/CMake/share/cmake-3.30/Modules/CMakeSystem.cmake.in
+E:/Programme/CMake/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake
+E:/Programme/CMake/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake
+E:/Programme/CMake/share/cmake-3.30/Modules/ExternalProject.cmake
+E:/Programme/CMake/share/cmake-3.30/Modules/ExternalProject/PatchInfo.txt.in
+E:/Programme/CMake/share/cmake-3.30/Modules/ExternalProject/RepositoryInfo.txt.in
+E:/Programme/CMake/share/cmake-3.30/Modules/ExternalProject/UpdateInfo.txt.in
+E:/Programme/CMake/share/cmake-3.30/Modules/ExternalProject/cfgcmd.txt.in
+E:/Programme/CMake/share/cmake-3.30/Modules/ExternalProject/gitclone.cmake.in
+E:/Programme/CMake/share/cmake-3.30/Modules/ExternalProject/gitupdate.cmake.in
+E:/Programme/CMake/share/cmake-3.30/Modules/ExternalProject/mkdirs.cmake.in
+E:/Programme/CMake/share/cmake-3.30/Modules/ExternalProject/shared_internal_commands.cmake
+E:/Programme/CMake/share/cmake-3.30/Modules/Platform/Windows-Initialize.cmake
+E:/Programme/CMake/share/cmake-3.30/Modules/Platform/Windows.cmake
+E:/Programme/CMake/share/cmake-3.30/Modules/Platform/WindowsPaths.cmake
+E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/enkits-subbuild/CMakeFiles/3.30.2/CMakeSystem.cmake
+E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/enkits-subbuild/CMakeLists.txt
+E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/enkits-subbuild/enkits-populate-prefix/tmp/enkits-populate-mkdirs.cmake

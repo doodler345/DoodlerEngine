@@ -1,0 +1,6 @@
+# CMake generation dependency list for this directory.
+E:/Programme/CMake/share/cmake-3.30/Modules/FetchContent/CMakeLists.cmake.in
+E:/Programme/CMake/share/cmake-3.30/Modules/FindGit.cmake
+E:/Programme/CMake/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake
+E:/Programme/CMake/share/cmake-3.30/Modules/FindPackageMessage.cmake
+E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/samples/CMakeLists.txt

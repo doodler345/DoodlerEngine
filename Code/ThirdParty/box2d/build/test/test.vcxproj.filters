@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\test\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\test\test_bitset.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\test\test_collision.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\test\test_determinism.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\test\test_distance.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\test\test_math.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\test\test_shape.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\test\test_table.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\test\test_world.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\test\test_macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\test\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{6034A7E7-F77E-3CC3-9F92-1DAFA3523FBC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{964E208E-655B-37AB-8E75-0D9CA1AC12B1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

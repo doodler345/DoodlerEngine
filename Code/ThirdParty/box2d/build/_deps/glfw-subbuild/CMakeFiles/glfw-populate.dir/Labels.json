@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/glfw-populate"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/afdb9c84232a202b1e8b09ddecec14df/glfw-populate.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/33fbaf61a05139266e3fe1d5ce595eee/glfw-populate-complete.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/31c4cf9c615dab81debc154eabc9a5db/glfw-populate-build.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/31c4cf9c615dab81debc154eabc9a5db/glfw-populate-configure.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/31c4cf9c615dab81debc154eabc9a5db/glfw-populate-download.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/31c4cf9c615dab81debc154eabc9a5db/glfw-populate-install.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/31c4cf9c615dab81debc154eabc9a5db/glfw-populate-mkdir.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/31c4cf9c615dab81debc154eabc9a5db/glfw-populate-patch.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/31c4cf9c615dab81debc154eabc9a5db/glfw-populate-test.rule"
+		},
+		{
+			"file" : "E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/_deps/glfw-subbuild/CMakeFiles/31c4cf9c615dab81debc154eabc9a5db/glfw-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"glfw-populate"
+		],
+		"name" : "glfw-populate"
+	}
+}

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\car.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\donut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\doohickey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\draw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\human.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_benchmark.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_bodies.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_collision.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_continuous.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_determinism.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_events.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_geometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_joints.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_robustness.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_shapes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_stacking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample_world.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\car.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\donut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\doohickey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\draw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\human.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\sample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\samples\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{6034A7E7-F77E-3CC3-9F92-1DAFA3523FBC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{964E208E-655B-37AB-8E75-0D9CA1AC12B1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,152 @@
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\SAMPLES\IMGUI-SUBBUILD\CMAKEFILES\F495E920A2AE1156ABD9214EF15B5A63\IMGUI-POPULATE-MKDIR.RULE
+setlocal
+E:\Programme\CMake\bin\cmake.exe -Dcfgdir=/Debug -P E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/tmp/imgui-populate-mkdirs.cmake
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/Debug/imgui-populate-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\SAMPLES\IMGUI-SUBBUILD\CMAKEFILES\F495E920A2AE1156ABD9214EF15B5A63\IMGUI-POPULATE-DOWNLOAD.RULE
+setlocal
+cd E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\build
+if %errorlevel% neq 0 goto :cmEnd
+E:
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/download-imgui-populate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/verify-imgui-populate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/extract-imgui-populate.cmake
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/Debug/imgui-populate-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\SAMPLES\IMGUI-SUBBUILD\CMAKEFILES\F495E920A2AE1156ABD9214EF15B5A63\IMGUI-POPULATE-UPDATE.RULE
+setlocal
+E:\Programme\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/Debug/imgui-populate-update
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\SAMPLES\IMGUI-SUBBUILD\CMAKEFILES\F495E920A2AE1156ABD9214EF15B5A63\IMGUI-POPULATE-PATCH.RULE
+setlocal
+E:\Programme\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/Debug/imgui-populate-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\SAMPLES\IMGUI-SUBBUILD\CMAKEFILES\F495E920A2AE1156ABD9214EF15B5A63\IMGUI-POPULATE-CONFIGURE.RULE
+setlocal
+cd E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\build\samples\imgui-build
+if %errorlevel% neq 0 goto :cmEnd
+E:
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/Debug/imgui-populate-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\SAMPLES\IMGUI-SUBBUILD\CMAKEFILES\F495E920A2AE1156ABD9214EF15B5A63\IMGUI-POPULATE-BUILD.RULE
+setlocal
+cd E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\build\samples\imgui-build
+if %errorlevel% neq 0 goto :cmEnd
+E:
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/Debug/imgui-populate-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\SAMPLES\IMGUI-SUBBUILD\CMAKEFILES\F495E920A2AE1156ABD9214EF15B5A63\IMGUI-POPULATE-INSTALL.RULE
+setlocal
+cd E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\build\samples\imgui-build
+if %errorlevel% neq 0 goto :cmEnd
+E:
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/Debug/imgui-populate-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\SAMPLES\IMGUI-SUBBUILD\CMAKEFILES\F495E920A2AE1156ABD9214EF15B5A63\IMGUI-POPULATE-TEST.RULE
+setlocal
+cd E:\Programmieren\Cpp\Tests\CMakeTest\Resources\box2d\build\samples\imgui-build
+if %errorlevel% neq 0 goto :cmEnd
+E:
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/Debug/imgui-populate-test
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\SAMPLES\IMGUI-SUBBUILD\CMAKEFILES\38CCEB2961577E3066D9C5B35ED4FA54\IMGUI-POPULATE-COMPLETE.RULE
+setlocal
+E:\Programme\CMake\bin\cmake.exe -E make_directory E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/Debug
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/Debug/imgui-populate-complete
+if %errorlevel% neq 0 goto :cmEnd
+E:\Programme\CMake\bin\cmake.exe -E touch E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/imgui-populate-prefix/src/imgui-populate-stamp/Debug/imgui-populate-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\SAMPLES\IMGUI-SUBBUILD\CMAKEFILES\ED3AF8BC7843665FAADC2F54B3A5E694\IMGUI-POPULATE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^E:\PROGRAMMIEREN\CPP\TESTS\CMAKETEST\RESOURCES\BOX2D\BUILD\SAMPLES\IMGUI-SUBBUILD\CMAKELISTS.TXT
+setlocal
+E:\Programme\CMake\bin\cmake.exe -SE:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild -BE:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild --check-stamp-file E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/build/samples/imgui-subbuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
