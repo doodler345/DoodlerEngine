@@ -15,9 +15,10 @@ Currently the Example is a Cellular Automata World-Generator used as my Semester
 You can access it simply by running the application.
 
 # Build
-1. Download [CMake](cmake.org/download/)
-2. Make sure CMake is in the User PATH VARIABLES
-3. VISUAL STUDIO:   
+1. Clone Project via Git-Client (e.g. Fork) or download .zip and extract
+2. Download [CMake](cmake.org/download/)
+3. Make sure CMake is in your User PATH VARIABLES
+4. VISUAL STUDIO:   
 - if not done already, install Workload "Desktop develoment with C++" via "Visual Studio Installer" for your current Visual Studio
 - run build.bat (automatically opens Visual Studio)
 5. ALTERNATIVE:     Generate into a new subdirectory called "build" with the IDE of your choice
