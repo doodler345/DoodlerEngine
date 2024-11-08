@@ -1,5 +1,0 @@
-# CMake generation dependency list for this directory.
-E:/Programme/CMake/share/cmake-3.30/Modules/BasicConfigVersion-SameMajorVersion.cmake.in
-E:/Programme/CMake/share/cmake-3.30/Modules/CMakePackageConfigHelpers.cmake
-E:/Programme/CMake/share/cmake-3.30/Modules/WriteBasicConfigVersionFile.cmake
-E:/Programmieren/Cpp/Tests/CMakeTest/Resources/box2d/src/CMakeLists.txt
