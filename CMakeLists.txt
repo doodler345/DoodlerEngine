@@ -18,21 +18,21 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/${THIRDPARTY_DIR}/SFML-2.6.1/inclu
 include_directories(${CMAKE_CURRENT_LIST_DIR}/${THIRDPARTY_DIR}/SFMLMath)
 
 # Nutze ExternalProject, um Box2D zu bauen
-include(ExternalProject)
+#include(ExternalProject)
 
 # ExternalProject_Add für Box2D
-ExternalProject_Add(
-    Box2DProject
-    PREFIX ${CMAKE_BINARY_DIR}/${THIRDPARTY_DIR}/box2d      # Verzeichnis für Box2D-Build
-    SOURCE_DIR ${CMAKE_SOURCE_DIR}/${THIRDPARTY_DIR}/box2d  # Pfad zu Box2D-Quellen
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/${THIRDPARTY_DIR}/box2d_install  # Installiere in das Build-Verzeichnis
-    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --target install  # Installiere nach dem Build
-    INSTALL_DIR ${CMAKE_BINARY_DIR}/${THIRDPARTY_DIR}/box2d_install
-)
+#ExternalProject_Add(
+#    Box2DProject
+#    PREFIX ${CMAKE_BINARY_DIR}/${THIRDPARTY_DIR}/box2d      # Verzeichnis für Box2D-Build
+#    SOURCE_DIR ${CMAKE_SOURCE_DIR}/${THIRDPARTY_DIR}/box2d  # Pfad zu Box2D-Quellen
+#    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/${THIRDPARTY_DIR}/box2d_install  # Installiere in das Build-Verzeichnis
+#    BUILD_COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --target install  # Installiere nach dem Build
+#    INSTALL_DIR ${CMAKE_BINARY_DIR}/${THIRDPARTY_DIR}/box2d_install
+#)
 
 # Füge die Box2D-Header und -Bibliotheken hinzu, nachdem sie installiert wurden
-include_directories(${CMAKE_BINARY_DIR}/${THIRDPARTY_DIR}/box2d_install/include)
-link_directories(${CMAKE_BINARY_DIR}/${THIRDPARTY_DIR}/box2d_install/lib)
+#include_directories(${CMAKE_BINARY_DIR}/${THIRDPARTY_DIR}/box2d_install/include)
+#link_directories(${CMAKE_BINARY_DIR}/${THIRDPARTY_DIR}/box2d_install/lib)
 
 
 set(ENGINE_SOURCE_PATH Code/${ENGINE_PROJECT_NAME})
@@ -111,12 +111,15 @@ add_executable(${GAME_PROJECT_NAME} ${GAME_SOURCE_FILES})
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${GAME_PROJECT_NAME})
 
 # Abhängigkeitsreihenfolge 
-add_dependencies(${GAME_PROJECT_NAME} ${ENGINE_PROJECT_NAME} Box2DProject)
+#add_dependencies(${GAME_PROJECT_NAME} ${ENGINE_PROJECT_NAME} Box2DProject)
+add_dependencies(${GAME_PROJECT_NAME} ${ENGINE_PROJECT_NAME})
 
 # Library Verlinkungen
 target_link_libraries(${ENGINE_PROJECT_NAME}
     PRIVATE
-    debug box2dd.lib 	sfml-graphics # Debug-Version
-    optimized box2d.lib sfml-graphics # Release-Version
+    #debug box2dd.lib 	sfml-graphics # Debug-Version
+    #optimized box2d.lib sfml-graphics # Release-Version
+	debug 		sfml-graphics # Debug-Version
+    optimized 	sfml-graphics # Release-Version
 )
 target_link_libraries(${GAME_PROJECT_NAME} ${ENGINE_PROJECT_NAME})
