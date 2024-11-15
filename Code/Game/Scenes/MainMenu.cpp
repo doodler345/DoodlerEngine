@@ -38,7 +38,7 @@ void MainMenu::Init()
 	buttons[1]->SetText("World-Generator");
 	buttons[2]->SetText("Quit");
 
-	//buttons[0]->SetButtonCallback([]() { dynamic_cast<GameManager*>(Engine::GetInstance()->GetGameManager())->SwitchScene(1); });
+	buttons[0]->SetButtonCallback([]() { dynamic_cast<GameManager*>(Engine::GetInstance()->GetGameManager())->SwitchScene(1); });
 	buttons[1]->SetButtonCallback([]() { dynamic_cast<GameManager*>(Engine::GetInstance()->GetGameManager())->SwitchScene(2); });
 	buttons[2]->SetButtonCallback([] { Engine::GetInstance()->GetRenderWindow().close(); });
 }

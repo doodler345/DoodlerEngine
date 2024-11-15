@@ -16,7 +16,6 @@ public:
 
 private:
 	virtual void DestroyDerived() {}; //***** anything to put in here?
-	void FlushGlobalEntities();
 	std::vector<Entity*> m_globalEntities;
 	std::unique_ptr<Scene> m_currentScene;
 };

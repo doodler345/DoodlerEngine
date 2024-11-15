@@ -15,7 +15,7 @@ void PlayScene::Init()
 	Image* backgroundImage = Instantiate(Image, BackgroundImage);
 	assert(backgroundImage);
 
-	std::string path = "../Resources/bmp/GeneratedMap.bmp";
+	std::string path = "../Resources/bmp/DontDelete/GeneratedMap.bmp";
 	backgroundImage->m_spriteComponent->SetTexture(path);
 	backgroundImage->GetTransform().translate(window.getSize().x / 2, window.getSize().y / 2);
 

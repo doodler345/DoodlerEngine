@@ -14,6 +14,11 @@ namespace bmp
 	{
 	}
 
+	Color::Color(bool isWhite)
+		: r(isWhite), g(isWhite), b(isWhite)
+	{
+	}
+
 	Color::Color(float r, float g, float b)
 		: r(r), g(g), b(b)
 	{
@@ -24,6 +29,12 @@ namespace bmp
 	}
 }
 
+
+BMPImage::BMPImage()
+{
+	m_size.x = 0;
+	m_size.y = 0;
+}
 
 BMPImage::BMPImage(int width, int height)
 	: m_colors(std::vector<bmp::Color>(width* height))

@@ -15,7 +15,7 @@ class BrushTool : public Entity
 {
 public:
 	void EntityInit() override;
-	void Setup(World* worldGenerationImage, sf::Uint8* pixelColors, int* pixelEmpty, sf::Texture* texture, int windowHeight, int windowWidth, Text* radiusInfo);
+	void Setup(World* worldGenerationImage, Text* radiusInfo);
 
 	void Activate(bool isActive);
 	void Draw(bool isDrawing);
@@ -36,8 +36,6 @@ private:
 
 	World* m_worldGenerationImage		= nullptr;
 	sf::Uint8* m_pixelColors			= nullptr;
-	int* m_pixelEmpty					= nullptr; // can cause issues when reallocating vector it points to!
-	sf::Texture* m_texture				= nullptr;
 	Text* m_radiusInfo					= nullptr;
 
 	CircleComponent* m_circleComponent;
@@ -53,6 +51,6 @@ private:
 	const int m_maxBrushRadius = 400;
 	float m_radius = 50;
 	int m_windowWidth;
-	int m_windowHeight;
+	int m_worldHeight;
 };
 

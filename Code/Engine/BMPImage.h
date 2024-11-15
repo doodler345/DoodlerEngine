@@ -9,6 +9,7 @@ namespace bmp
 		float r, g, b;
 
 		Color();
+		Color(bool isWhite);
 		Color(float r, float g, float b);
 		~Color();
 	};
@@ -23,6 +24,7 @@ namespace bmp
 class BMPImage
 {
 public:
+	BMPImage();
 	BMPImage(int windowWidth, int height);
 	~BMPImage();
 

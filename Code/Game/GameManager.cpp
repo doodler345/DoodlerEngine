@@ -35,9 +35,7 @@ void GameManager::EntityInit()
 {
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
 
-	//inputManager.RegisterKeyboardEntry(KEY::E, std::bind(&GameManager::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
 	inputManager.RegisterKeyboardEntry(KEY::Escape, std::bind(&GameManager::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
-	//inputManager.RegisterKeyboardEntry(KEY::F, std::bind(&GameManager::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
 
 	m_currentScene = std::make_unique<WorldGenerator>();
 	m_currentScene->Init();
@@ -49,26 +47,10 @@ void GameManager::OnInputRecieved(const KEY key, const bool keyDown)
 
 	switch (key)
 	{
-	case KEY::E:
-		SwitchScene(1);
-		break;
 	case KEY::Escape:
 		SwitchScene(0);
 		break;
-	case KEY::F:
-		FlushGlobalEntities();
-		break;
 	}
-}
-
-void GameManager::FlushGlobalEntities()
-{
-	EntitySystem& entitySystem = Engine::GetInstance()->GetEntitySystem();
-	for (int i = 0; i < m_globalEntities.size(); i++)
-	{
-		entitySystem.DestroyEntity(m_globalEntities[i]);
-	}
-	m_globalEntities.clear();
 }
 
 void GameManager::SwitchScene(int index)

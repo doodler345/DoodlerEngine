@@ -17,15 +17,13 @@ void BrushTool::EntityInit()
 
 	Engine::GetInstance()->GetInputManager().RegisterMouseScrollEntry(&GetTransform(), std::bind(&BrushTool::ChangeRadius, this, std::placeholders::_1));
 }
-void BrushTool::Setup(World* worldGenerationImage, sf::Uint8* pixelColors, int* pixelEmpty, sf::Texture* texture, int windowHeight, int windowWidth, Text* radiusInfo)
+void BrushTool::Setup(World* worldGenerationImage, Text* radiusInfo)
 {
 	m_worldGenerationImage = worldGenerationImage;
-	m_pixelColors = pixelColors;
-	m_pixelEmpty = pixelEmpty;
-	m_texture = texture;
+	m_pixelColors = worldGenerationImage->m_pixelColors;
 
-	m_windowWidth = windowWidth;
-	m_windowHeight = windowHeight;
+	m_windowWidth = worldGenerationImage->m_worldWidth;
+	m_worldHeight = worldGenerationImage->m_worldHeight;
 
 	m_radiusInfo = radiusInfo;
 }
@@ -98,7 +96,7 @@ void BrushTool::Update(float deltaTime)
 
 			sf::Vector2i pixelCoordinates;
 			pixelCoordinates.x = m_windowWidth * pixelPosRelative.x;
-			pixelCoordinates.y = m_windowHeight * pixelPosRelative.y;
+			pixelCoordinates.y = m_worldHeight * pixelPosRelative.y;
 
 			int x;
 			int prevX = pixelCoordinates.x + cos(0) * m_radius * -1;
@@ -118,7 +116,7 @@ void BrushTool::Update(float deltaTime)
 					for (int yOffset = -yMaxOffset; yOffset < yMaxOffset; yOffset++)
 					{
 						int y = pixelCoordinates.y + yOffset;
-						if (x >= m_windowWidth || x < 0 || y >= m_windowHeight || y < 0)
+						if (x >= m_windowWidth || x < 0 || y >= m_worldHeight || y < 0)
 						{
 							continue;
 						}
@@ -126,7 +124,7 @@ void BrushTool::Update(float deltaTime)
 						int pixelIndex = y * m_windowWidth + prevX + xSubsteps;
 
 
-						m_pixelEmpty[pixelIndex] = m_eraseMode;
+						m_worldGenerationImage->m_pixelValues[pixelIndex] = !m_eraseMode;
 						m_pixelColors[pixelIndex * 4 + 0] = color;
 						m_pixelColors[pixelIndex * 4 + 1] = color;
 						m_pixelColors[pixelIndex * 4 + 2] = color;
@@ -137,8 +135,7 @@ void BrushTool::Update(float deltaTime)
 				prevX = x;
 			}
 		
-			m_texture->update(m_pixelColors);
-			m_worldGenerationImage->GetComponent<ShaderComponent>()->m_shader.setUniform("tex", m_texture);
+			m_worldGenerationImage->UpdateTexture();
 		}
 
 	}
