@@ -17,6 +17,7 @@ void BrushTool::EntityInit()
 
 	Engine::GetInstance()->GetInputManager().RegisterMouseScrollEntry(&GetTransform(), std::bind(&BrushTool::ChangeRadius, this, std::placeholders::_1));
 }
+
 void BrushTool::Setup(World* worldGenerationImage, Text* radiusInfo)
 {
 	m_worldGenerationImage = worldGenerationImage;
@@ -41,7 +42,6 @@ void BrushTool::Activate(bool isActive)
 	{
 		m_circleComponent->GetCircle()->setOutlineColor(sf::Color(0,0,0,0));
 	}
-	
 }
 
 void BrushTool::Draw(bool isDrawing)

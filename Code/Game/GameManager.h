@@ -11,6 +11,8 @@ class GameManager : public Entity
 {
 public:
 	virtual void EntityInit() override;
+
+	Scene* GetCurrentScene();
 	void SwitchScene(int index);
 	void OnInputRecieved(const KEY key, const bool keyDown);
 

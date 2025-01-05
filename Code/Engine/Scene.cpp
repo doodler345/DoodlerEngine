@@ -16,3 +16,8 @@ Scene::~Scene()
 	m_loadedEntities.clear();
 
 }
+
+std::string Scene::GetName()
+{
+	return m_name;
+}

@@ -51,8 +51,8 @@ void Slider::SetValue(float relValue)
 
 	m_currentValue = relValue;
 
-	sf::Vector2i handlerPos = m_rectangleHandlerOwner->GetPosition();
-	const sf::Vector2i backgroundPos = GetPosition();
+	sf::Vector2i handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
+	const sf::Vector2i backgroundPos = GetScreenPosition();
 	const sf::Vector2f backgroundSize = m_rectangleBackground->GetRectangle()->getSize();
 	const sf::Vector2f handlerSize = m_rectangleHandler->GetRectangle()->getSize();
 	int possibleTravelAreaX = backgroundSize.x - handlerSize.x;
@@ -74,8 +74,8 @@ void Slider::Update(float deltaTime)
 
 		if (m_deltaMousePos.x == 0.0f && m_deltaMousePos.y == 0.0f) return;
 
-		sf::Vector2i handlerPos = m_rectangleHandlerOwner->GetPosition();
-		const sf::Vector2i backgroundPos = GetPosition();
+		sf::Vector2i handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
+		const sf::Vector2i backgroundPos = GetScreenPosition();
 		const sf::Vector2f handlerSize = m_rectangleHandler->GetRectangle()->getSize();
 		const sf::Vector2f backgroundSize = m_rectangleBackground->GetRectangle()->getSize();
 
@@ -93,7 +93,7 @@ void Slider::Update(float deltaTime)
 
 		m_rectangleHandlerOwner->GetTransform().translate(sf::Vector2f(sliderNextPos.x, 0));
 
-		handlerPos = m_rectangleHandlerOwner->GetPosition();
+		handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
 		int possibleTravelAreaX = backgroundSize.x - handlerSize.x; 
 		float currentZeroedHandlerPosX = handlerPos.x - (backgroundPos.x - 0.5f * backgroundSize.x + 0.5f * handlerSize.x);
 		m_currentValue = currentZeroedHandlerPosX / possibleTravelAreaX;

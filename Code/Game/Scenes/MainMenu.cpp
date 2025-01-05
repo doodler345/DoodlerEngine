@@ -34,7 +34,7 @@ void MainMenu::Init()
 	buttons[1]->SetFontSize(64);
 	buttons[2]->SetFontSize(64);
 
-	buttons[0]->SetText("Start (not available yet)");
+	buttons[0]->SetText("Start (work in progress)");
 	buttons[1]->SetText("World-Generator");
 	buttons[2]->SetText("Quit");
 

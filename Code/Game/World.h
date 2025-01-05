@@ -26,7 +26,6 @@ public:
 	bool* GetNeighbours4(int index, bool onlyLeftandRight = false);
 
 	std::vector<int> m_pixelValues;
-	//sf::Uint8* m_pixelColors = nullptr;
 	std::unique_ptr<sf::Uint8[]> m_pixelColors;
 
 	int m_worldWidth;

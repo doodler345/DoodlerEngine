@@ -61,7 +61,7 @@ void World::Setup(unsigned int width, unsigned int height)
 	m_worldWidth = width;
 	m_worldHeight = height;
 	m_numOfPixels = width * height;
-	m_pixelValues.resize(m_numOfPixels);
+	m_pixelValues.resize(m_numOfPixels, 0);
 	m_texture.create(width, height);
 
 	m_pixelColors = std::make_unique<sf::Uint8[]>(m_numOfPixels * 4);
@@ -95,9 +95,9 @@ void World::Setup(const char* bmpPath)
 			m_pixelColors.get()[i * 4 + 2] = color.b * 255;
 			m_pixelColors.get()[i * 4 + 3] = sf::Uint8(255); // alpha
 			
+			m_pixelValues[i] = color.r == 0 ? 0 : 1;
 			i++;
 		}
-
 	}
 }
 

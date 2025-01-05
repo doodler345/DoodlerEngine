@@ -37,8 +37,7 @@ void GameManager::EntityInit()
 
 	inputManager.RegisterKeyboardEntry(KEY::Escape, std::bind(&GameManager::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
 
-	m_currentScene = std::make_unique<PlayScene>();
-	m_currentScene->Init();
+	SwitchScene(0);
 }
 
 void GameManager::OnInputRecieved(const KEY key, const bool keyDown)
@@ -53,9 +52,17 @@ void GameManager::OnInputRecieved(const KEY key, const bool keyDown)
 	}
 }
 
+Scene* GameManager::GetCurrentScene()
+{
+	return m_currentScene.get();
+}
+
 void GameManager::SwitchScene(int index)
 {
-	m_currentScene.reset();
+	if (m_currentScene != nullptr)
+	{
+		m_currentScene.reset();
+	}
 
 	switch (index)
 	{
