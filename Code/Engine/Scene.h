@@ -22,7 +22,7 @@ protected:
 	std::vector<Entity*> m_loadedEntities;
 };
 
-//#define Instantiate(type, name) (##type*)InstantiateEntity(#type, #name)
+
 #define Instantiate(type, m_name) InstantiateEntity<##type>(#type, #m_name)
 
 template <typename EntityType>

@@ -37,7 +37,7 @@ void GameManager::EntityInit()
 
 	inputManager.RegisterKeyboardEntry(KEY::Escape, std::bind(&GameManager::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
 
-	m_currentScene = std::make_unique<WorldGenerator>();
+	m_currentScene = std::make_unique<PlayScene>();
 	m_currentScene->Init();
 }
 

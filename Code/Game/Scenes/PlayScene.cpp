@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../../Engine/UI_Elements/Image.h"
+#include "../World.h"
 #include "../Player.h"
 
 void PlayScene::Init()
@@ -11,13 +11,14 @@ void PlayScene::Init()
 
 	sf::RenderWindow& window = Engine::GetInstance()->GetRenderWindow();
 
-	//Create Background Image
-	Image* backgroundImage = Instantiate(Image, BackgroundImage);
-	assert(backgroundImage);
 
-	std::string path = "../Resources/bmp/DontDelete/GeneratedMap.bmp";
-	backgroundImage->m_spriteComponent->SetTexture(path);
-	backgroundImage->GetTransform().translate(window.getSize().x / 2, window.getSize().y / 2);
+	//Create World
+	World* world = Instantiate(World, GameWorld);
+	assert(world);
+
+	world->Setup("../Resources/bmp/DontDelete/GeneratedMap.bmp");
+	world->GetTransform().translate(window.getSize().x / 2, window.getSize().y / 2);
+	world->UpdateTexture();
 
 
 	//Create Game-Entities
@@ -25,8 +26,7 @@ void PlayScene::Init()
 	Player* player = Instantiate(Player, PlayerOne);
 	assert(player);
 
-
-	//***** make this more readable? eg. with Enum Up/Left/Down/Right
+	//TODO: make this more readable? eg. with Enum Up/Left/Down/Right
 	std::array<KEY, 4> keys =
 	{
 		KEY::W,
@@ -36,7 +36,6 @@ void PlayScene::Init()
 	};
 	player->SetMovementKeys(keys);
 	player->GetTransform().translate(sf::Vector2f(window.getSize().x / 5, window.getSize().y / 5));
-
 
 	//Player 2
 	Player* player2 = Instantiate(Player, PlayerTwo);

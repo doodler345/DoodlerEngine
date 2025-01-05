@@ -22,8 +22,8 @@ public:
 	InputField* m_inputField = nullptr;
 	Slider* m_sliderDensity = nullptr;
 	Slider* m_sliderIterationSteps = nullptr; 
-	Empty* m_sliderIterationStepsHandler = nullptr; //  TODO: das ist völlig behindert
-	Empty* m_sliderDensityHandler = nullptr; // TODO: das ist völlig behindert
+	Empty* m_sliderIterationStepsHandler = nullptr; //  TODO: Vereinfachen. Slider sollte keinen extra Handler haben?
+	Empty* m_sliderDensityHandler = nullptr; // TODO: Vereinfachen. Slider sollte keinen extra Handler haben?
 
 	Text* m_densityInfo = nullptr;
 	Text* m_itterationInfo = nullptr;

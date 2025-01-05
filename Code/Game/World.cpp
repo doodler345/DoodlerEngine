@@ -39,8 +39,8 @@ void World::EntityInit()
 
 	// GroundTile BMP
 	m_bmpGroundTile.Read(m_pathBmpGroundTile);
-	m_tileSize = m_bmpGroundTile.GetSize();
-	if (m_tileSize.x != m_tileSize.y)
+	m_groundTileSize = m_bmpGroundTile.GetSize();
+	if (m_groundTileSize.x != m_groundTileSize.y)
 	{
 		DebugPrint("Ground Tile BMP Size needs to be squared", TextColor::Red, DebugChannel::Game, __FILE__, __LINE__, true);
 		return;
@@ -64,16 +64,46 @@ void World::Setup(unsigned int width, unsigned int height)
 	m_pixelValues.resize(m_numOfPixels);
 	m_texture.create(width, height);
 
-	m_pixelColors = new sf::Uint8[m_numOfPixels * 4]; // TODO: Make smartptr
+	m_pixelColors = std::make_unique<sf::Uint8>(m_numOfPixels * 4);
 	for (int i = 0; i < m_numOfPixels; i++)
 	{
-		m_pixelColors[i * 4 + 3] = sf::Uint8(255); // alpha
+		m_pixelColors.get()[i * 4 + 3] = sf::Uint8(255); // alpha
+	}
+}
+
+void World::Setup(const char* bmpPath)
+{
+	BMPImage bmp;
+	bmp.Read(bmpPath);
+
+	m_worldWidth = bmp.GetSize().x;
+	m_worldHeight = bmp.GetSize().y;
+	m_numOfPixels = m_worldWidth * m_worldHeight;
+	m_pixelValues.resize(m_numOfPixels);
+	m_texture.create(m_worldWidth, m_worldHeight);
+
+	m_pixelColors = std::make_unique<sf::Uint8>(m_numOfPixels * 4);
+
+	int i = 0;
+	for (int y = 0; y < m_worldHeight; y++)
+	{
+		for (int x = 0; x < m_worldWidth; x++)
+		{
+			bmp::Color color = bmp.GetColor(x, y);
+			m_pixelColors.get()[i * 4 + 0] = color.r;
+			m_pixelColors.get()[i * 4 + 1] = color.g;
+			m_pixelColors.get()[i * 4 + 2] = color.b;
+			m_pixelColors.get()[i * 4 + 3] = sf::Uint8(255); // alpha
+			
+			i++;
+		}
+
 	}
 }
 
 void World::UpdateTexture()
 {
-	m_texture.update(m_pixelColors);
+	m_texture.update(m_pixelColors.get());
 	m_shaderComponent->m_shader.setUniform("tex", m_texture);
 }
 
@@ -103,10 +133,10 @@ void World::Colorize(bool useColor)
 					}
 					else // cave
 					{
-						bmp::Color col = m_bmpGroundTile.GetColor(x % m_tileSize.x, y % m_tileSize.y);
-						m_pixelColors[i * 4 + 0] = sf::Uint8(col.r * 255);
-						m_pixelColors[i * 4 + 1] = sf::Uint8(col.g * 255);
-						m_pixelColors[i * 4 + 2] = sf::Uint8(col.b * 255);
+						bmp::Color col = m_bmpGroundTile.GetColor(x % m_groundTileSize.x, y % m_groundTileSize.y);
+						m_pixelColors.get()[i * 4 + 0] = sf::Uint8(col.r * 255);
+						m_pixelColors.get()[i * 4 + 1] = sf::Uint8(col.g * 255);
+						m_pixelColors.get()[i * 4 + 2] = sf::Uint8(col.b * 255);
 					}
 
 				}
@@ -115,15 +145,15 @@ void World::Colorize(bool useColor)
 					float fade = 1.0f - (float)y / m_worldHeight * 0.3f;
 					if (everyBackgroundHeaven)
 					{
-						m_pixelColors[i * 4 + 0] = sf::Uint8(40 * fade);
-						m_pixelColors[i * 4 + 1] = sf::Uint8(40 * fade);
-						m_pixelColors[i * 4 + 2] = sf::Uint8(230 * fade);
+						m_pixelColors.get()[i * 4 + 0] = sf::Uint8(40 * fade);
+						m_pixelColors.get()[i * 4 + 1] = sf::Uint8(40 * fade);
+						m_pixelColors.get()[i * 4 + 2] = sf::Uint8(230 * fade);
 					}
 					else if (everyBackgroundCave)
 					{
-						m_pixelColors[i * 4 + 0] = sf::Uint8(35);
-						m_pixelColors[i * 4 + 1] = sf::Uint8(20);
-						m_pixelColors[i * 4 + 2] = sf::Uint8(5);
+						m_pixelColors.get()[i * 4 + 0] = sf::Uint8(35);
+						m_pixelColors.get()[i * 4 + 1] = sf::Uint8(20);
+						m_pixelColors.get()[i * 4 + 2] = sf::Uint8(5);
 					}
 					//else
 					//{
@@ -157,9 +187,9 @@ void World::Colorize(bool useColor)
 
 			do
 			{
-				m_pixelColors[y * 4 + 0] = sf::Uint8(200);
-				m_pixelColors[y * 4 + 1] = sf::Uint8(200);
-				m_pixelColors[y * 4 + 2] = sf::Uint8(200);
+				m_pixelColors.get()[y * 4 + 0] = sf::Uint8(200);
+				m_pixelColors.get()[y * 4 + 1] = sf::Uint8(200);
+				m_pixelColors.get()[y * 4 + 2] = sf::Uint8(200);
 
 				y += m_worldWidth;
 				level++;
@@ -198,9 +228,9 @@ void World::Colorize(bool useColor)
 				int level = 0;
 				while (m_pixelValues[i] == 1 && level < m_grasDepth)
 				{
-					m_pixelColors[i * 4 + 0] = sf::Uint8(0);
-					m_pixelColors[i * 4 + 1] = sf::Uint8(255);
-					m_pixelColors[i * 4 + 2] = sf::Uint8(0);
+					m_pixelColors.get()[i * 4 + 0] = sf::Uint8(0);
+					m_pixelColors.get()[i * 4 + 1] = sf::Uint8(255);
+					m_pixelColors.get()[i * 4 + 2] = sf::Uint8(0);
 
 					i += m_worldWidth;
 					level++;
@@ -228,9 +258,9 @@ void World::Colorize(bool useColor)
 				else
 					color = 255;
 
-				m_pixelColors[i * 4 + 0] = color;
-				m_pixelColors[i * 4 + 1] = color;
-				m_pixelColors[i * 4 + 2] = color;
+				m_pixelColors.get()[i * 4 + 0] = color;
+				m_pixelColors.get()[i * 4 + 1] = color;
+				m_pixelColors.get()[i * 4 + 2] = color;
 
 				i++;
 			}
@@ -556,5 +586,4 @@ void World::UpdateBorders()
 
 void World::DestroyDerived()
 {
-	delete[] m_pixelColors;
 }

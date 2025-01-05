@@ -16,6 +16,7 @@ public:
 	void EntityInit() override;
 	void Scale(float factor);
 	void Setup(unsigned int width, unsigned int height);
+	void Setup(const char* bmpPath);
 	void UpdateTexture();
 	void Colorize(bool useColor);
 
@@ -25,7 +26,8 @@ public:
 	bool* GetNeighbours4(int index, bool onlyLeftandRight = false);
 
 	std::vector<int> m_pixelValues;
-	sf::Uint8* m_pixelColors = nullptr;
+	//sf::Uint8* m_pixelColors = nullptr;
+	std::unique_ptr<sf::Uint8> m_pixelColors;
 
 	int m_worldWidth;
 	int m_worldHeight;
@@ -36,18 +38,17 @@ private:
 	void UpdateBorders();
 	void DestroyDerived() override;
 
+	int m_numOfPixels;
+	const int m_grasDepth = 2;
+	const int m_caveStoneDepth = 3;
+	
 	bool m_neighbours[9];
 	bool m_neighbours2[9];
 	bool m_neighbours3[9];
 	bool m_neighbours4[9];
 
 	BMPImage m_bmpGroundTile = BMPImage(0, 0);
-	bmp::Vector2 m_tileSize;
-
-	const int m_grasDepth = 2;
-	const int m_caveStoneDepth = 3;
-
-	int m_numOfPixels;
+	bmp::Vector2 m_groundTileSize;
 
 	const char* m_pathBmpGroundTile = "../Resources/bmp/DontDelete/GroundTile.bmp";
 	std::string vertPath = "../Resources/Shaders/World_Image.vert";
