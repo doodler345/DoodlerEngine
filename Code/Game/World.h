@@ -27,7 +27,7 @@ public:
 
 	std::vector<int> m_pixelValues;
 	//sf::Uint8* m_pixelColors = nullptr;
-	std::unique_ptr<sf::Uint8> m_pixelColors;
+	std::unique_ptr<sf::Uint8[]> m_pixelColors;
 
 	int m_worldWidth;
 	int m_worldHeight;

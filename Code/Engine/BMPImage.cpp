@@ -49,7 +49,8 @@ BMPImage::~BMPImage()
 
 bmp::Color BMPImage::GetColor(int x, int y) const
 {
-	return m_colors[(y) * m_size.x + x];
+	int index = (y)*m_size.x + x;
+	return m_colors[index];
 }
 
 void BMPImage::SetColor(const bmp::Color& color, int x, int y)

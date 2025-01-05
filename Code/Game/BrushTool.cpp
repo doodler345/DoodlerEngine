@@ -20,7 +20,7 @@ void BrushTool::EntityInit()
 void BrushTool::Setup(World* worldGenerationImage, Text* radiusInfo)
 {
 	m_worldGenerationImage = worldGenerationImage;
-	m_pixelColors = worldGenerationImage->m_pixelColors;
+	m_pixelColors = worldGenerationImage->m_pixelColors.get();
 
 	m_windowWidth = worldGenerationImage->m_worldWidth;
 	m_worldHeight = worldGenerationImage->m_worldHeight;

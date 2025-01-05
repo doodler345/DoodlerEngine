@@ -64,7 +64,7 @@ void World::Setup(unsigned int width, unsigned int height)
 	m_pixelValues.resize(m_numOfPixels);
 	m_texture.create(width, height);
 
-	m_pixelColors = std::make_unique<sf::Uint8>(m_numOfPixels * 4);
+	m_pixelColors = std::make_unique<sf::Uint8[]>(m_numOfPixels * 4);
 	for (int i = 0; i < m_numOfPixels; i++)
 	{
 		m_pixelColors.get()[i * 4 + 3] = sf::Uint8(255); // alpha
@@ -82,7 +82,7 @@ void World::Setup(const char* bmpPath)
 	m_pixelValues.resize(m_numOfPixels);
 	m_texture.create(m_worldWidth, m_worldHeight);
 
-	m_pixelColors = std::make_unique<sf::Uint8>(m_numOfPixels * 4);
+	m_pixelColors = std::make_unique<sf::Uint8[]>(m_numOfPixels * 4);
 
 	int i = 0;
 	for (int y = 0; y < m_worldHeight; y++)
@@ -90,9 +90,9 @@ void World::Setup(const char* bmpPath)
 		for (int x = 0; x < m_worldWidth; x++)
 		{
 			bmp::Color color = bmp.GetColor(x, y);
-			m_pixelColors.get()[i * 4 + 0] = color.r;
-			m_pixelColors.get()[i * 4 + 1] = color.g;
-			m_pixelColors.get()[i * 4 + 2] = color.b;
+			m_pixelColors.get()[i * 4 + 0] = color.r * 255;
+			m_pixelColors.get()[i * 4 + 1] = color.g * 255;
+			m_pixelColors.get()[i * 4 + 2] = color.b * 255;
 			m_pixelColors.get()[i * 4 + 3] = sf::Uint8(255); // alpha
 			
 			i++;
@@ -103,7 +103,7 @@ void World::Setup(const char* bmpPath)
 
 void World::UpdateTexture()
 {
-	m_texture.update(m_pixelColors.get());
+	m_texture.update(&m_pixelColors.get()[0]);
 	m_shaderComponent->m_shader.setUniform("tex", m_texture);
 }
 
