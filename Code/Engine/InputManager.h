@@ -99,8 +99,6 @@ private:
 	InputMode m_inputMode = InputMode::DefaultMode;
 
 	int m_keyboardEntryIDCounter = 0;
-	int m_buttonEntryIDCounter = 0;
-	int m_inputFieldEntryIDCounter = 0;
 	int m_rectangleEntryIDCounter = 0;
 	int m_mouseScrollEntryIDCounter = 0;
 	

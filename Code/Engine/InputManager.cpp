@@ -284,25 +284,29 @@ void InputManager::RegisterKeyboardEntry(KEY keyOfInterest, KeyboardCallback cal
 void InputManager::RegisterRectangleEntry(Button* button)
 {
 	RectangleEntry newEntry;
-	newEntry.m_id = m_buttonEntryIDCounter++;
+	newEntry.m_id = m_rectangleEntryIDCounter++;
 	newEntry.m_mouseButtonToListen = sf::Mouse::Left;
 	newEntry.m_button = button;
 	newEntry.m_transform = &button->GetTransform();
 	newEntry.m_rect = button->GetComponent<RectangleComponent>()->GetRectangle();
 	newEntry.m_rectangleCallback = std::bind(&InputManager::OnEmptyRectangleCallback, this, std::placeholders::_1, std::placeholders::_2);
 	m_rectangleEntries.push_back(newEntry);
+
+	DebugPrint("Registered RectangleEntry (id: " + std::to_string(newEntry.m_id) + ") (Button)", TextColor::Green, DebugChannel::InputManager, __FILE__, __LINE__); //***** get Key to string for Print
 }
 
 void InputManager::RegisterRectangleEntry(InputField* inputField)
 {
 	RectangleEntry newEntry;
-	newEntry.m_id = m_inputFieldEntryIDCounter++;
+	newEntry.m_id = m_rectangleEntryIDCounter++;
 	newEntry.m_mouseButtonToListen = sf::Mouse::Left;
 	newEntry.m_inputField = inputField;
 	newEntry.m_transform = &inputField->GetTransform();
 	newEntry.m_rect = inputField->GetComponent<RectangleComponent>()->GetRectangle();
 	newEntry.m_rectangleCallback = std::bind(&InputManager::OnEmptyRectangleCallback, this, std::placeholders::_1, std::placeholders::_2);
 	m_rectangleEntries.push_back(newEntry);
+
+	DebugPrint("Registered RectangleEntry (id: " + std::to_string(newEntry.m_id) + ") (InputField)", TextColor::Green, DebugChannel::InputManager, __FILE__, __LINE__); //***** get Key to string for Print
 }
 
 void InputManager::RegisterRectangleEntry(MOUSE::Button buttonOfInteresst, sf::Transform* transform, sf::RectangleShape* rect, RectangleCallback callback)
@@ -314,6 +318,8 @@ void InputManager::RegisterRectangleEntry(MOUSE::Button buttonOfInteresst, sf::T
 	newEntry.m_rect = rect;
 	newEntry.m_rectangleCallback = callback;
 	m_rectangleEntries.push_back(newEntry);
+
+	DebugPrint("Registered RectangleEntry (id: " + std::to_string(newEntry.m_id) + ") (Clickable)", TextColor::Green, DebugChannel::InputManager, __FILE__, __LINE__); //***** get Key to string for Print
 }
 
 void InputManager::RegisterMouseScrollEntry(sf::Transform* transform, MouseScrollCallback callback)
@@ -323,6 +329,8 @@ void InputManager::RegisterMouseScrollEntry(sf::Transform* transform, MouseScrol
 	newEntry.m_transform = transform;
 	newEntry.m_mouseScrollCallback = callback;
 	m_mouseScrollEntries.push_back(newEntry);
+
+	DebugPrint("Registered MouseScrollEntry (id: " + std::to_string(newEntry.m_id) + ")", TextColor::Green, DebugChannel::InputManager, __FILE__, __LINE__); //***** get Key to string for Print
 }
 
 void InputManager::UnregisterKeyboardEntry(const KEY keyOfInterest)
