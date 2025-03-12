@@ -85,6 +85,13 @@ void WorldGenerator::Init()
 	std::ifstream inputStream(m_pathBmpIndex);
 	std::string bmpIndex;
 	std::getline(inputStream, bmpIndex);
+	if (bmpIndex.empty())
+	{
+		std::ofstream outputStream(m_pathBmpIndex);
+		outputStream << "0";
+		bmpIndex = "0";
+		outputStream.close();
+	}
 
 	m_inputField->SetText("GeneratedMap" + bmpIndex);
 	m_inputField->SetFileEnding(".bmp");
