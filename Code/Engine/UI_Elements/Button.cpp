@@ -75,6 +75,11 @@ void Button::SetButtonCallback(ButtonCallback callback)
 	m_buttonCallback = callback;
 }
 
+std::string Button::GetText()
+{
+	return m_textComponent->m_text.getString();
+}
+
 void Button::AdjustBackgroundToText()
 {
 	sf::Vector2f textSize = m_textComponent->m_text.getLocalBounds().getSize();

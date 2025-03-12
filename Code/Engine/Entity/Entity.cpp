@@ -33,10 +33,10 @@ void Entity::OnInputRecieved(sf::Vector2f direction)
 	m_transform.translate(direction);
 }
 
-sf::Vector2i Entity::GetScreenPosition()
+sf::Vector2u Entity::GetScreenPosition()
 {
 	const float* matrix = GetTransform().getMatrix();
-	return sf::Vector2i(matrix[12], matrix[13]);
+	return sf::Vector2u(matrix[12], matrix[13]);
 }
 
 EntityComponent::~EntityComponent()

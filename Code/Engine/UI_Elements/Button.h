@@ -23,6 +23,8 @@ public:
 	void SetSprite(std::string texturePath);
 	void SetButtonCallback(ButtonCallback callback);
 
+	std::string GetText();
+
 	void OnHover();
 	void Select(bool isSelected);
 	bool IsSelected();

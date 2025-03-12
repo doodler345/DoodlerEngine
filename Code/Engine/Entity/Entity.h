@@ -51,7 +51,7 @@ public:
 	T* GetComponent();
 	void OnInputRecieved(sf::Vector2f direction);
 
-	sf::Vector2i GetScreenPosition();
+	sf::Vector2u GetScreenPosition();
 	sf::Transform& GetTransform() { return m_transform; }
 	
 
