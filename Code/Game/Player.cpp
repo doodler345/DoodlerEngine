@@ -8,7 +8,6 @@
 #include "../../Engine/EntityComponents/TextComponent.h"
 #include "Scenes/PlayScene.h"
 #include "GameManager.h"
-#include "World.h"
 
 #include <iostream>
 #include <memory>
@@ -20,24 +19,29 @@ void Player::EntityInit()
 	
 	std::string path = "../Resources/Profilbild Sonic Infusion.png";
 	std::shared_ptr<SpriteComponent> spriteComponent = std::make_shared<SpriteComponent>(path, this);
-	spriteComponent->m_drawable.setScale(m_spriteSize, m_spriteSize);
-	AddComponent(spriteComponent);	
+	spriteComponent->m_drawable.setScale(m_spriteScale, m_spriteScale);
+	m_spriteSize = spriteComponent->m_drawable.getGlobalBounds().getSize();
+	AddComponent(spriteComponent);
+
+	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
+	world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
+	assert(world);
 }
 
 void Player::DestroyDerived()
 {
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		inputManager.UnregisterKeyboardEntry(m_movementKeys[i]);
 	}
 }
 
-void Player::SetMovementKeys(std::array<sf::Keyboard::Key, 4>& keys)
+void Player::SetMovementKeys(std::array<sf::Keyboard::Key, 2>& keys)
 {
 	m_movementKeys = keys;
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		inputManager.RegisterKeyboardEntry(keys[i], std::bind(&Player::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
 	}
@@ -48,23 +52,30 @@ void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
 	int inverter = keyDown ? 1 : -1;
 
 	//***** change to switch (caused an error, moveDirection should be "const", how to solve?)
+
 	if (key == m_movementKeys[0])
-	{
-		m_moveDirection.y += -1 * inverter;
-	}
-	else if (key == m_movementKeys[1])
 	{
 		m_moveDirection.x += -1 * inverter;
 	}
-	else if (key == m_movementKeys[2])
-	{
-		m_moveDirection.y += 1 * inverter;
-	}
-	else if (key == m_movementKeys[3])
+	else if (key == m_movementKeys[1])
 	{
 		m_moveDirection.x += 1 * inverter;
 	}
+}
 
+sf::Vector2u Player::ScreenToWorldPosition(sf::Vector2u screenPosition)
+{
+	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
+
+	sf::Vector2f windowPositionRelative;
+	windowPositionRelative.x = screenPosition.x / (float)windowSize.x;
+	windowPositionRelative.y = screenPosition.y / (float)windowSize.y;
+
+	sf::Vector2u worldPosition;
+	worldPosition.x = windowSize.x * windowPositionRelative.x;
+	worldPosition.y = windowSize.y * windowPositionRelative.y;
+
+	return worldPosition;
 }
 
 void Player::Update(float deltaTime)
@@ -73,27 +84,23 @@ void Player::Update(float deltaTime)
 	{
 		ApplyGravity(deltaTime);
 	}
-	Move(deltaTime);
+	else
+	{
+	}
+		Move(deltaTime);
 }
 
 bool Player::GroundedCheck()
 {
-	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
-	World* world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
-	assert(world);
+	//TODO: Check for more beneath-pixels
 
-	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
-	
-	sf::Vector2f windowPositionRelative;
-	windowPositionRelative.x = GetScreenPosition().x / (float)windowSize.x;
-	sf::Vector2f textureSize = GetComponent<SpriteComponent>()->m_drawable.getGlobalBounds().getSize();
-	windowPositionRelative.y = (GetScreenPosition().y + textureSize.y * 0.5f) / (float)windowSize.y;
+	sf::Vector2u screenPositionBeneath = GetScreenPosition();
+	screenPositionBeneath.y += m_spriteSize.y * 0.5f;
 
-	sf::Vector2u worldPosition;
-	worldPosition.x = windowSize.x * windowPositionRelative.x;
-	worldPosition.y = windowSize.y * windowPositionRelative.y;
+	sf::Vector2u worldPosition = ScreenToWorldPosition(screenPositionBeneath);
 
-	if (world->m_pixelValues[world->m_worldWidth * worldPosition.y + worldPosition.x] == 1)
+	int beneathPixelValue = *world->GetPixelValue(worldPosition);
+	if (beneathPixelValue == 1)
 	{
 		return true;
 	}
@@ -105,9 +112,7 @@ bool Player::GroundedCheck()
 
 void Player::ApplyGravity(float deltaTime)
 {
-	// if not grounded
-	float fallSpeed = 40;
-	m_transform.translate(sf::Vector2f(0, 1) * fallSpeed * deltaTime);
+	m_transform.translate(sf::Vector2f(0, 1) * m_fallSpeed * deltaTime);
 }
 
 void Player::Move(float deltaTime)
@@ -118,15 +123,45 @@ void Player::Move(float deltaTime)
 	}
 
 	sf::Vector2f normalizedMoveDirection;
-	if (m_moveDirection.x != 0 && m_moveDirection.y != 0)
+
+	normalizedMoveDirection = m_moveDirection;
+
+	// TODO: CLEAN UP
+
+	sf::Vector2u screenPositionHorizontalMoveDirection = GetScreenPosition();
+	screenPositionHorizontalMoveDirection += sf::Vector2u(normalizedMoveDirection.x * m_spriteSize.x * 0.5f,0);
+	sf::Vector2u worldPositionHorizontalMoveDirection = ScreenToWorldPosition(screenPositionHorizontalMoveDirection);
+
+	sf::Vector2u screenPositionSpriteHeightOffset = GetScreenPosition();
+	screenPositionSpriteHeightOffset.y -= m_spriteSize.y;
+	sf::Vector2u worldPositionHeightOffset = ScreenToWorldPosition(screenPositionSpriteHeightOffset);
+	sf::Vector2u worldPosition = ScreenToWorldPosition(GetScreenPosition());
+
+	int playerWorldHeight = worldPosition.y - worldPositionHeightOffset.y;
+	int worldVericalClimbingThreshold = 0.6f * playerWorldHeight;
+	float worldClimbValue = 0;
+	for (int i = 0; i < playerWorldHeight; i++)
 	{
-		//***** this is only valid for keyboard, not joystick!
-		normalizedMoveDirection = sf::Vector2f(m_moveDirection.x * sin(m_rad45), m_moveDirection.y * cos(m_rad45));
-	}
-	else
-	{
-		normalizedMoveDirection = m_moveDirection;
+		sf::Vector2u worldPositionVerticalOffset = sf::Vector2u(0, -playerWorldHeight / 2) + sf::Vector2u(0, i);
+		sf::Vector2u worldPositionCheckHorizontalWall = worldPositionHorizontalMoveDirection + worldPositionVerticalOffset;
+		if (*world->GetPixelValue(worldPositionCheckHorizontalWall) != 1)
+		{
+			continue;
+		}
+
+		if (i >= worldVericalClimbingThreshold)
+		{
+			// Todo: WorldToScreenPosition for climb value
+			worldClimbValue = 1;
+			break;
+		}
+		else
+		{
+			normalizedMoveDirection.x = 0;
+			break;
+		}
 	}
 
-	m_transform.translate(normalizedMoveDirection * m_moveSpeed * deltaTime);
+	sf::Vector2f newScreenPosition = normalizedMoveDirection * m_moveSpeed * deltaTime - sf::Vector2f(0, worldClimbValue);
+	m_transform.translate(newScreenPosition);
 }

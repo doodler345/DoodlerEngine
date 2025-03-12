@@ -20,6 +20,8 @@ public:
 	void UpdateTexture();
 	void Colorize(bool useColor);
 
+	int* GetPixelValue(const sf::Vector2u& worldPositon);
+
 	bool* GetNeighbours(int index, bool onlyLeftandRight = false); //TODO: add onlyUpAndDown (e.g. for gras)
 	bool* GetNeighbours2(int index, bool onlyLeftandRight = false);
 	bool* GetNeighbours3(int index, bool onlyLeftandRight = false);

@@ -270,6 +270,11 @@ void World::Colorize(bool useColor)
 	UpdateTexture();
 }
 
+int* World::GetPixelValue(const sf::Vector2u& worldPosition)
+{
+	return &m_pixelValues[m_worldWidth * worldPosition.y + worldPosition.x];
+}
+
 bool* World::GetNeighbours(int index, bool onlyLeftandRight)
 {
 	short edge[] = { 0,0 };
