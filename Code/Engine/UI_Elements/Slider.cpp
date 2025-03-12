@@ -51,8 +51,8 @@ void Slider::SetValue(float relValue)
 
 	m_currentValue = relValue;
 
-	sf::Vector2i handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
-	const sf::Vector2i backgroundPos = GetScreenPosition();
+	sf::Vector2u handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
+	const sf::Vector2u backgroundPos = GetScreenPosition();
 	const sf::Vector2f backgroundSize = m_rectangleBackground->GetRectangle()->getSize();
 	const sf::Vector2f handlerSize = m_rectangleHandler->GetRectangle()->getSize();
 	int possibleTravelAreaX = backgroundSize.x - handlerSize.x;
@@ -74,8 +74,8 @@ void Slider::Update(float deltaTime)
 
 		if (m_deltaMousePos.x == 0.0f && m_deltaMousePos.y == 0.0f) return;
 
-		sf::Vector2i handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
-		const sf::Vector2i backgroundPos = GetScreenPosition();
+		sf::Vector2u handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
+		const sf::Vector2u backgroundPos = GetScreenPosition();
 		const sf::Vector2f handlerSize = m_rectangleHandler->GetRectangle()->getSize();
 		const sf::Vector2f backgroundSize = m_rectangleBackground->GetRectangle()->getSize();
 
@@ -115,5 +115,6 @@ void Slider::OnClick(sf::Vector2f mousePos, bool isPressedDown)
 void Slider::DestroyDerived()
 {
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	inputManager.UnregisterRectangleEntry(&GetTransform());
+	inputManager.UnregisterRectangleEntry(&m_rectangleHandlerOwner->GetTransform());
+	//inputManager.UnregisterRectangleEntry(&m_rectangleBackground->GetTransform());
 }
