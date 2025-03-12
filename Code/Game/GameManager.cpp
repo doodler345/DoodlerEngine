@@ -25,6 +25,7 @@
 //Scenes
 #include "Scenes/MainMenu.h"
 #include "Scenes/WorldGenerator.h"
+#include "Scenes/LevelSelectionScene.h"
 #include "Scenes/PlayScene.h"
 
 //Others
@@ -71,7 +72,7 @@ void GameManager::SwitchScene(int index)
 		m_currentScene->Init();
 		break;
 	case 1:
-		m_currentScene = std::make_unique<PlayScene>();
+		m_currentScene = std::make_unique<LevelSelectionScene>();
 		m_currentScene->Init();
 		break;
 	case 2:
@@ -79,6 +80,17 @@ void GameManager::SwitchScene(int index)
 		m_currentScene->Init();
 		break;
 	}
+}
+
+void GameManager::SwitchToPlayScene(std::string bmpFilePath)
+{
+	if (m_currentScene != nullptr)
+	{
+		m_currentScene.reset();
+	}
+	m_currentScene = std::make_unique<PlayScene>();
+	reinterpret_cast<PlayScene*>(m_currentScene.get())->SetWorld(bmpFilePath);
+	m_currentScene->Init();
 }
 
 
