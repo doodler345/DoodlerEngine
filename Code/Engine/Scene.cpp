@@ -14,7 +14,6 @@ Scene::~Scene()
 		entitySystem.DestroyEntity(m_loadedEntities[i]);
 	}
 	m_loadedEntities.clear();
-
 }
 
 std::string Scene::GetName()

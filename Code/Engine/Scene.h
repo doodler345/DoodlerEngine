@@ -10,9 +10,8 @@ using KEY = sf::Keyboard::Key;
 class Scene
 {
 public:
-	~Scene();
+	virtual ~Scene();
 	virtual void Init() = 0;
-	virtual void Destroy() {};
 
 	std::string GetName();
 

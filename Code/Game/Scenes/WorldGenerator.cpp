@@ -18,6 +18,15 @@
 float prevTime = 0;
 float afterTime = 0;
 
+WorldGenerator::~WorldGenerator()
+{
+	DebugPrint("Destroying derived Scene " + m_name, TextColor::Blue, DebugChannel::Game, __FILE__, __LINE__);
+
+	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
+	inputManager.UnregisterRectangleEntry(&m_worldGenerationImage->GetTransform());
+	inputManager.UnregisterRectangleEntry(&m_worldGenerationImage->GetTransform());
+}
+
 void WorldGenerator::Init()
 {
 	///////////////////////////////////////////
@@ -462,12 +471,4 @@ void WorldGenerator::OnErase(sf::Vector2f mousePos, bool isPressedDown)
 	}
 
 	m_brushTool->Erase(isPressedDown);
-
-}
-
-void WorldGenerator::Destroy()
-{
-	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	inputManager.UnregisterRectangleEntry(&m_worldGenerationImage->GetTransform());
-	inputManager.UnregisterRectangleEntry(&m_worldGenerationImage->GetTransform());
 }

@@ -16,6 +16,7 @@
 class WorldGenerator : public Scene
 {
 public:
+	~WorldGenerator();
 	World* m_worldGenerationImage = nullptr;
 	BrushTool* m_brushTool = nullptr;
 	ButtonMenu* m_buttonMenu = nullptr;
@@ -48,8 +49,6 @@ private:
 	void CancleBrushMode();
 	void OnDraw(sf::Vector2f mousePos, bool isPressedDown);
 	void OnErase(sf::Vector2f mousePos, bool isPressedDown);
-
-	virtual void Destroy() override;
 
 	const float m_upperWorldPercentBase =	40;
 
