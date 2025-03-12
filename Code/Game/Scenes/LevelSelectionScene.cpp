@@ -9,6 +9,8 @@
 
 void LevelSelectionScene::Init()
 {
+	m_name = "LevelSelection";
+
 	//Instantiations
 	m_headerText = Instantiate(Text, HeaderText);
 	m_buttonMenu = Instantiate(ButtonMenu, GenerateWorldButtonMenu);
@@ -48,6 +50,8 @@ void LevelSelectionScene::Init()
 	std::vector<Button*> buttons = m_buttonMenu->InitMenu(levelCount, navKeys);
 	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
 
+	int row = 1;
+	int column = 1;
 	for (int i = 0; i < levelCount; i++)
 	{
 		buttons[i]->SetText(m_levelFileNames[i]);
@@ -55,6 +59,13 @@ void LevelSelectionScene::Init()
 		std::string filePath = m_levelFilePaths[i];
 		std::function<void()> callback = [filePath]() { dynamic_cast<GameManager*>(Engine::GetInstance()->GetGameManager())->SwitchToPlayScene(filePath); };
 		buttons[i]->SetButtonCallback(callback);
-		buttons[i]->GetTransform().translate(windowSize.x / 2, 200 + 50 * i);
+
+		if (row % 10 == 0)
+		{
+			column++;
+			row = 1;
+		}
+		buttons[i]->GetTransform().translate(windowSize.x / 5 * column, 170 + 50 * row);
+		row++;
 	}
 }
