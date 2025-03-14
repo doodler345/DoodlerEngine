@@ -9,10 +9,12 @@ It has simple but working features like:
 - UI-Elements (Button, InputField, Slider...)
 
 It's basically a mini-project to get me more familiar with C++. 
+Portfolio: https://www.lsdesign.info/portfolio/doodlerengine/ 
 
 # Example
 Currently the Example is a Cellular Automata World-Generator used as my SemesterElective-Submission.
 You can access it simply by running the application.
+There's also a game, but it is work in progress.
 
 # Build
 1. Clone Project via Git-Client (e.g. Fork) or download .zip and extract
