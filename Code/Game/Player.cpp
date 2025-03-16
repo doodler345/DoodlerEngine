@@ -26,6 +26,12 @@ void Player::EntityInit()
 	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
 	world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
 	assert(world);
+
+	// Calculating Player World Height
+	m_worldPlayerSize = world->ScreenToWorldPosition(sf::Vector2u(m_spriteSize));
+	m_worldVeritcalClimbingThreshold = m_worldPlayerSize.y * m_RELATIVE_WORLD_VERTICAL_CLIMBING_THRESHOLD;
+
+	m_screenPlayerCollisionWidth = m_spriteSize.x * m_RELATIVE_COLLISION_WIDTH * 0.5f;
 }
 
 void Player::DestroyDerived()
@@ -55,27 +61,12 @@ void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
 
 	if (key == m_movementKeys[0])
 	{
-		m_moveDirection.x += -1 * inverter;
+		m_inputMoveDirection.x += -1 * inverter;
 	}
 	else if (key == m_movementKeys[1])
 	{
-		m_moveDirection.x += 1 * inverter;
+		m_inputMoveDirection.x += 1 * inverter;
 	}
-}
-
-sf::Vector2u Player::ScreenToWorldPosition(sf::Vector2u screenPosition)
-{
-	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
-
-	sf::Vector2f windowPositionRelative;
-	windowPositionRelative.x = screenPosition.x / (float)windowSize.x;
-	windowPositionRelative.y = screenPosition.y / (float)windowSize.y;
-
-	sf::Vector2u worldPosition;
-	worldPosition.x = windowSize.x * windowPositionRelative.x;
-	worldPosition.y = windowSize.y * windowPositionRelative.y;
-
-	return worldPosition;
 }
 
 void Player::Update(float deltaTime)
@@ -86,82 +77,84 @@ void Player::Update(float deltaTime)
 	}
 	else
 	{
-	}
 		Move(deltaTime);
+	}
 }
 
 bool Player::GroundedCheck()
 {
-	//TODO: Check for more beneath-pixels
+	sf::Vector2u screenPositionBeneath = GetScreenPosition() + sf::Vector2u(0, m_spriteSize.y * 0.5f);
 
-	sf::Vector2u screenPositionBeneath = GetScreenPosition();
-	screenPositionBeneath.y += m_spriteSize.y * 0.5f;
-
-	sf::Vector2u worldPosition = ScreenToWorldPosition(screenPositionBeneath);
-
-	int beneathPixelValue = *world->GetPixelValue(worldPosition);
-	if (beneathPixelValue == 1)
+	sf::Vector2u worldPositionBeneath = world->ScreenToWorldPosition(screenPositionBeneath);
+	if (world->ScreenToWorldPosition(screenPositionBeneath).y >= world->m_worldHeight)
 	{
 		return true;
 	}
-	else
+
+	float groundCheckCollisionWidth = m_worldPlayerSize.x * (m_RELATIVE_COLLISION_WIDTH + 0.1f); // NOTE: +0.1f to prevent be surely grounded after climbing (avoids insta-fall)
+	for (int i = 0; i < groundCheckCollisionWidth; i++)
 	{
-		return false;
+		sf::Vector2u worldPositionBeneathWithXOffset = worldPositionBeneath + sf::Vector2u(groundCheckCollisionWidth * 0.5f - i, 0); // Checking from right to left
+
+		if (*world->GetPixelValue(worldPositionBeneathWithXOffset) == 1)
+		{
+			return true;
+		}
 	}
+
+	return false;
 }
 
 void Player::ApplyGravity(float deltaTime)
 {
-	m_transform.translate(sf::Vector2f(0, 1) * m_fallSpeed * deltaTime);
+	//std::cout << "Falling";
+	m_transform.translate(sf::Vector2f(0, 1) * m_FALLSPEED * deltaTime);
 }
 
 void Player::Move(float deltaTime)
 {
-	if (m_moveDirection == sf::Vector2f(0, 0))
+	if (m_inputMoveDirection == sf::Vector2f(0, 0))
 	{
 		return;
 	}
 
-	sf::Vector2f normalizedMoveDirection;
+	sf::Vector2f moveDirection = m_inputMoveDirection;
+	sf::Vector2u screenHorizontalDestination = GetScreenPosition() + sf::Vector2u(moveDirection.x * m_screenPlayerCollisionWidth,0);
 
-	normalizedMoveDirection = m_moveDirection;
-
-	// TODO: CLEAN UP
-
-	sf::Vector2u screenPositionHorizontalMoveDirection = GetScreenPosition();
-	screenPositionHorizontalMoveDirection += sf::Vector2u(normalizedMoveDirection.x * m_spriteSize.x * 0.5f,0);
-	sf::Vector2u worldPositionHorizontalMoveDirection = ScreenToWorldPosition(screenPositionHorizontalMoveDirection);
-
-	sf::Vector2u screenPositionSpriteHeightOffset = GetScreenPosition();
-	screenPositionSpriteHeightOffset.y -= m_spriteSize.y;
-	sf::Vector2u worldPositionHeightOffset = ScreenToWorldPosition(screenPositionSpriteHeightOffset);
-	sf::Vector2u worldPosition = ScreenToWorldPosition(GetScreenPosition());
-
-	int playerWorldHeight = worldPosition.y - worldPositionHeightOffset.y;
-	int worldVericalClimbingThreshold = 0.6f * playerWorldHeight;
-	float worldClimbValue = 0;
-	for (int i = 0; i < playerWorldHeight; i++)
+	//Check if player is at the edge of the screen
+	int windowWidth = Engine::GetInstance()->GetRenderWindow().getSize().x;
+	if (moveDirection.x < 0 && (screenHorizontalDestination.x < 0 || screenHorizontalDestination.x > windowWidth * 2) || moveDirection.x > 0 && screenHorizontalDestination.x > windowWidth)
 	{
-		sf::Vector2u worldPositionVerticalOffset = sf::Vector2u(0, -playerWorldHeight / 2) + sf::Vector2u(0, i);
-		sf::Vector2u worldPositionCheckHorizontalWall = worldPositionHorizontalMoveDirection + worldPositionVerticalOffset;
-		if (*world->GetPixelValue(worldPositionCheckHorizontalWall) != 1)
+		return;
+	}
+
+	// Check if player must / is able to climb
+	sf::Vector2u worldHorizontalDestination = world->ScreenToWorldPosition(screenHorizontalDestination);
+	sf::Vector2f worldClimbValue = sf::Vector2f(0,0);
+	for (int i = 0; i < m_worldPlayerSize.y; i++)
+	{
+		int halfWorldPlayerSize = m_worldPlayerSize.y / 2.f;
+		int verticalSampleHeight = -halfWorldPlayerSize + i; // Checking from top to bottom
+		sf::Vector2u worldPositionCheckHorizontalWall = worldHorizontalDestination + sf::Vector2u(0, verticalSampleHeight);
+		if (*world->GetPixelValue(worldPositionCheckHorizontalWall) != 1) // If there is no wall
 		{
 			continue;
 		}
 
-		if (i >= worldVericalClimbingThreshold)
+		if (i >= m_worldVeritcalClimbingThreshold)
 		{
-			// Todo: WorldToScreenPosition for climb value
-			worldClimbValue = 1;
+			sf::Vector2u screenPositionCheckHorizontalWall = world->WorldToScreenPosition(worldPositionCheckHorizontalWall + sf::Vector2u(0,1));
+			float verticalClimbValue = (GetScreenPosition().y + 0.5*m_spriteSize.y) - screenPositionCheckHorizontalWall.y;
+			worldClimbValue.y = -verticalClimbValue; 
 			break;
 		}
 		else
 		{
-			normalizedMoveDirection.x = 0;
+			moveDirection.x = 0;
 			break;
 		}
 	}
 
-	sf::Vector2f newScreenPosition = normalizedMoveDirection * m_moveSpeed * deltaTime - sf::Vector2f(0, worldClimbValue);
+	sf::Vector2f newScreenPosition = moveDirection * m_MOVESPEED * deltaTime + worldClimbValue;
 	m_transform.translate(newScreenPosition);
 }

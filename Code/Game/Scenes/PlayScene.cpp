@@ -46,14 +46,14 @@ void PlayScene::Init()
 
 
 	//Player 2
-	Player* player2 = Instantiate(Player, PlayerTwo);
-	assert(player2);
+	//Player* player2 = Instantiate(Player, PlayerTwo);
+	//assert(player2);
 
-	std::array<KEY, 2> inputKeysPlayer2 =
-	{
-		KEY::Left,
-		KEY::Right,
-	};
-	player2->SetMovementKeys(inputKeysPlayer2);
-	player2->GetTransform().translate(sf::Vector2f(window.getSize().x - window.getSize().x / 5, window.getSize().y / 5));
+	//std::array<KEY, 2> inputKeysPlayer2 =
+	//{
+	//	KEY::Left,
+	//	KEY::Right,
+	//};
+	//player2->SetMovementKeys(inputKeysPlayer2);
+	//player2->GetTransform().translate(sf::Vector2f(window.getSize().x - window.getSize().x / 5, window.getSize().y / 5));
 }

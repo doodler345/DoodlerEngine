@@ -35,7 +35,6 @@
 void GameManager::EntityInit()
 {
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-
 	inputManager.RegisterKeyboardEntry(KEY::Escape, std::bind(&GameManager::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
 
 	SwitchScene(0);

@@ -275,6 +275,36 @@ int* World::GetPixelValue(const sf::Vector2u& worldPosition)
 	return &m_pixelValues[m_worldWidth * worldPosition.y + worldPosition.x];
 }
 
+sf::Vector2u World::ScreenToWorldPosition(sf::Vector2u screenPosition)
+{
+	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
+
+	sf::Vector2f windowPositionRelative;
+	windowPositionRelative.x = screenPosition.x / (float)windowSize.x;
+	windowPositionRelative.y = screenPosition.y / (float)windowSize.y;
+
+	sf::Vector2u worldPosition;
+	worldPosition.x = windowSize.x * windowPositionRelative.x;
+	worldPosition.y = windowSize.y * windowPositionRelative.y;
+
+	return worldPosition;
+}
+
+sf::Vector2u World::WorldToScreenPosition(sf::Vector2u worldPosition)
+{
+	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
+	
+	sf::Vector2f windowPositionRelative;
+	windowPositionRelative.x = worldPosition.x / (float)windowSize.x;
+	windowPositionRelative.y = worldPosition.y / (float)windowSize.y;
+
+	sf::Vector2u screenPosition;
+	screenPosition.x = windowSize.x * windowPositionRelative.x;
+	screenPosition.y = windowSize.y * windowPositionRelative.y;
+
+	return screenPosition;
+}
+
 bool* World::GetNeighbours(int index, bool onlyLeftandRight)
 {
 	short edge[] = { 0,0 };
