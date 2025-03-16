@@ -97,6 +97,8 @@ ${GAME_SOURCE_PATH}/World.h
 ${GAME_SOURCE_PATH}/World.cpp
 ${GAME_SOURCE_PATH}/Scenes/MainMenu.h
 ${GAME_SOURCE_PATH}/Scenes/MainMenu.cpp
+${GAME_SOURCE_PATH}/Scenes/LevelSelectionScene.h
+${GAME_SOURCE_PATH}/Scenes/LevelSelectionScene.cpp
 ${GAME_SOURCE_PATH}/Scenes/PlayScene.h
 ${GAME_SOURCE_PATH}/Scenes/PlayScene.cpp
 ${GAME_SOURCE_PATH}/Scenes/WorldGenerator.h

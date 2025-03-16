@@ -8,7 +8,6 @@
 #include "../../Engine/EntityComponents/TextComponent.h"
 #include "Scenes/PlayScene.h"
 #include "GameManager.h"
-#include "World.h"
 
 #include <iostream>
 #include <memory>
@@ -20,24 +19,35 @@ void Player::EntityInit()
 	
 	std::string path = "../Resources/Profilbild Sonic Infusion.png";
 	std::shared_ptr<SpriteComponent> spriteComponent = std::make_shared<SpriteComponent>(path, this);
-	spriteComponent->m_drawable.setScale(m_spriteSize, m_spriteSize);
-	AddComponent(spriteComponent);	
+	spriteComponent->m_drawable.setScale(m_spriteScale, m_spriteScale);
+	m_spriteSize = spriteComponent->m_drawable.getGlobalBounds().getSize();
+	AddComponent(spriteComponent);
+
+	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
+	world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
+	assert(world);
+
+	// Calculating Player World Height
+	m_worldPlayerSize = world->ScreenToWorldPosition(sf::Vector2u(m_spriteSize));
+	m_worldVeritcalClimbingThreshold = m_worldPlayerSize.y * m_RELATIVE_WORLD_VERTICAL_CLIMBING_THRESHOLD;
+
+	m_screenPlayerCollisionWidth = m_spriteSize.x * m_RELATIVE_COLLISION_WIDTH * 0.5f;
 }
 
 void Player::DestroyDerived()
 {
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		inputManager.UnregisterKeyboardEntry(m_movementKeys[i]);
 	}
 }
 
-void Player::SetMovementKeys(std::array<sf::Keyboard::Key, 4>& keys)
+void Player::SetMovementKeys(std::array<sf::Keyboard::Key, 2>& keys)
 {
 	m_movementKeys = keys;
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		inputManager.RegisterKeyboardEntry(keys[i], std::bind(&Player::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
 	}
@@ -48,23 +58,15 @@ void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
 	int inverter = keyDown ? 1 : -1;
 
 	//***** change to switch (caused an error, moveDirection should be "const", how to solve?)
+
 	if (key == m_movementKeys[0])
 	{
-		m_moveDirection.y += -1 * inverter;
+		m_inputMoveDirection.x += -1 * inverter;
 	}
 	else if (key == m_movementKeys[1])
 	{
-		m_moveDirection.x += -1 * inverter;
+		m_inputMoveDirection.x += 1 * inverter;
 	}
-	else if (key == m_movementKeys[2])
-	{
-		m_moveDirection.y += 1 * inverter;
-	}
-	else if (key == m_movementKeys[3])
-	{
-		m_moveDirection.x += 1 * inverter;
-	}
-
 }
 
 void Player::Update(float deltaTime)
@@ -73,60 +75,86 @@ void Player::Update(float deltaTime)
 	{
 		ApplyGravity(deltaTime);
 	}
-	Move(deltaTime);
+	else
+	{
+		Move(deltaTime);
+	}
 }
 
 bool Player::GroundedCheck()
 {
-	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
-	World* world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
-	assert(world);
+	sf::Vector2u screenPositionBeneath = GetScreenPosition() + sf::Vector2u(0, m_spriteSize.y * 0.5f);
 
-	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
-	
-	sf::Vector2f windowPositionRelative;
-	windowPositionRelative.x = GetScreenPosition().x / (float)windowSize.x;
-	sf::Vector2f textureSize = GetComponent<SpriteComponent>()->m_drawable.getGlobalBounds().getSize();
-	windowPositionRelative.y = (GetScreenPosition().y + textureSize.y * 0.5f) / (float)windowSize.y;
-
-	sf::Vector2u worldPosition;
-	worldPosition.x = windowSize.x * windowPositionRelative.x;
-	worldPosition.y = windowSize.y * windowPositionRelative.y;
-
-	if (world->m_pixelValues[world->m_worldWidth * worldPosition.y + worldPosition.x] == 1)
+	sf::Vector2u worldPositionBeneath = world->ScreenToWorldPosition(screenPositionBeneath);
+	if (world->ScreenToWorldPosition(screenPositionBeneath).y >= world->m_worldHeight)
 	{
 		return true;
 	}
-	else
+
+	float groundCheckCollisionWidth = m_worldPlayerSize.x * (m_RELATIVE_COLLISION_WIDTH + 0.1f); // NOTE: +0.1f to prevent be surely grounded after climbing (avoids insta-fall)
+	for (int i = 0; i < groundCheckCollisionWidth; i++)
 	{
-		return false;
+		sf::Vector2u worldPositionBeneathWithXOffset = worldPositionBeneath + sf::Vector2u(groundCheckCollisionWidth * 0.5f - i, 0); // Checking from right to left
+
+		if (*world->GetPixelValue(worldPositionBeneathWithXOffset) == 1)
+		{
+			return true;
+		}
 	}
+
+	return false;
 }
 
 void Player::ApplyGravity(float deltaTime)
 {
-	// if not grounded
-	float fallSpeed = 40;
-	m_transform.translate(sf::Vector2f(0, 1) * fallSpeed * deltaTime);
+	//std::cout << "Falling";
+	m_transform.translate(sf::Vector2f(0, 1) * m_FALLSPEED * deltaTime);
 }
 
 void Player::Move(float deltaTime)
 {
-	if (m_moveDirection == sf::Vector2f(0, 0))
+	if (m_inputMoveDirection == sf::Vector2f(0, 0))
 	{
 		return;
 	}
 
-	sf::Vector2f normalizedMoveDirection;
-	if (m_moveDirection.x != 0 && m_moveDirection.y != 0)
+	sf::Vector2f moveDirection = m_inputMoveDirection;
+	sf::Vector2u screenHorizontalDestination = GetScreenPosition() + sf::Vector2u(moveDirection.x * m_screenPlayerCollisionWidth,0);
+
+	//Check if player is at the edge of the screen
+	int windowWidth = Engine::GetInstance()->GetRenderWindow().getSize().x;
+	if (moveDirection.x < 0 && (screenHorizontalDestination.x < 0 || screenHorizontalDestination.x > windowWidth * 2) || moveDirection.x > 0 && screenHorizontalDestination.x > windowWidth)
 	{
-		//***** this is only valid for keyboard, not joystick!
-		normalizedMoveDirection = sf::Vector2f(m_moveDirection.x * sin(m_rad45), m_moveDirection.y * cos(m_rad45));
-	}
-	else
-	{
-		normalizedMoveDirection = m_moveDirection;
+		return;
 	}
 
-	m_transform.translate(normalizedMoveDirection * m_moveSpeed * deltaTime);
+	// Check if player must / is able to climb
+	sf::Vector2u worldHorizontalDestination = world->ScreenToWorldPosition(screenHorizontalDestination);
+	sf::Vector2f worldClimbValue = sf::Vector2f(0,0);
+	for (int i = 0; i < m_worldPlayerSize.y; i++)
+	{
+		int halfWorldPlayerSize = m_worldPlayerSize.y / 2.f;
+		int verticalSampleHeight = -halfWorldPlayerSize + i; // Checking from top to bottom
+		sf::Vector2u worldPositionCheckHorizontalWall = worldHorizontalDestination + sf::Vector2u(0, verticalSampleHeight);
+		if (*world->GetPixelValue(worldPositionCheckHorizontalWall) != 1) // If there is no wall
+		{
+			continue;
+		}
+
+		if (i >= m_worldVeritcalClimbingThreshold)
+		{
+			sf::Vector2u screenPositionCheckHorizontalWall = world->WorldToScreenPosition(worldPositionCheckHorizontalWall + sf::Vector2u(0,1));
+			float verticalClimbValue = (GetScreenPosition().y + 0.5*m_spriteSize.y) - screenPositionCheckHorizontalWall.y;
+			worldClimbValue.y = -verticalClimbValue; 
+			break;
+		}
+		else
+		{
+			moveDirection.x = 0;
+			break;
+		}
+	}
+
+	sf::Vector2f newScreenPosition = moveDirection * m_MOVESPEED * deltaTime + worldClimbValue;
+	m_transform.translate(newScreenPosition);
 }

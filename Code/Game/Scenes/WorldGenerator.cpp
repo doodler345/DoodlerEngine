@@ -20,6 +20,8 @@ float afterTime = 0;
 
 WorldGenerator::~WorldGenerator()
 {
+	if (!Engine::GetInstance()->GetRenderWindow().isOpen()) return; //avoid issues after closing game
+
 	DebugPrint("Destroying derived Scene " + m_name, TextColor::Blue, DebugChannel::Game, __FILE__, __LINE__);
 
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
@@ -243,7 +245,7 @@ void WorldGenerator::OnGenerateNoisemap()
 	m_itterationInfo->m_textComponent->SetText("Iterations: " + std::to_string(m_itterations));
 
 	afterTime = Engine::GetInstance()->GetTimeAsSeconds();
-	std::cout << "Generate Noise Map: " << afterTime - prevTime << std::endl;
+	//std::cout << "Generate Noise Map: " << afterTime - prevTime << std::endl;
 
 	ColorizeWorld(false);
 }

@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <string>
 
 #include "../Engine/Scene.h"
 #include "../Engine/Entity/Entity.h"
@@ -14,6 +15,7 @@ public:
 
 	Scene* GetCurrentScene();
 	void SwitchScene(int index);
+	void SwitchToPlayScene(std::string bmpFileName);
 	void OnInputRecieved(const KEY key, const bool keyDown);
 
 private:
