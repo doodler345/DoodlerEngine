@@ -12,12 +12,14 @@ class Scene
 public:
 	virtual ~Scene();
 	virtual void Init() = 0;
-
 	std::string GetName();
 
-protected:
 	template <typename EntityType>
 	EntityType* InstantiateEntity(std::string factoryName, std::string m_name = "");
+	
+	void DestroyEntity(Entity* entity);
+
+protected:
 
 	std::string m_name;
 	std::vector<Entity*> m_loadedEntities;

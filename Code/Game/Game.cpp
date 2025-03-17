@@ -21,10 +21,11 @@
 int main()
 {
     EntityFactoryManager* entitiyFactoryManager = EntityFactoryManager::GetInstance();
-    entitiyFactoryManager->Register<GameManager>("GameManager");
-    entitiyFactoryManager->Register<Player>("Player");
-    entitiyFactoryManager->Register<World>("World");
-    entitiyFactoryManager->Register<BrushTool>("BrushTool");
+    entitiyFactoryManager->REGISTER(GameManager);
+    entitiyFactoryManager->REGISTER(Player);
+    entitiyFactoryManager->REGISTER(World);
+    entitiyFactoryManager->REGISTER(BazookaRocket);
+    entitiyFactoryManager->REGISTER(BrushTool);
 
     int windowWidth = 1280;
     int windowHeight = 720;

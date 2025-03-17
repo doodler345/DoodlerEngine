@@ -41,6 +41,8 @@ private:
 	StringToFactoryMap m_stringToFactoryMap;
 };
 
+#define REGISTER(EntityType) Register<##EntityType>(#EntityType);
+
 template<typename EntityType>
 inline void EntityFactoryManager::Register(std::string m_name)
 {
