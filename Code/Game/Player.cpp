@@ -27,6 +27,8 @@ void Player::EntityInit()
 	world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
 	assert(world);
 
+	bazooka = std::make_unique<Bazooka>();
+
 	// Calculating Player World Height
 	m_worldPlayerSize = world->ScreenToWorldPosition(sf::Vector2u(m_spriteSize));
 	m_worldVeritcalClimbingThreshold = m_worldPlayerSize.y * m_RELATIVE_WORLD_VERTICAL_CLIMBING_THRESHOLD;
@@ -43,14 +45,18 @@ void Player::DestroyDerived()
 	}
 }
 
-void Player::SetMovementKeys(std::array<sf::Keyboard::Key, 2>& keys)
+void Player::SetInputKeys(std::array<sf::Keyboard::Key, 2>& movementKeys, sf::Keyboard::Key fireKey)
 {
-	m_movementKeys = keys;
+	m_movementKeys = movementKeys;
+	m_fireKey = fireKey;
+
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
 	for (int i = 0; i < 2; i++)
 	{
-		inputManager.RegisterKeyboardEntry(keys[i], std::bind(&Player::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
+		inputManager.RegisterKeyboardEntry(movementKeys[i], std::bind(&Player::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
 	}
+
+	inputManager.RegisterKeyboardEntry(fireKey, std::bind(&Player::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
@@ -62,10 +68,22 @@ void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
 	if (key == m_movementKeys[0])
 	{
 		m_inputMoveDirection.x += -1 * inverter;
+		return;
 	}
 	else if (key == m_movementKeys[1])
 	{
 		m_inputMoveDirection.x += 1 * inverter;
+		return;
+	}
+
+	if (!keyDown)
+	{
+		return;
+	}
+
+	if (key == m_fireKey)
+	{
+		bazooka->Fire(sf::Vector2f(1, 0), 1);	
 	}
 }
 

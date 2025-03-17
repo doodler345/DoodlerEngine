@@ -41,7 +41,7 @@ void PlayScene::Init()
 		KEY::A,
 		KEY::D,
 	};
-	player->SetMovementKeys(inputKeysPlayer1);
+	player->SetInputKeys(inputKeysPlayer1, KEY::Space);
 	player->GetTransform().translate(sf::Vector2f(window.getSize().x / 5, window.getSize().y / 5));
 
 
