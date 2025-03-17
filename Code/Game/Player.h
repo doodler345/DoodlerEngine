@@ -31,12 +31,12 @@ private:
 	const float m_MOVESPEED = 30;
 	const float m_RELATIVE_WORLD_VERTICAL_CLIMBING_THRESHOLD = 0.6f;
 	const float m_RELATIVE_COLLISION_WIDTH = 0.6f;
+	const float m_SPRITE_SCALE = 1.5f;
 
-	World* world = nullptr;
-	std::unique_ptr<Bazooka> bazooka = nullptr;
+	World* m_world = nullptr;
+	std::unique_ptr<Bazooka> m_bazooka = nullptr;
 	sf::Vector2f m_spriteSize;
 	sf::Vector2u m_worldPlayerSize;
-	float m_spriteScale = 1.5f;
 	int m_screenPlayerCollisionWidth;
 	int m_worldVeritcalClimbingThreshold;
 	bool m_isGrounded = false;

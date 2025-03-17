@@ -97,6 +97,8 @@ ${GAME_SOURCE_PATH}/World.h
 ${GAME_SOURCE_PATH}/World.cpp
 ${GAME_SOURCE_PATH}/Bazooka.h
 ${GAME_SOURCE_PATH}/Bazooka.cpp
+${GAME_SOURCE_PATH}/BazookaRocket.h
+${GAME_SOURCE_PATH}/BazookaRocket.cpp
 ${GAME_SOURCE_PATH}/Scenes/MainMenu.h
 ${GAME_SOURCE_PATH}/Scenes/MainMenu.cpp
 ${GAME_SOURCE_PATH}/Scenes/LevelSelectionScene.h

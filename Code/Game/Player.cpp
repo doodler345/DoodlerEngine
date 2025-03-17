@@ -19,18 +19,18 @@ void Player::EntityInit()
 	
 	std::string path = "../Resources/Profilbild Sonic Infusion.png";
 	std::shared_ptr<SpriteComponent> spriteComponent = std::make_shared<SpriteComponent>(path, this);
-	spriteComponent->m_drawable.setScale(m_spriteScale, m_spriteScale);
+	spriteComponent->m_drawable.setScale(m_SPRITE_SCALE, m_SPRITE_SCALE);
 	m_spriteSize = spriteComponent->m_drawable.getGlobalBounds().getSize();
 	AddComponent(spriteComponent);
 
 	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
-	world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
-	assert(world);
+	m_world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
+	assert(m_world);
 
-	bazooka = std::make_unique<Bazooka>();
+	m_bazooka = std::make_unique<Bazooka>();
 
 	// Calculating Player World Height
-	m_worldPlayerSize = world->ScreenToWorldPosition(sf::Vector2u(m_spriteSize));
+	m_worldPlayerSize = m_world->ScreenToWorldPosition(sf::Vector2u(m_spriteSize));
 	m_worldVeritcalClimbingThreshold = m_worldPlayerSize.y * m_RELATIVE_WORLD_VERTICAL_CLIMBING_THRESHOLD;
 
 	m_screenPlayerCollisionWidth = m_spriteSize.x * m_RELATIVE_COLLISION_WIDTH * 0.5f;
@@ -83,7 +83,7 @@ void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
 
 	if (key == m_fireKey)
 	{
-		bazooka->Fire(sf::Vector2f(1, 0), 1);	
+		m_bazooka->Fire(sf::Vector2f(1, 0), 1);	
 	}
 }
 
@@ -103,8 +103,8 @@ bool Player::GroundedCheck()
 {
 	sf::Vector2u screenPositionBeneath = GetScreenPosition() + sf::Vector2u(0, m_spriteSize.y * 0.5f);
 
-	sf::Vector2u worldPositionBeneath = world->ScreenToWorldPosition(screenPositionBeneath);
-	if (world->ScreenToWorldPosition(screenPositionBeneath).y >= world->m_worldHeight)
+	sf::Vector2u worldPositionBeneath = m_world->ScreenToWorldPosition(screenPositionBeneath);
+	if (m_world->ScreenToWorldPosition(screenPositionBeneath).y >= m_world->m_worldHeight)
 	{
 		return true;
 	}
@@ -114,7 +114,7 @@ bool Player::GroundedCheck()
 	{
 		sf::Vector2u worldPositionBeneathWithXOffset = worldPositionBeneath + sf::Vector2u(groundCheckCollisionWidth * 0.5f - i, 0); // Checking from right to left
 
-		if (*world->GetPixelValue(worldPositionBeneathWithXOffset) == 1)
+		if (*m_world->GetPixelValue(worldPositionBeneathWithXOffset) == 1)
 		{
 			return true;
 		}
@@ -147,21 +147,21 @@ void Player::Move(float deltaTime)
 	}
 
 	// Check if player must / is able to climb
-	sf::Vector2u worldHorizontalDestination = world->ScreenToWorldPosition(screenHorizontalDestination);
+	sf::Vector2u worldHorizontalDestination = m_world->ScreenToWorldPosition(screenHorizontalDestination);
 	sf::Vector2f worldClimbValue = sf::Vector2f(0,0);
 	for (int i = 0; i < m_worldPlayerSize.y; i++)
 	{
 		int halfWorldPlayerSize = m_worldPlayerSize.y / 2.f;
 		int verticalSampleHeight = -halfWorldPlayerSize + i; // Checking from top to bottom
 		sf::Vector2u worldPositionCheckHorizontalWall = worldHorizontalDestination + sf::Vector2u(0, verticalSampleHeight);
-		if (*world->GetPixelValue(worldPositionCheckHorizontalWall) != 1) // If there is no wall
+		if (*m_world->GetPixelValue(worldPositionCheckHorizontalWall) != 1) // If there is no wall
 		{
 			continue;
 		}
 
 		if (i >= m_worldVeritcalClimbingThreshold)
 		{
-			sf::Vector2u screenPositionCheckHorizontalWall = world->WorldToScreenPosition(worldPositionCheckHorizontalWall + sf::Vector2u(0,1));
+			sf::Vector2u screenPositionCheckHorizontalWall = m_world->WorldToScreenPosition(worldPositionCheckHorizontalWall + sf::Vector2u(0,1));
 			float verticalClimbValue = (GetScreenPosition().y + 0.5*m_spriteSize.y) - screenPositionCheckHorizontalWall.y;
 			worldClimbValue.y = -verticalClimbValue; 
 			break;

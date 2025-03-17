@@ -20,12 +20,12 @@ enum class DebugChannel
 static std::map<DebugChannel, bool> DebugVisibility
 {
     { DebugChannel::Engine,                 0 },
-    { DebugChannel::Game,                   1 },
-    { DebugChannel::Entity,                 0 },
+    { DebugChannel::Game,                   0 },
+    { DebugChannel::Entity,                 1 },
     { DebugChannel::EntityComponent,        0 },
     { DebugChannel::ResourceManager,        0 },
     { DebugChannel::RenderSystem,           0 },
-    { DebugChannel::InputManager,           1 },
+    { DebugChannel::InputManager,           0 },
     { DebugChannel::UI,                     0 },
 };
 
