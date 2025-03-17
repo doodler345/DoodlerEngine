@@ -28,6 +28,7 @@ void Player::EntityInit()
 	assert(m_world);
 
 	m_bazooka = std::make_unique<Bazooka>();
+	m_bazooka->SetOwner(this);
 
 	// Calculating Player World Height
 	m_worldPlayerSize = m_world->ScreenToWorldPosition(sf::Vector2u(m_spriteSize));
@@ -83,7 +84,7 @@ void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
 
 	if (key == m_fireKey)
 	{
-		m_bazooka->Fire(sf::Vector2f(1, 0), 1);	
+		m_bazooka->Fire(sf::Vector2f(1, -1), 400);	
 	}
 }
 

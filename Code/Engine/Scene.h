@@ -16,6 +16,8 @@ public:
 
 	template <typename EntityType>
 	EntityType* InstantiateEntity(std::string factoryName, std::string m_name = "");
+	
+	void DestroyEntity(Entity* entity);
 
 protected:
 

@@ -5,8 +5,8 @@
 
 void Bazooka::Fire(sf::Vector2f direction, float strength)
 {
-	std::cout << "Fire!" << std::endl;
-
 	Scene* scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager())->GetCurrentScene();
-	scene->Instantiate(BazookaRocket, BazookaRocket);
+	BazookaRocket* rocket = scene->Instantiate(BazookaRocket, BazookaRocket);
+	rocket->GetTransform().translate(m_owner->GetTransform().transformPoint(0,0));
+	rocket->Fire(direction, strength);
 }
