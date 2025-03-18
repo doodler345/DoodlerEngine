@@ -29,6 +29,9 @@ public:
 	bool* GetNeighbours3(int index, bool onlyLeftandRight = false);
 	bool* GetNeighbours4(int index, bool onlyLeftandRight = false);
 
+	// During gameplay
+	void TryDestroyPixel(int index);
+
 	std::vector<int> m_pixelValues;
 	std::unique_ptr<sf::Uint8[]> m_pixelColors;
 

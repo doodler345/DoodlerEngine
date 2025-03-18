@@ -183,22 +183,18 @@ void World::Colorize(bool useColor)
 		for (int i = 0; i < caveFloorIndices.size(); i++)
 		{
 			int level = 0;
-			int y = caveFloorIndices[i];
+			int index = caveFloorIndices[i];
 
 			do
 			{
-				m_pixelColors.get()[y * 4 + 0] = sf::Uint8(200);
-				m_pixelColors.get()[y * 4 + 1] = sf::Uint8(200);
-				m_pixelColors.get()[y * 4 + 2] = sf::Uint8(200);
+				m_pixelColors.get()[index * 4 + 0] = sf::Uint8(200);
+				m_pixelColors.get()[index * 4 + 1] = sf::Uint8(200);
+				m_pixelColors.get()[index * 4 + 2] = sf::Uint8(200);
 
-				y += m_worldWidth;
+				index += m_worldWidth;
 				level++;
-
-				if (y >= m_numOfPixels - 1) // window ground reached
-				{
-					break;
-				}
-			} while (GetNeighbours(y)[7] && level < m_caveStoneDepth);
+			} 
+			while (GetNeighbours(index)[7] && m_pixelValues[index] == 1 && level < m_caveStoneDepth);
 		}
 
 		/////////////////////////////////////////////
@@ -607,6 +603,19 @@ bool* World::GetNeighbours4(int index, bool onlyLeftandRight)
 	}
 
 	return m_neighbours4;
+}
+
+void World::TryDestroyPixel(int index)
+{
+	if (m_pixelValues[index] == 0)
+	{
+		return;
+	}
+
+	m_pixelValues[index] = 0;
+	m_pixelColors.get()[index * 4 + 0] = sf::Uint8(0);
+	m_pixelColors.get()[index * 4 + 1] = sf::Uint8(0);
+	m_pixelColors.get()[index * 4 + 2] = sf::Uint8(0);
 }
 
 void World::UpdateBorders()

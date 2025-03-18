@@ -50,7 +50,7 @@ private:
 	const int m_minBrushRadius = 4;
 	const int m_maxBrushRadius = 400;
 	float m_radius = 50;
-	int m_windowWidth;
+	int m_worldWidth;
 	int m_worldHeight;
 };
 

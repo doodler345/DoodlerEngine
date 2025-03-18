@@ -10,6 +10,7 @@
 #include "GameManager.h"
 
 #include <iostream>
+#include <numbers>
 #include <memory>
 #include <functional>
 
@@ -17,11 +18,18 @@ void Player::EntityInit()
 {
 	DebugPrint("Player " + std::to_string(m_id) + " spawned", TextColor::Green, DebugChannel::Entity, __FILE__, __LINE__);
 	
-	std::string path = "../Resources/Profilbild Sonic Infusion.png";
+	// Sprite Player 
+	std::string path = "../Resources/Sprites/Profilbild Sonic Infusion.png";
 	std::shared_ptr<SpriteComponent> spriteComponent = std::make_shared<SpriteComponent>(path, this);
 	spriteComponent->m_drawable.setScale(m_SPRITE_SCALE, m_SPRITE_SCALE);
 	m_spriteSize = spriteComponent->m_drawable.getGlobalBounds().getSize();
 	AddComponent(spriteComponent);
+
+	// Sprite Aim Direction
+	path = "../Resources/Sprites/AimDirection.png";
+	m_aimDirection = std::make_shared<SpriteComponent>(path, this);
+	m_aimDirection->m_drawable.setScale(m_SPRITE_SCALE + 0.5f, m_SPRITE_SCALE + 0.5f);
+	AddComponent(m_aimDirection);
 
 	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
 	m_world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
@@ -37,18 +45,10 @@ void Player::EntityInit()
 	m_screenPlayerCollisionWidth = m_spriteSize.x * m_RELATIVE_COLLISION_WIDTH * 0.5f;
 }
 
-void Player::DestroyDerived()
-{
-	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	for (int i = 0; i < 2; i++)
-	{
-		inputManager.UnregisterKeyboardEntry(m_movementKeys[i]);
-	}
-}
-
-void Player::SetInputKeys(std::array<sf::Keyboard::Key, 2>& movementKeys, sf::Keyboard::Key fireKey)
+void Player::SetInputKeys(std::array<sf::Keyboard::Key, 2>& movementKeys, std::array<sf::Keyboard::Key, 2>& aimKeys, sf::Keyboard::Key fireKey)
 {
 	m_movementKeys = movementKeys;
+	m_aimKeys = aimKeys;
 	m_fireKey = fireKey;
 
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
@@ -56,36 +56,27 @@ void Player::SetInputKeys(std::array<sf::Keyboard::Key, 2>& movementKeys, sf::Ke
 	{
 		inputManager.RegisterKeyboardEntry(movementKeys[i], std::bind(&Player::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
 	}
+	for (int i = 0; i < 2; i++)
+	{
+		inputManager.RegisterKeyboardEntry(aimKeys[i], std::bind(&Player::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
+	}
 
 	inputManager.RegisterKeyboardEntry(fireKey, std::bind(&Player::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
+void Player::DestroyDerived()
 {
-	int inverter = keyDown ? 1 : -1;
-
-	//***** change to switch (caused an error, moveDirection should be "const", how to solve?)
-
-	if (key == m_movementKeys[0])
+	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
+	for (int i = 0; i < 2; i++)
 	{
-		m_inputMoveDirection.x += -1 * inverter;
-		return;
+		inputManager.UnregisterKeyboardEntry(m_movementKeys[i]);
 	}
-	else if (key == m_movementKeys[1])
+	for (int i = 0; i < 2; i++)
 	{
-		m_inputMoveDirection.x += 1 * inverter;
-		return;
+		inputManager.UnregisterKeyboardEntry(m_aimKeys[i]);
 	}
 
-	if (!keyDown)
-	{
-		return;
-	}
-
-	if (key == m_fireKey)
-	{
-		m_bazooka->Fire(sf::Vector2f(1, -1), 400);	
-	}
+	inputManager.UnregisterKeyboardEntry(m_fireKey);
 }
 
 void Player::Update(float deltaTime)
@@ -97,6 +88,44 @@ void Player::Update(float deltaTime)
 	else
 	{
 		Move(deltaTime);
+		RotateAimDirection(deltaTime);
+	}
+}
+
+void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
+{
+	int inverter = keyDown ? 1 : -1;
+
+	//***** change to switch (caused an error, moveDirection should be "const", how to solve?)
+
+	if (key == m_movementKeys[0])
+	{
+		m_inputMoveDirection.x += -1 * inverter;
+	}
+	else if (key == m_movementKeys[1])
+	{
+		m_inputMoveDirection.x += 1 * inverter;
+	}
+
+	if (key == m_aimKeys[0])
+	{
+		m_inputMoveDirection.y += 1 * inverter;
+	}
+	else if (key == m_aimKeys[1])
+	{
+		m_inputMoveDirection.y += -1 * inverter;
+	}
+
+	if (!keyDown)
+	{
+		return;
+	}
+
+	if (key == m_fireKey)
+	{
+		float aimDirectionRotation = m_aimDirection->m_drawable.getRotation();
+		sf::Vector2f shootDirection = sf::Vector2f(cosf(aimDirectionRotation / 360.f * 2 * std::numbers::pi), sinf(aimDirectionRotation / 360.f * 2 * std::numbers::pi));
+		m_bazooka->Fire(shootDirection, 400);
 	}
 }
 
@@ -132,7 +161,7 @@ void Player::ApplyGravity(float deltaTime)
 
 void Player::Move(float deltaTime)
 {
-	if (m_inputMoveDirection == sf::Vector2f(0, 0))
+	if (m_inputMoveDirection.x == 0)
 	{
 		return;
 	}
@@ -176,4 +205,14 @@ void Player::Move(float deltaTime)
 
 	sf::Vector2f newScreenPosition = moveDirection * m_MOVESPEED * deltaTime + worldClimbValue;
 	m_transform.translate(newScreenPosition);
+}
+
+void Player::RotateAimDirection(float deltaTime)
+{
+	if (m_inputMoveDirection.y == 0)
+	{
+		return;
+	}
+
+	m_aimDirection->m_drawable.rotate(-m_inputMoveDirection.y * 100 * deltaTime);
 }

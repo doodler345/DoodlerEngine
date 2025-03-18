@@ -13,7 +13,7 @@ class Player : public Entity
 {
 public:
 	virtual void EntityInit() override;
-	void SetInputKeys(std::array<sf::Keyboard::Key, 2>& movementKeys, sf::Keyboard::Key fireKey);
+	void SetInputKeys(std::array<sf::Keyboard::Key, 2>& movementKeys, std::array<sf::Keyboard::Key, 2>& aimKeys, sf::Keyboard::Key fireKey);
 
 
 protected:
@@ -25,6 +25,7 @@ private:
 	bool GroundedCheck();
 	void ApplyGravity(float deltaTime);
 	void Move(float deltaTime);
+	void RotateAimDirection(float deltaTime);
 
 	const float m_RAD45 = sf::degToRad(45);
 	const float m_FALLSPEED = 100;
@@ -35,13 +36,16 @@ private:
 
 	World* m_world = nullptr;
 	std::unique_ptr<Bazooka> m_bazooka = nullptr;
+	std::shared_ptr<SpriteComponent> m_aimDirection = nullptr;
 	sf::Vector2f m_spriteSize;
 	sf::Vector2u m_worldPlayerSize;
 	int m_screenPlayerCollisionWidth;
 	int m_worldVeritcalClimbingThreshold;
-	bool m_isGrounded = false;
+
 	sf::Vector2f m_inputMoveDirection = sf::Vector2f(0,0);
+	bool m_isGrounded = false;
 	
 	std::array<sf::Keyboard::Key, 2> m_movementKeys;
+	std::array<sf::Keyboard::Key, 2> m_aimKeys;
 	sf::Keyboard::Key m_fireKey;
 };
