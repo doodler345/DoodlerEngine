@@ -44,10 +44,17 @@ void BazookaRocket::Move(float deltaTime)
 
 void BazookaRocket::CheckCollision()
 {
-	// Check if window ground collision
 	sf::Vector2u worldPosition = sf::Vector2u(GetTransform().transformPoint(0, 0));
+
+	// HACK: avoid undefined behavior if y < 0 (at ceiling)
+	if (worldPosition.y > 10000000) 
+	{
+		return;
+	}
+
+	// Check if window ground collision
 	sf::Vector2u screenPosition = m_world->WorldToScreenPosition(worldPosition);
-	if (worldPosition.y >= m_world->m_worldHeight)
+	if (worldPosition.y >= m_world->m_worldHeight) 
 	{
 		Explode(screenPosition);
 		return;
