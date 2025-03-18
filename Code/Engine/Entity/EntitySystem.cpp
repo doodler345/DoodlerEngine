@@ -6,11 +6,12 @@
 Entity* EntitySystem::RegisterEntity(std::shared_ptr<Entity> entity, std::string m_name)
 {
 	entity->SetName(m_name);
-	entity->SetID(m_idCounter++);
-	entity->EntityInit();
-	m_entities.push_back(entity);
+	entity->SetID(m_idCounter);
+	m_entities[m_idCounter] = entity;
+	m_idCounter++;
 
-	//***** instead id, name, for better debugging
+	entity->EntityInit();
+
 	DebugPrint("Registered Entity " + m_name + " (id: " + std::to_string(entity->GetID()) + ")", TextColor::Green, DebugChannel::Entity, __FILE__, __LINE__);
 
 	return entity.get();
@@ -18,26 +19,27 @@ Entity* EntitySystem::RegisterEntity(std::shared_ptr<Entity> entity, std::string
 
 void EntitySystem::DestroyEntity(Entity* entity)
 {
-	bool success = false;
-
-	for (int i = 0; i < m_entities.size(); i++)
+	if (auto search = m_entities.find(entity->GetID()); search != m_entities.end()) 
 	{
-		if (entity->GetID() == m_entities[i]->GetID())
-		{
-			success = true;
-			m_entities[i]->Destroy();
-			m_entities.erase(m_entities.begin() + i);
-			break;
-		}
+		m_entitiesToDestroy.push_back(search->second);
+		search->second->Destroy();
 	}
-
-	assert(success);
+	else 
+	{
+		DebugPrint("Can't find Entity " + entity->GetName() + " (id: " + std::to_string(entity->GetID()) + ")", TextColor::Green, DebugChannel::Entity, __FILE__, __LINE__, 1);
+	}
 }
 
 void EntitySystem::Update(float deltaTime)
 {
-	for (int i = 0; i < m_entities.size(); i++)
+	for (auto& it : m_entities)
 	{
-		m_entities[i]->EntityUpdate(deltaTime);
+		it.second->EntityUpdate(deltaTime);
 	}
+
+	for (int i = 0; i < m_entitiesToDestroy.size(); i++)
+	{	
+		m_entities.erase(m_entitiesToDestroy[i]->GetID());
+	}
+	m_entitiesToDestroy.clear();
 }
