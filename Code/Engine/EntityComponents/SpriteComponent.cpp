@@ -5,12 +5,15 @@
 SpriteComponent::SpriteComponent(Entity* owner)
 {
 	m_ownerEntity = owner;		
+	m_allowMultiple = true;
 }
 
 SpriteComponent::SpriteComponent(std::string& texturePath, Entity* owner)
 {
 	m_ownerEntity = owner;		
 	SetTexture(texturePath);
+
+	m_allowMultiple = true;
 }
 
 void SpriteComponent::SetTexture(std::string& texturePath)
