@@ -36,12 +36,18 @@ void PlayScene::Init()
 	Player* player = Instantiate(Player, PlayerOne);
 	assert(player);
 
-	std::array<KEY, 2> inputKeysPlayer1 =
+	std::array<KEY, 2> movementKeysPlayer1 =
 	{
 		KEY::A,
 		KEY::D,
 	};
-	player->SetInputKeys(inputKeysPlayer1, KEY::Space);
+	std::array<KEY, 2> aimKeysPlayer1 =
+	{
+		KEY::W,
+		KEY::S,
+	};
+
+	player->SetInputKeys(movementKeysPlayer1, aimKeysPlayer1, KEY::Space);
 	player->GetTransform().translate(sf::Vector2f(window.getSize().x / 5, window.getSize().y / 5));
 
 
