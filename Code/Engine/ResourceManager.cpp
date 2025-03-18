@@ -11,7 +11,7 @@ void ResourceManager::ShutDown()
 
 sf::Texture ResourceManager::RegisterTexture(std::string path)
 {
-	if (m_registeredTextures.count(path) == 0)
+	if (!m_registeredTextures.contains(path))
 	{
 		Resource resource;
 		if (!resource.m_texture.loadFromFile(path))
@@ -35,7 +35,7 @@ sf::Texture ResourceManager::RegisterTexture(std::string path)
 
 sf::Texture ResourceManager::UpdateTexture(std::string path)
 {
-	if (m_registeredTextures.count(path) == 0)
+	if (!m_registeredTextures.contains(path))
 	{
 		DebugPrint("Texture at " + path + " doesn't exist yet, trying to register...", TextColor::Red, DebugChannel::ResourceManager, __FILE__, __LINE__, 1);
 		RegisterTexture(path);
@@ -50,7 +50,7 @@ sf::Texture ResourceManager::UpdateTexture(std::string path)
 
 sf::Font ResourceManager::RegisterFont(std::string path)
 {
-	if (m_registeredFonts.count(path) == 0)
+	if (!m_registeredTextures.contains(path))
 	{
 		Resource resource;
 		if (!resource.m_font.loadFromFile(path))

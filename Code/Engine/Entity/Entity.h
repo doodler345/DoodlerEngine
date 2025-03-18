@@ -66,7 +66,7 @@ protected:
 private:
 	void ApplyParentTransform();
 
-	std::vector<std::shared_ptr<EntityComponent>> entityComponents;
+	std::multimap<int, std::shared_ptr<EntityComponent>> entityComponents;
 	Entity* m_parent = nullptr;
 	sf::Vector2u m_parentLastScreenPosition;
 	float m_parentLastRotation;
@@ -81,9 +81,9 @@ inline bool Entity::AddComponent(std::shared_ptr<T> newComponent)
 	std::string type = typeid(T).name();
 	if (!dynamic_cast<EntityComponent*>(newComponent.get())->m_allowMultiple)
 	{
-		for (int i = 0; i < entityComponents.size(); i++)
+		for (auto& it : entityComponents)
 		{
-			if (typeid(T) == typeid(*entityComponents[i].get()))
+			if (typeid(T) == typeid(*it.second.get()))
 			{
 				DebugPrint("Component " + type + " already exists!", TextColor::Red, DebugChannel::EntityComponent, __FILE__, __LINE__, 1);
 				return false;
@@ -93,7 +93,7 @@ inline bool Entity::AddComponent(std::shared_ptr<T> newComponent)
 
 	DebugPrint("Added new Component " + type + " to Entity ", TextColor::Green, DebugChannel::EntityComponent, __FILE__, __LINE__);
 
-	entityComponents.push_back(newComponent);
+	entityComponents[m_id] = newComponent;
 	return true;
 }
 
@@ -101,15 +101,15 @@ template<typename T>
 inline void Entity::RemoveComponent()
 {
 	T* test;
-	dynamic_cast<EntityComponent*>(test); //***** this checks if it's a EntityComponent but its ugly af
+	dynamic_cast<EntityComponent*>(test); //checks if it's a EntityComponent 
 	
-	std::string type = typeid(T).m_name();
-	for (int i = 0; i < entityComponents.size(); i++)
+	std::string type = typeid(T).name();
+	for (auto& it : entityComponents)
 	{
-		if (typeid(T) == typeid(*entityComponents[i].get()))
+		if (typeid(T) == typeid(*it.second.get()))
 		{
-			entityComponents[i]->ShutDown();
-			entityComponents.erase(entityComponents.begin() + i);
+			it.second->ShutDown();
+			entityComponents.erase(it.first); // TODO: if multiple components of the same type exist, only the first one will be removed 
 			DebugPrint("Component " + type + " of Entity " + std::to_string(m_id) + " removed!", TextColor::LightRed, DebugChannel::EntityComponent, __FILE__, __LINE__);
 			break;
 		}
@@ -120,15 +120,15 @@ template<typename T>
 inline T* Entity::GetComponent()
 {
 	T* test;
-	dynamic_cast<EntityComponent*>(test); //***** this checks if it's a EntityComponent but its ugly af
+	dynamic_cast<EntityComponent*>(test); //checks if it's a EntityComponent 
 
 	std::string type = typeid(T).name();
-	for (int i = 0; i < entityComponents.size(); i++)
+	for (auto& it : entityComponents)
 	{
-		if (typeid(T) == typeid(*entityComponents[i].get()))
+		if (typeid(T) == typeid(*it.second.get()))
 		{
 			DebugPrint("Component " + type + " of Entity " + std::to_string(m_id) + " found!", TextColor::LightYellow, DebugChannel::EntityComponent, __FILE__, __LINE__);
-			return dynamic_cast<T*>(entityComponents[i].get()); //***** did this just work accidentially or is this a proove solution?
+			return dynamic_cast<T*>(it.second.get()); 
 		}
 	}
 

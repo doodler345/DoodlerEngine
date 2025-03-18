@@ -11,19 +11,18 @@ void Entity::EntityUpdate(float deltaTime)
 
 	Update(deltaTime);
 
-	for (int i = 0; i < entityComponents.size(); i++)
+	for (auto& it : entityComponents)
 	{
-		entityComponents[i]->Update(deltaTime);
+		it.second->Update(deltaTime);
 	}
 }
 
 void Entity::Destroy()
 {
-	for (int i = 0; i < entityComponents.size(); i++)
+	for (auto& it : entityComponents)
 	{
-		entityComponents[i]->ShutDown();
+		it.second->ShutDown();
 	}
-	entityComponents.clear();
 
 	DebugPrint("All Entity-Components of Entity " + std::to_string(m_id) + " destroyed", TextColor::Yellow, DebugChannel::Entity, __FILE__, __LINE__);
 

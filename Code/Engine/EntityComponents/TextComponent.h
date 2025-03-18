@@ -9,6 +9,7 @@ class TextComponent : public EntityComponent
 {
 public:
 	TextComponent(std::string& path, std::string& text, Entity* owner, sf::Color color = sf::Color::Black, bool centerHorizontal = true, bool centerVertical = true);
+
 	virtual void ShutDown() override;
 
 	void SetText(std::string newText);
