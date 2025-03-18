@@ -23,7 +23,7 @@ void BrushTool::Setup(World* worldGenerationImage, Text* radiusInfo)
 	m_worldGenerationImage = worldGenerationImage;
 	m_pixelColors = worldGenerationImage->m_pixelColors.get();
 
-	m_windowWidth = worldGenerationImage->m_worldWidth;
+	m_worldWidth = worldGenerationImage->m_worldWidth;
 	m_worldHeight = worldGenerationImage->m_worldHeight;
 
 	m_radiusInfo = radiusInfo;
@@ -69,77 +69,77 @@ void BrushTool::ChangeRadius(float add)
 
 void BrushTool::Update(float deltaTime)
 {
-	if (m_isActive)
+	if (!m_isActive)
 	{
-		m_mousePos = Engine::GetInstance()->GetInputManager().GetMousePos();
-		m_deltaMousePos = m_mousePos - m_prevMousePos;
-		m_prevMousePos = m_mousePos;
-
-		GetTransform().translate((sf::Vector2f)m_deltaMousePos); //brushTool is owner of circle --> moves circle
-
-		if (m_isDrawing || m_eraseMode)
-		{
-			sf::Vector2i imageSize;
-			int* imageBorders = m_worldGenerationImage->m_worldImageBorders;
-			imageSize.x = imageBorders[1] - imageBorders[0];
-			imageSize.y = imageBorders[3] - imageBorders[2];
-
-			sf::Vector2f pixelPosRelative;
-			pixelPosRelative.x = (m_mousePos.x - imageBorders[0]) / (float)imageSize.x; 
-			pixelPosRelative.y = (m_mousePos.y - imageBorders[2]) / (float)imageSize.y; 
-			if (pixelPosRelative.x <= 0 || pixelPosRelative.x >= 1 || pixelPosRelative.y <= 0 || pixelPosRelative.y >= 1) 
-			{
-				return;
-			}
-
-			sf::Uint8 color = m_eraseMode ? sf::Uint8(0) : sf::Uint8(255);
-
-			sf::Vector2i pixelCoordinates;
-			pixelCoordinates.x = m_windowWidth * pixelPosRelative.x;
-			pixelCoordinates.y = m_worldHeight * pixelPosRelative.y;
-
-			int x;
-			int prevX = pixelCoordinates.x + cos(0) * m_radius * -1;
-			int deltaX;
-			for (int i = -m_radius; i < m_radius; i++)
-			{
-				int xOffset		= cos((i + m_radius) / (2.0f * m_radius) * std::numbers::pi) * m_radius * -1;
-				int yMaxOffset	= sin((i + m_radius) / (2.0f * m_radius) * std::numbers::pi) * m_radius;
-
-				x = pixelCoordinates.x + xOffset;
-				deltaX = x - prevX;
-
-				// Sometimes deltaX is 0 or 2, because of the Cosine. That can lead to unnecessary calculations, or worse, horizontal gaps 
-				// With substeps this cant happen anymore
-				for (int xSubsteps = 1; xSubsteps < deltaX + 1; xSubsteps++) 
-				{
-					for (int yOffset = -yMaxOffset; yOffset < yMaxOffset; yOffset++)
-					{
-						int y = pixelCoordinates.y + yOffset;
-						if (x >= m_windowWidth || x < 0 || y >= m_worldHeight || y < 0)
-						{
-							continue;
-						}
-
-						int pixelIndex = y * m_windowWidth + prevX + xSubsteps;
-
-
-						m_worldGenerationImage->m_pixelValues[pixelIndex] = !m_eraseMode;
-						m_pixelColors[pixelIndex * 4 + 0] = color;
-						m_pixelColors[pixelIndex * 4 + 1] = color;
-						m_pixelColors[pixelIndex * 4 + 2] = color;
-						m_pixelColors[pixelIndex * 4 + 3] = sf::Uint8(255);
-					}
-				}
-
-				prevX = x;
-			}
+		return;
+	}
 		
-			m_worldGenerationImage->UpdateTexture();
+	m_mousePos = Engine::GetInstance()->GetInputManager().GetMousePos();
+	m_deltaMousePos = m_mousePos - m_prevMousePos;
+	m_prevMousePos = m_mousePos;
+
+	GetTransform().translate((sf::Vector2f)m_deltaMousePos); //brushTool is owner of circle --> moves circle
+
+	if (m_isDrawing || m_eraseMode)
+	{
+		sf::Vector2i imageSize;
+		int* imageBorders = m_worldGenerationImage->m_worldImageBorders;
+		imageSize.x = imageBorders[1] - imageBorders[0];
+		imageSize.y = imageBorders[3] - imageBorders[2];
+
+		sf::Vector2f pixelPosRelative;
+		pixelPosRelative.x = (m_mousePos.x - imageBorders[0]) / (float)imageSize.x; 
+		pixelPosRelative.y = (m_mousePos.y - imageBorders[2]) / (float)imageSize.y; 
+		if (pixelPosRelative.x <= 0 || pixelPosRelative.x >= 1 || pixelPosRelative.y <= 0 || pixelPosRelative.y >= 1) 
+		{
+			return;
 		}
 
-	}
+		sf::Uint8 color = m_eraseMode ? sf::Uint8(0) : sf::Uint8(255);
 
+		sf::Vector2i pixelCoordinates;
+		pixelCoordinates.x = m_worldWidth * pixelPosRelative.x;
+		pixelCoordinates.y = m_worldHeight * pixelPosRelative.y;
+
+		int x;
+		int prevX = pixelCoordinates.x + cos(0) * m_radius * -1;
+		int deltaX;
+		for (int i = -m_radius; i < m_radius; i++)
+		{
+			int xOffset		= cos((i + m_radius) / (2.0f * m_radius) * std::numbers::pi) * m_radius * -1;
+			int yMaxOffset	= sin((i + m_radius) / (2.0f * m_radius) * std::numbers::pi) * m_radius;
+
+			x = pixelCoordinates.x + xOffset;
+			deltaX = x - prevX;
+
+			// Sometimes deltaX is 0 or 2, because of the Cosine. That can lead to unnecessary calculations, or worse, horizontal gaps 
+			// With substeps this cant happen anymore
+			for (int xSubsteps = 1; xSubsteps < deltaX + 1; xSubsteps++) 
+			{
+				for (int yOffset = -yMaxOffset; yOffset < yMaxOffset; yOffset++)
+				{
+					int y = pixelCoordinates.y + yOffset;
+					if (x >= m_worldWidth || x < 0 || y >= m_worldHeight || y < 0)
+					{
+						continue;
+					}
+
+					int pixelIndex = y * m_worldWidth + prevX + xSubsteps;
+
+
+					m_worldGenerationImage->m_pixelValues[pixelIndex] = !m_eraseMode;
+					m_pixelColors[pixelIndex * 4 + 0] = color;
+					m_pixelColors[pixelIndex * 4 + 1] = color;
+					m_pixelColors[pixelIndex * 4 + 2] = color;
+					m_pixelColors[pixelIndex * 4 + 3] = sf::Uint8(255);
+				}
+			}
+
+			prevX = x;
+		}
+		
+		m_worldGenerationImage->UpdateTexture();
+	}
 }
 
 void BrushTool::DestroyDerived()
