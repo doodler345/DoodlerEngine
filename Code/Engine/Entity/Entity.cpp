@@ -7,13 +7,7 @@ Entity::~Entity()
 
 void Entity::EntityUpdate(float deltaTime)
 {
-	//if (m_parent != nullptr)
-	//{
-	//	sf::Vector2u m_parentScreenPositionDelta = sf::Vector2u(m_parent->GetScreenPosition() - m_parentLastScreenPosition);
-	//	std::cout << m_parentScreenPositionDelta.x << " " << m_parentScreenPositionDelta.y << std::endl;
-	//	m_transformable.translate(sf::Vector2f(m_parentScreenPositionDelta));
-	//	m_parentLastScreenPosition = m_parent->GetScreenPosition();
-	//}
+	ApplyParentTransform();
 
 	Update(deltaTime);
 
@@ -40,11 +34,55 @@ void Entity::SetParent(Entity* parent)
 {
 	m_parent = parent;
 	m_parentLastScreenPosition = m_parent->GetScreenPosition();
+	m_parentLastRotation = m_parent->GetTransformable().getRotation();
+	m_parentLastScale = m_parent->GetTransformable().getScale();
 }
 
 sf::Vector2u Entity::GetScreenPosition()
 {
-	return sf::Vector2u(m_transformable.getPosition());
+	sf::Vector2f position = m_transformable.getPosition();
+	return sf::Vector2u(position);
+}
+
+void Entity::ApplyParentTransform()
+{
+	if (m_parent == nullptr)
+	{
+		return;
+	}
+
+	//Rotation 
+	float parentScreenRotation = m_parent->GetTransformable().getRotation();
+	float parentScreenRotationDelta = parentScreenRotation - m_parentLastRotation;
+
+	if (parentScreenRotationDelta != 0)
+	{
+		m_transformable.rotate(parentScreenRotationDelta);
+	}
+	m_parentLastRotation = parentScreenRotation;
+
+	// Position
+	sf::Vector2u parentScreenPos = m_parent->GetScreenPosition();
+	sf::Vector2i parentScreenPositionDelta = sf::Vector2i(parentScreenPos) - sf::Vector2i(m_parentLastScreenPosition);
+
+	if (parentScreenPositionDelta != sf::Vector2i(0, 0))
+	{
+		m_transformable.move(sf::Vector2f(parentScreenPositionDelta));
+	}
+	m_parentLastScreenPosition = m_parent->GetScreenPosition();
+
+	//Scale
+	sf::Vector2f parentScreenScale = m_parent->GetTransformable().getScale();
+	sf::Vector2f parentScreenScaleDelta = parentScreenScale - m_parentLastScale;
+
+	if (parentScreenScaleDelta != sf::Vector2f(0, 0))
+	{
+		// TODO: Instead of overwriting the scale, local-scale and parent-scale should multiply 
+		// (have to find a way to get a local scale)
+		m_transformable.setScale(m_parent->GetTransformable().getScale());
+	}
+
+	m_parentLastScale = parentScreenScale;
 }
 
 EntityComponent::~EntityComponent()

@@ -33,8 +33,8 @@ public:
 	~Entity();
 
 	virtual void EntityInit() = 0;
-	virtual void EntityUpdate(float deltaTime); // default: calls Update() + Updates all Components
 
+	void EntityUpdate(float deltaTime); // calls ApplyParentTransform(), Update() + Updates all Components
 	void Destroy(); 
 
 	void SetID(int _id) { m_id = _id; }
@@ -64,9 +64,13 @@ protected:
 	sf::Transformable m_transformable;
 
 private:
+	void ApplyParentTransform();
+
 	std::vector<std::shared_ptr<EntityComponent>> entityComponents;
 	Entity* m_parent = nullptr;
 	sf::Vector2u m_parentLastScreenPosition;
+	float m_parentLastRotation;
+	sf::Vector2f m_parentLastScale;
 };
 
 template<typename T>
