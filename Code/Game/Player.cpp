@@ -32,10 +32,11 @@ void Player::EntityInit()
 	AddComponent(m_aimDirection);
 
 	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
-	m_world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
+	PlayScene* playScene = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene());
+	m_world = playScene->GetWorld();
 	assert(m_world);
 
-	m_bazooka = std::make_unique<Bazooka>();
+	m_bazooka = playScene->Instantiate(Bazooka, Bazooka);
 	m_bazooka->SetOwner(this);
 
 	// Calculating Player World Height
@@ -116,16 +117,21 @@ void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
 		m_inputMoveDirection.y += -1 * inverter;
 	}
 
-	if (!keyDown)
+	if (keyDown)
 	{
-		return;
+		if (key == m_fireKey)
+		{
+			m_bazooka->PullTrigger();
+		}
 	}
-
-	if (key == m_fireKey)
+	else
 	{
-		float aimDirectionRotation = m_aimDirection->m_drawable.getRotation();
-		sf::Vector2f shootDirection = sf::Vector2f(cosf(aimDirectionRotation / 360.f * 2 * std::numbers::pi), sinf(aimDirectionRotation / 360.f * 2 * std::numbers::pi));
-		m_bazooka->Fire(shootDirection, 400);
+		if (key == m_fireKey)
+		{
+			float aimDirectionRotation = m_aimDirection->m_drawable.getRotation();
+			sf::Vector2f shootDirection = sf::Vector2f(cosf(aimDirectionRotation / 360.f * 2 * std::numbers::pi), sinf(aimDirectionRotation / 360.f * 2 * std::numbers::pi));
+			m_bazooka->Fire(shootDirection);
+		}
 	}
 }
 

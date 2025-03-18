@@ -35,7 +35,7 @@ private:
 	const float m_SPRITE_SCALE = 1.5f;
 
 	World* m_world = nullptr;
-	std::unique_ptr<Bazooka> m_bazooka = nullptr;
+	Bazooka* m_bazooka = nullptr;
 	std::shared_ptr<SpriteComponent> m_aimDirection = nullptr;
 	sf::Vector2f m_spriteSize;
 	sf::Vector2u m_worldPlayerSize;
@@ -44,6 +44,7 @@ private:
 
 	sf::Vector2f m_inputMoveDirection = sf::Vector2f(0,0);
 	bool m_isGrounded = false;
+
 	
 	std::array<sf::Keyboard::Key, 2> m_movementKeys;
 	std::array<sf::Keyboard::Key, 2> m_aimKeys;

@@ -3,13 +3,21 @@
 #include "SFML/Graphics.hpp"
 #include "BazookaRocket.h"
 
-class Bazooka
+class Bazooka : public Entity
 {
 public:
-	void Fire(sf::Vector2f direction, float strength);
+	void EntityInit() override;
+	void DestroyDerived() override;
+	void Update(float deltaTime) override;
+
+	void PullTrigger();
+	void Fire(sf::Vector2f direction);
 	void SetOwner(Entity* owner) { m_owner = owner; }
 
 private:
 	Entity* m_owner = nullptr;
 	BazookaRocket* m_rocket = nullptr;
+
+	float m_shootStrength = 0;
+	bool m_loadShootStrength = false;
 };

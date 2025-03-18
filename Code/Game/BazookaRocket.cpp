@@ -61,13 +61,22 @@ void BazookaRocket::CheckCollision()
 	}
 
 	
-	// TODO: Make a real Radius Collision Check instead of an AXIS-Collison Check
+	// TODO: Make a real Radius Collision check instead of an AXIS-Collison check
 	// Check if world collision
 	// horizontal axis
+
+	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
+
 	for (int i = 0; i < m_spriteSizeWorld.x * m_COLLISION_RADIUS_RELATIVE; i++)
 	{
 		sf::Vector2u xOffset = sf::Vector2u(0.5f * (m_spriteSizeWorld.x * m_COLLISION_RADIUS_RELATIVE), 0);
 		screenPosition = m_world->WorldToScreenPosition(worldPosition - xOffset + sf::Vector2u(i, 0));
+
+		if (screenPosition.x >= windowSize.x || screenPosition.x < 0 || screenPosition.y >= windowSize.y || screenPosition.y < 0)
+		{
+			continue;
+		}
+
 		int pixelCheck = *m_world->GetPixelValue(screenPosition);
 		if (pixelCheck == 1)
 		{
@@ -80,6 +89,12 @@ void BazookaRocket::CheckCollision()
 	{
 		sf::Vector2u yOffset = sf::Vector2u(0, 0.5f * (m_spriteSizeWorld.y * m_COLLISION_RADIUS_RELATIVE));
 		screenPosition = m_world->WorldToScreenPosition(worldPosition - yOffset + sf::Vector2u(0, i));
+
+		if (screenPosition.x >= windowSize.x || screenPosition.x < 0 || screenPosition.y >= windowSize.y || screenPosition.y < 0)
+		{
+			continue;
+		}
+
 		int pixelCheck = *m_world->GetPixelValue(screenPosition);
 		if (pixelCheck == 1)
 		{
