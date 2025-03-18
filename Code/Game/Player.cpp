@@ -37,15 +37,6 @@ void Player::EntityInit()
 	m_screenPlayerCollisionWidth = m_spriteSize.x * m_RELATIVE_COLLISION_WIDTH * 0.5f;
 }
 
-void Player::DestroyDerived()
-{
-	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	for (int i = 0; i < 2; i++)
-	{
-		inputManager.UnregisterKeyboardEntry(m_movementKeys[i]);
-	}
-}
-
 void Player::SetInputKeys(std::array<sf::Keyboard::Key, 2>& movementKeys, sf::Keyboard::Key fireKey)
 {
 	m_movementKeys = movementKeys;
@@ -58,6 +49,29 @@ void Player::SetInputKeys(std::array<sf::Keyboard::Key, 2>& movementKeys, sf::Ke
 	}
 
 	inputManager.RegisterKeyboardEntry(fireKey, std::bind(&Player::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
+}
+
+void Player::DestroyDerived()
+{
+	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
+	for (int i = 0; i < 2; i++)
+	{
+		inputManager.UnregisterKeyboardEntry(m_movementKeys[i]);
+	}
+
+	inputManager.UnregisterKeyboardEntry(m_fireKey);
+}
+
+void Player::Update(float deltaTime)
+{
+	if (!GroundedCheck())
+	{
+		ApplyGravity(deltaTime);
+	}
+	else
+	{
+		Move(deltaTime);
+	}
 }
 
 void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
@@ -85,18 +99,6 @@ void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
 	if (key == m_fireKey)
 	{
 		m_bazooka->Fire(sf::Vector2f(1, -1), 400);	
-	}
-}
-
-void Player::Update(float deltaTime)
-{
-	if (!GroundedCheck())
-	{
-		ApplyGravity(deltaTime);
-	}
-	else
-	{
-		Move(deltaTime);
 	}
 }
 

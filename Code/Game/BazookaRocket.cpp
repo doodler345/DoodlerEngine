@@ -1,5 +1,7 @@
 #include "BazookaRocket.h"
 
+#include <numbers>
+
 #include "GameManager.h"
 #include "Scenes/PlayScene.h"
 #include "../../Engine/EntityComponents/SpriteComponent.h"
@@ -29,19 +31,64 @@ void BazookaRocket::Update(float deltaTime)
 	m_velocity += sf::Vector2f(0, 800) * deltaTime; // Applying fake gravity
 	GetTransform().translate(m_velocity * deltaTime);
 
-	m_spriteComponent->m_drawable.setRotation(atan2(m_velocity.y, m_velocity.x) * 180 / 3.14159265f);
+	m_spriteComponent->m_drawable.setRotation(atan2(m_velocity.y, m_velocity.x) * 180 / std::numbers::pi);
 
-	// TODO: Check if at window bounds and destroy
+	// Check if window ground collision
+	sf::Vector2u worldPosition = sf::Vector2u(GetTransform().transformPoint(0, 0));
+	sf::Vector2u screenPosition = m_world->WorldToScreenPosition(worldPosition);
+	if (worldPosition.y >= m_world->m_worldHeight)
+	{
+		Explode(screenPosition);
+		return;
+	}
 
-	int pixelCheck = *m_world->GetPixelValue(m_world->WorldToScreenPosition(sf::Vector2u(GetTransform().transformPoint(0,0))));
+	// Check if world collision
+	int pixelCheck = *m_world->GetPixelValue(screenPosition);
 	if (pixelCheck == 1)
 	{
-		Explode();
+		Explode(screenPosition);
+		return;
 	}
 }
 
-void BazookaRocket::Explode()
+void BazookaRocket::Explode(sf::Vector2u worldPosition)
 {
+	int x;
+	int prevX = worldPosition.x + cos(0) * m_EXPLOSION_RADIUS * -1;
+	int deltaX;
+	for (int i = -m_EXPLOSION_RADIUS; i < m_EXPLOSION_RADIUS; i++)
+	{
+		int xOffset = cos((i + m_EXPLOSION_RADIUS) / (2.0f * m_EXPLOSION_RADIUS) * std::numbers::pi) * m_EXPLOSION_RADIUS * -1;
+		int yMaxOffset = sin((i + m_EXPLOSION_RADIUS) / (2.0f * m_EXPLOSION_RADIUS) * std::numbers::pi) * m_EXPLOSION_RADIUS;
+
+		x = worldPosition.x + xOffset;
+		deltaX = x - prevX;
+
+		// Sometimes deltaX is 0 or 2, because of the Cosine. That can lead to unnecessary calculations, or worse, horizontal gaps 
+		// With substeps this cant happen anymore
+		for (int xSubsteps = 1; xSubsteps < deltaX + 1; xSubsteps++)
+		{
+			for (int yOffset = -yMaxOffset; yOffset < yMaxOffset; yOffset++)
+			{
+				int y = worldPosition.y + yOffset;
+				if (x >= m_world->m_worldWidth || x < 0 || y >= m_world->m_worldHeight || y < 0)
+				{
+					continue;
+				}
+
+				int pixelIndex = y * m_world->m_worldWidth + prevX + xSubsteps;
+
+				m_world->TryDestroyPixel(pixelIndex);
+			}
+		}
+
+
+		prevX = x;
+	}
+
+	m_world->UpdateTexture();
+
+
 	Scene* scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager())->GetCurrentScene();
 	scene->DestroyEntity(this);
 }

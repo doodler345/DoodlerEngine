@@ -11,12 +11,13 @@ public:
 protected:
 	void Update(float deltaTime) override;
 
-	void Explode();
+	void Explode(sf::Vector2u worldPosition);
 
 	void DestroyDerived() override;
 
 private: 
 	const float m_SPRITE_SCALE = 0.75f;
+	const int m_EXPLOSION_RADIUS = 50;
 
 	World* m_world = nullptr;
 	std::shared_ptr<SpriteComponent> m_spriteComponent = nullptr;
