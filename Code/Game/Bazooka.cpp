@@ -3,10 +3,34 @@
 #include "GameManager.h"
 #include "Scenes/PlayScene.h"
 
-void Bazooka::Fire(sf::Vector2f direction, float strength)
+void Bazooka::EntityInit()
+{
+}
+
+void Bazooka::DestroyDerived()
+{
+}
+
+void Bazooka::Update(float deltaTime)
+{
+	if (m_loadShootStrength)
+	{
+		m_shootStrength += deltaTime * 1000;
+	}
+}
+
+void Bazooka::PullTrigger()
+{
+	m_loadShootStrength = true;
+	m_shootStrength = 0;
+}
+
+void Bazooka::Fire(sf::Vector2f direction)
 {
 	Scene* scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager())->GetCurrentScene();
 	BazookaRocket* rocket = scene->Instantiate(BazookaRocket, BazookaRocket);
 	rocket->GetTransform().translate(m_owner->GetTransform().transformPoint(0,0));
-	rocket->Fire(direction, strength);
+	rocket->Fire(direction, m_shootStrength);
+
+	m_loadShootStrength = false;
 }

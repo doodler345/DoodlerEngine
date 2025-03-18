@@ -28,14 +28,14 @@ private:
 	void RotateAimDirection(float deltaTime);
 
 	const float m_RAD45 = sf::degToRad(45);
-	const float m_FALLSPEED = 100;
+	const float m_FALLSPEED = 300;
 	const float m_MOVESPEED = 30;
 	const float m_RELATIVE_WORLD_VERTICAL_CLIMBING_THRESHOLD = 0.6f;
 	const float m_RELATIVE_COLLISION_WIDTH = 0.6f;
 	const float m_SPRITE_SCALE = 1.5f;
 
 	World* m_world = nullptr;
-	std::unique_ptr<Bazooka> m_bazooka = nullptr;
+	Bazooka* m_bazooka = nullptr;
 	std::shared_ptr<SpriteComponent> m_aimDirection = nullptr;
 	sf::Vector2f m_spriteSize;
 	sf::Vector2u m_worldPlayerSize;
@@ -43,7 +43,9 @@ private:
 	int m_worldVeritcalClimbingThreshold;
 
 	sf::Vector2f m_inputMoveDirection = sf::Vector2f(0,0);
+	sf::Vector2f m_inputAimDirection = sf::Vector2f(0,0);
 	bool m_isGrounded = false;
+
 	
 	std::array<sf::Keyboard::Key, 2> m_movementKeys;
 	std::array<sf::Keyboard::Key, 2> m_aimKeys;

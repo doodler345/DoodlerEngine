@@ -32,10 +32,11 @@ void Player::EntityInit()
 	AddComponent(m_aimDirection);
 
 	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
-	m_world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
+	PlayScene* playScene = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene());
+	m_world = playScene->GetWorld();
 	assert(m_world);
 
-	m_bazooka = std::make_unique<Bazooka>();
+	m_bazooka = playScene->Instantiate(Bazooka, Bazooka);
 	m_bazooka->SetOwner(this);
 
 	// Calculating Player World Height
@@ -109,32 +110,35 @@ void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
 
 	if (key == m_aimKeys[0])
 	{
-		m_inputMoveDirection.y += 1 * inverter;
+		m_inputAimDirection.y += 1 * inverter;
 	}
 	else if (key == m_aimKeys[1])
 	{
-		m_inputMoveDirection.y += -1 * inverter;
+		m_inputAimDirection.y += -1 * inverter;
 	}
 
-	if (!keyDown)
+	if (keyDown)
 	{
-		return;
+		if (key == m_fireKey)
+		{
+			m_bazooka->PullTrigger();
+		}
 	}
-
-	if (key == m_fireKey)
+	else
 	{
-		float aimDirectionRotation = m_aimDirection->m_drawable.getRotation();
-		sf::Vector2f shootDirection = sf::Vector2f(cosf(aimDirectionRotation / 360.f * 2 * std::numbers::pi), sinf(aimDirectionRotation / 360.f * 2 * std::numbers::pi));
-		m_bazooka->Fire(shootDirection, 400);
+		if (key == m_fireKey)
+		{
+			float aimDirectionRotation = m_aimDirection->m_drawable.getRotation();
+			sf::Vector2f shootDirection = sf::Vector2f(cosf(aimDirectionRotation / 360.f * 2 * std::numbers::pi), sinf(aimDirectionRotation / 360.f * 2 * std::numbers::pi));
+			m_bazooka->Fire(shootDirection);
+		}
 	}
 }
 
 bool Player::GroundedCheck()
 {
-	sf::Vector2u screenPositionBeneath = GetScreenPosition() + sf::Vector2u(0, m_spriteSize.y * 0.5f);
-
-	sf::Vector2u worldPositionBeneath = m_world->ScreenToWorldPosition(screenPositionBeneath);
-	if (m_world->ScreenToWorldPosition(screenPositionBeneath).y >= m_world->m_worldHeight)
+	sf::Vector2u worldPositionBeneath = m_world->ScreenToWorldPosition(GetScreenPosition()) + sf::Vector2u(0, m_worldPlayerSize.y * 0.5f);
+	if (worldPositionBeneath.y >= m_world->m_worldHeight)
 	{
 		return true;
 	}
@@ -184,6 +188,12 @@ void Player::Move(float deltaTime)
 		int halfWorldPlayerSize = m_worldPlayerSize.y / 2.f;
 		int verticalSampleHeight = -halfWorldPlayerSize + i; // Checking from top to bottom
 		sf::Vector2u worldPositionCheckHorizontalWall = worldHorizontalDestination + sf::Vector2u(0, verticalSampleHeight);
+
+		if (worldPositionCheckHorizontalWall.y >= m_world->m_worldHeight || worldPositionCheckHorizontalWall.y < 0 || worldPositionCheckHorizontalWall.x >= m_world->m_worldWidth || worldPositionCheckHorizontalWall.x < 0)
+		{
+			continue;
+		}
+
 		if (*m_world->GetPixelValue(worldPositionCheckHorizontalWall) != 1) // If there is no wall
 		{
 			continue;
@@ -209,10 +219,10 @@ void Player::Move(float deltaTime)
 
 void Player::RotateAimDirection(float deltaTime)
 {
-	if (m_inputMoveDirection.y == 0)
+	if (m_inputAimDirection.y == 0)
 	{
 		return;
 	}
 
-	m_aimDirection->m_drawable.rotate(-m_inputMoveDirection.y * 100 * deltaTime);
+	m_aimDirection->m_drawable.rotate(-m_inputAimDirection.y * 100 * deltaTime);
 }

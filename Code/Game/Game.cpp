@@ -24,6 +24,7 @@ int main()
     entitiyFactoryManager->REGISTER(GameManager);
     entitiyFactoryManager->REGISTER(Player);
     entitiyFactoryManager->REGISTER(World);
+    entitiyFactoryManager->REGISTER(Bazooka);
     entitiyFactoryManager->REGISTER(BazookaRocket);
     entitiyFactoryManager->REGISTER(BrushTool);
 
