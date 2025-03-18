@@ -11,24 +11,24 @@ void RenderSystem::Update()
 	sf::RenderStates renderState;
 	for (int i = 0; i < m_shaderEntries.size(); i++)
 	{
-		renderState.transform = m_shaderEntries[i].m_owner->GetTransform();
+		renderState.transform = m_shaderEntries[i].m_owner->GetTransformable().getTransform();
 		renderState.shader = m_shaderEntries[i].m_shader;
 		renderWindow.draw(*m_shaderEntries[i].m_drawable, renderState); // ***** Transform missing (maybe)?
 	}
 
 	for (int i = 0; i < m_spriteEntries.size(); i++)
 	{
-		renderWindow.draw(*m_spriteEntries[i].m_drawable, m_spriteEntries[i].m_owner->GetTransform());
+		renderWindow.draw(*m_spriteEntries[i].m_drawable, m_spriteEntries[i].m_owner->GetTransformable().getTransform());
 	}
 
 	for (int i = 0; i < m_shapeEntries.size(); i++)
 	{
-		renderWindow.draw(*m_shapeEntries[i].m_drawable, m_shapeEntries[i].m_owner->GetTransform());
+		renderWindow.draw(*m_shapeEntries[i].m_drawable, m_shapeEntries[i].m_owner->GetTransformable().getTransform());
 	}
 
 	for (int i = 0; i < m_textEntries.size(); i++)
 	{
-		renderWindow.draw(*m_textEntries[i].m_drawable, m_textEntries[i].m_owner->GetTransform());
+		renderWindow.draw(*m_textEntries[i].m_drawable, m_textEntries[i].m_owner->GetTransformable().getTransform());
 	}
 
 

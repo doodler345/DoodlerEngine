@@ -18,7 +18,7 @@ void LevelSelectionScene::Init()
 	// Header Text
 	m_headerText->m_textComponent->SetText("Level-Selection");
 	m_headerText->m_textComponent->SetFontSize(80);
-	m_headerText->GetTransform().translate(Engine::GetInstance()->GetRenderWindow().getSize().x / 2, 100);
+	m_headerText->GetTransformable().move(Engine::GetInstance()->GetRenderWindow().getSize().x / 2, 100);
 
 	// List all levels
 	int levelCount = 0;
@@ -65,7 +65,7 @@ void LevelSelectionScene::Init()
 			column++;
 			row = 1;
 		}
-		buttons[i]->GetTransform().translate(windowSize.x / 5 * column, 170 + 50 * row);
+		buttons[i]->GetTransformable().move(windowSize.x / 5 * column, 170 + 50 * row);
 		row++;
 	}
 }

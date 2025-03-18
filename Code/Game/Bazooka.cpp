@@ -29,7 +29,7 @@ void Bazooka::Fire(sf::Vector2f direction)
 {
 	Scene* scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager())->GetCurrentScene();
 	BazookaRocket* rocket = scene->Instantiate(BazookaRocket, BazookaRocket);
-	rocket->GetTransform().translate(m_owner->GetTransform().transformPoint(0,0));
+	rocket->GetTransformable().move(m_owner->GetTransformable().getPosition());
 	rocket->Fire(direction, m_shootStrength);
 
 	m_loadShootStrength = false;

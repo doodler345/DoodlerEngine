@@ -7,13 +7,13 @@ Entity::~Entity()
 
 void Entity::EntityUpdate(float deltaTime)
 {
-	if (m_parent != nullptr)
-	{
-		sf::Vector2u m_parentScreenPositionDelta = sf::Vector2u(m_parent->GetScreenPosition() - m_parentLastScreenPosition);
-		std::cout << m_parentScreenPositionDelta.x << " " << m_parentScreenPositionDelta.y << std::endl;
-		m_transform.translate(sf::Vector2f(m_parentScreenPositionDelta));
-		m_parentLastScreenPosition = m_parent->GetScreenPosition();
-	}
+	//if (m_parent != nullptr)
+	//{
+	//	sf::Vector2u m_parentScreenPositionDelta = sf::Vector2u(m_parent->GetScreenPosition() - m_parentLastScreenPosition);
+	//	std::cout << m_parentScreenPositionDelta.x << " " << m_parentScreenPositionDelta.y << std::endl;
+	//	m_transformable.translate(sf::Vector2f(m_parentScreenPositionDelta));
+	//	m_parentLastScreenPosition = m_parent->GetScreenPosition();
+	//}
 
 	Update(deltaTime);
 
@@ -42,15 +42,9 @@ void Entity::SetParent(Entity* parent)
 	m_parentLastScreenPosition = m_parent->GetScreenPosition();
 }
 
-void Entity::OnInputRecieved(sf::Vector2f direction)
-{
-	m_transform.translate(direction);
-}
-
 sf::Vector2u Entity::GetScreenPosition()
 {
-	const float* matrix = GetTransform().getMatrix();
-	return sf::Vector2u(matrix[12], matrix[13]);
+	return sf::Vector2u(m_transformable.getPosition());
 }
 
 EntityComponent::~EntityComponent()

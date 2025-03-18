@@ -15,7 +15,7 @@ void BrushTool::EntityInit()
 	circle->setOutlineColor(sf::Color(0, 0, 0, 0));
 	circle->setOutlineThickness(m_outlineThickness);
 
-	Engine::GetInstance()->GetInputManager().RegisterMouseScrollEntry(&GetTransform(), std::bind(&BrushTool::ChangeRadius, this, std::placeholders::_1));
+	Engine::GetInstance()->GetInputManager().RegisterMouseScrollEntry(&GetTransformable(), std::bind(&BrushTool::ChangeRadius, this, std::placeholders::_1));
 }
 
 void BrushTool::Setup(World* worldGenerationImage, Text* radiusInfo)
@@ -34,8 +34,8 @@ void BrushTool::Activate(bool isActive)
 	m_isActive = isActive;
 	if (isActive) 
 	{
-		const float* matrix = GetTransform().getMatrix();
-		m_prevMousePos = sf::Vector2i(matrix[12], matrix[13]);
+		sf::Vector2f position = GetTransformable().getPosition();
+		m_prevMousePos = sf::Vector2i(position);
 		m_circleComponent->GetCircle()->setOutlineColor(m_circleColor);
 	}
 	else
@@ -78,7 +78,7 @@ void BrushTool::Update(float deltaTime)
 	m_deltaMousePos = m_mousePos - m_prevMousePos;
 	m_prevMousePos = m_mousePos;
 
-	GetTransform().translate((sf::Vector2f)m_deltaMousePos); //brushTool is owner of circle --> moves circle
+	GetTransformable().move((sf::Vector2f)m_deltaMousePos); //brushTool is owner of circle --> moves circle
 
 	if (m_isDrawing || m_eraseMode)
 	{
@@ -144,5 +144,5 @@ void BrushTool::Update(float deltaTime)
 
 void BrushTool::DestroyDerived()
 {
-	Engine::GetInstance()->GetInputManager().UnregisterMouseScrollEntry(&GetTransform());
+	Engine::GetInstance()->GetInputManager().UnregisterMouseScrollEntry(&GetTransformable());
 }

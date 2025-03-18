@@ -37,14 +37,14 @@ void BazookaRocket::Update(float deltaTime)
 void BazookaRocket::Move(float deltaTime)
 {
 	m_velocity += sf::Vector2f(0, 800) * deltaTime; // Applying fake gravity
-	GetTransform().translate(m_velocity * deltaTime);
+	GetTransformable().move(m_velocity * deltaTime);
 
 	m_spriteComponent->m_drawable.setRotation(atan2(m_velocity.y, m_velocity.x) * 180 / std::numbers::pi);
 }
 
 void BazookaRocket::CheckCollision()
 {
-	sf::Vector2u worldPosition = sf::Vector2u(GetTransform().transformPoint(0, 0));
+	sf::Vector2u worldPosition = sf::Vector2u(GetTransformable().getPosition());
 
 	// HACK: avoid undefined behavior if y < 0 (at ceiling)
 	if (worldPosition.y > 10000000) 

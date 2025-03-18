@@ -86,13 +86,13 @@ void InputManager::Update(float mouseScrollDelta)
 	{
 		RectangleEntry& entry = m_rectangleEntries[i];
 		const sf::FloatRect floatRect = entry.m_rect->getGlobalBounds();
-		const float* matrix = entry.m_transform->getMatrix();
+		sf::Vector2f entryPosition = entry.m_transformable->getPosition();
 
 		// Hover-check (AABB)
-		if (mousePos.x < (matrix[12] - floatRect.left) &&	//right
-			mousePos.x >(matrix[12] + floatRect.left) &&	//left
-			mousePos.y < (matrix[13] - floatRect.top) &&	//down
-			mousePos.y >(matrix[13] + floatRect.top))		//up
+		if (mousePos.x < (entryPosition.x - floatRect.left) &&	//right
+			mousePos.x >(entryPosition.x + floatRect.left) &&	//left
+			mousePos.y < (entryPosition.y - floatRect.top) &&	//down
+			mousePos.y >(entryPosition.y + floatRect.top))		//up
 		{
 			if (!entry.m_hover)
 			{
@@ -210,13 +210,14 @@ void InputManager::Update(float mouseScrollDelta)
 
 		// check if clicked out of InputField 
 		sf::FloatRect rect = m_activeInputField->GetComponent<RectangleComponent>()->GetRectangle()->getGlobalBounds();
-		const float* matrix = m_activeInputField->GetTransform().getMatrix();
+		sf::Vector2f entryPosition = m_activeInputField->GetTransformable().getPosition();
+
 
 			// inverted Hover-check (AABB)
-		if (mousePos.x >= (matrix[12] - rect.left) ||	//right
-			mousePos.x <= (matrix[12] + rect.left) ||	//left
-			mousePos.y >= (matrix[13] - rect.top)  ||	//down
-			mousePos.y <  (matrix[13] + rect.top))		//up
+		if (mousePos.x >= (entryPosition.x - rect.left) ||	//right
+			mousePos.x <= (entryPosition.x + rect.left) ||	//left
+			mousePos.y >= (entryPosition.y - rect.top) ||	//down
+			mousePos.y <  (entryPosition.y + rect.top))		//up
 		{
 			if (IsMousePressedDown(sf::Mouse::Left))
 			{
@@ -287,7 +288,7 @@ void InputManager::RegisterRectangleEntry(Button* button)
 	newEntry.m_id = m_rectangleEntryIDCounter++;
 	newEntry.m_mouseButtonToListen = sf::Mouse::Left;
 	newEntry.m_button = button;
-	newEntry.m_transform = &button->GetTransform();
+	newEntry.m_transformable = &button->GetTransformable();
 	newEntry.m_rect = button->GetComponent<RectangleComponent>()->GetRectangle();
 	newEntry.m_rectangleCallback = std::bind(&InputManager::OnEmptyRectangleCallback, this, std::placeholders::_1, std::placeholders::_2);
 	m_rectangleEntries.push_back(newEntry);
@@ -301,7 +302,7 @@ void InputManager::RegisterRectangleEntry(InputField* inputField)
 	newEntry.m_id = m_rectangleEntryIDCounter++;
 	newEntry.m_mouseButtonToListen = sf::Mouse::Left;
 	newEntry.m_inputField = inputField;
-	newEntry.m_transform = &inputField->GetTransform();
+	newEntry.m_transformable = &inputField->GetTransformable();
 	newEntry.m_rect = inputField->GetComponent<RectangleComponent>()->GetRectangle();
 	newEntry.m_rectangleCallback = std::bind(&InputManager::OnEmptyRectangleCallback, this, std::placeholders::_1, std::placeholders::_2);
 	m_rectangleEntries.push_back(newEntry);
@@ -309,12 +310,12 @@ void InputManager::RegisterRectangleEntry(InputField* inputField)
 	DebugPrint("Registered RectangleEntry (id: " + std::to_string(newEntry.m_id) + ") (InputField)", TextColor::Green, DebugChannel::InputManager, __FILE__, __LINE__); //***** get Key to string for Print
 }
 
-void InputManager::RegisterRectangleEntry(MOUSE::Button buttonOfInteresst, sf::Transform* transform, sf::RectangleShape* rect, RectangleCallback callback)
+void InputManager::RegisterRectangleEntry(MOUSE::Button buttonOfInteresst, sf::Transformable* transformable, sf::RectangleShape* rect, RectangleCallback callback)
 {
 	RectangleEntry newEntry;
 	newEntry.m_id = m_rectangleEntryIDCounter++;
 	newEntry.m_mouseButtonToListen = buttonOfInteresst;
-	newEntry.m_transform = transform;
+	newEntry.m_transformable = transformable;
 	newEntry.m_rect = rect;
 	newEntry.m_rectangleCallback = callback;
 	m_rectangleEntries.push_back(newEntry);
@@ -322,11 +323,11 @@ void InputManager::RegisterRectangleEntry(MOUSE::Button buttonOfInteresst, sf::T
 	DebugPrint("Registered RectangleEntry (id: " + std::to_string(newEntry.m_id) + ") (Clickable)", TextColor::Green, DebugChannel::InputManager, __FILE__, __LINE__); //***** get Key to string for Print
 }
 
-void InputManager::RegisterMouseScrollEntry(sf::Transform* transform, MouseScrollCallback callback)
+void InputManager::RegisterMouseScrollEntry(sf::Transformable* transformable, MouseScrollCallback callback)
 {
 	MouseScrollListenerEntry newEntry;
 	newEntry.m_id = m_mouseScrollEntryIDCounter++;
-	newEntry.m_transform = transform;
+	newEntry.m_transformable = transformable;
 	newEntry.m_mouseScrollCallback = callback;
 	m_mouseScrollEntries.push_back(newEntry);
 
@@ -347,11 +348,11 @@ void InputManager::UnregisterKeyboardEntry(const KEY keyOfInterest)
 	DebugPrint("No such Key to unregister!", TextColor::Red, DebugChannel::InputManager, __FILE__, __LINE__, 1); //***** get Key to string for Print
 }
 
-void InputManager::UnregisterRectangleEntry(sf::Transform* transform)
+void InputManager::UnregisterRectangleEntry(sf::Transformable* transformable)
 {
 	for (int i = 0; i < m_rectangleEntries.size(); i++)
 	{
-		if (m_rectangleEntries[i].m_transform == transform)
+		if (m_rectangleEntries[i].m_transformable == transformable)
 		{
 			DebugPrint("Unregistered RectangleEntry " + m_rectangleEntries[i].m_name + " (id: " + std::to_string(m_rectangleEntries[i].m_id) + ")", TextColor::Yellow, DebugChannel::InputManager, __FILE__, __LINE__);
 			m_rectangleEntries.erase(m_rectangleEntries.begin() + i);
@@ -361,11 +362,11 @@ void InputManager::UnregisterRectangleEntry(sf::Transform* transform)
 	DebugPrint("No such RectangleEntry to unregister!", TextColor::Red, DebugChannel::InputManager, __FILE__, __LINE__, 1); 
 }
 
-void InputManager::UnregisterMouseScrollEntry(sf::Transform* transform)
+void InputManager::UnregisterMouseScrollEntry(sf::Transformable* transformable)
 {
 	for (int i = 0; i < m_mouseScrollEntries.size(); i++)
 	{
-		if (m_mouseScrollEntries[i].m_transform == transform)
+		if (m_mouseScrollEntries[i].m_transformable == transformable)
 		{
 			DebugPrint("Unregistered MouseScrollEntry " + m_mouseScrollEntries[i].m_name + " (id: " + std::to_string(m_mouseScrollEntries[i].m_id) + ")", TextColor::Yellow, DebugChannel::InputManager, __FILE__, __LINE__);
 			m_mouseScrollEntries.erase(m_mouseScrollEntries.begin() + i);

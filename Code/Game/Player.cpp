@@ -88,7 +88,7 @@ void Player::Update(float deltaTime)
 	{
 		m_velocity.x = 0;
 		ApplyGravity(deltaTime);
-		m_transform.translate(m_velocity);
+		m_transformable.move(m_velocity);
 
 		//m_aimDirection->SetVisibility(false);
 	}
@@ -101,8 +101,8 @@ void Player::Update(float deltaTime)
 		RotateAimDirection(deltaTime);
 	}
 
-	m_transform.translate(m_velocity);
-	//m_aimDirectionHolder->GetTransform().translate(m_velocity);
+	m_transformable.move(m_velocity);
+	//m_aimDirectionHolder->GetTransform().move(m_velocity);
 	//std::cout << std::to_string(m_aimDirectionHolder->GetScreenPosition().x) + " " + std::to_string(m_aimDirectionHolder->GetScreenPosition().y) << std::endl;
 }
 
@@ -228,7 +228,7 @@ void Player::Move(float deltaTime)
 
 	m_velocity = moveDirection * m_MOVESPEED * deltaTime;
 
-	m_transform.translate(worldClimbValue);
+	m_transformable.move(worldClimbValue);
 }
 
 void Player::RotateAimDirection(float deltaTime)

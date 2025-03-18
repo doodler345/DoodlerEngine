@@ -41,7 +41,7 @@ struct MouseButtonEntry : Entry
 
 struct MouseScrollListenerEntry : Entry
 {
-	sf::Transform* m_transform;
+	sf::Transformable* m_transformable;
 	MouseScrollCallback m_mouseScrollCallback;
 };
 
@@ -50,7 +50,7 @@ struct MouseScrollListenerEntry : Entry
 struct RectangleEntry : Entry
 {
 	MOUSE::Button m_mouseButtonToListen;
-	sf::Transform* m_transform;
+	sf::Transformable* m_transformable;
 	sf::RectangleShape* m_rect;
 	RectangleCallback m_rectangleCallback;
 	Button* m_button = nullptr;
@@ -76,12 +76,12 @@ public:
 	void RegisterKeyboardEntry(KEY keyOfInterest, KeyboardCallback callback);
 	void RegisterRectangleEntry(Button* button);
 	void RegisterRectangleEntry(InputField* inputField);
-	void RegisterRectangleEntry(MOUSE::Button buttonOfInteresst, sf::Transform* transform, sf::RectangleShape* rect, RectangleCallback callback);
-	void RegisterMouseScrollEntry(sf::Transform* transform, MouseScrollCallback callback);
-	
+	void RegisterRectangleEntry(MOUSE::Button buttonOfInteresst, sf::Transformable* transformable, sf::RectangleShape* rect, RectangleCallback callback);
+	void RegisterMouseScrollEntry(sf::Transformable* transformable, MouseScrollCallback callback);
+
 	void UnregisterKeyboardEntry(KEY keyOfInterest);
-	void UnregisterRectangleEntry(sf::Transform* transform); 
-	void UnregisterMouseScrollEntry(sf::Transform* transform); 
+	void UnregisterRectangleEntry(sf::Transformable* transformable);
+	void UnregisterMouseScrollEntry(sf::Transformable* transformable);
 
 	sf::Vector2i GetMousePos();
 

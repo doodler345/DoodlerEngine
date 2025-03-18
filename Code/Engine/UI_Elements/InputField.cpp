@@ -121,5 +121,5 @@ void InputField::UpdateText()
 void InputField::DestroyDerived()
 {
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	inputManager.UnregisterRectangleEntry(&GetTransform());
+	inputManager.UnregisterRectangleEntry(&GetTransformable());
 }

@@ -14,7 +14,7 @@ void PlayScene::SetWorld(std::string bmpFilePath)
 	const char* path = strPath.c_str();
 	world->Setup(path);
 
-	world->GetTransform().translate(window.getSize().x / 2, window.getSize().y / 2);
+	world->GetTransformable().move(window.getSize().x / 2, window.getSize().y / 2);
 	world->UpdateTexture();
 	world->Colorize(true);
 	m_world = world;
@@ -48,7 +48,7 @@ void PlayScene::Init()
 	};
 
 	player->SetInputKeys(movementKeysPlayer1, aimKeysPlayer1, KEY::Space);
-	player->GetTransform().translate(sf::Vector2f(window.getSize().x / 5, window.getSize().y / 5));
+	player->GetTransformable().move(sf::Vector2f(window.getSize().x / 5, window.getSize().y / 5));
 
 
 	//Player 2

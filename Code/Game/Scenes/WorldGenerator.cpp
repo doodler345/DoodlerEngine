@@ -25,8 +25,8 @@ WorldGenerator::~WorldGenerator()
 	DebugPrint("Destroying derived Scene " + m_name, TextColor::Blue, DebugChannel::Game, __FILE__, __LINE__);
 
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	inputManager.UnregisterRectangleEntry(&m_worldGenerationImage->GetTransform());
-	inputManager.UnregisterRectangleEntry(&m_worldGenerationImage->GetTransform());
+	inputManager.UnregisterRectangleEntry(&m_worldGenerationImage->GetTransformable());
+	inputManager.UnregisterRectangleEntry(&m_worldGenerationImage->GetTransformable());
 }
 
 void WorldGenerator::Init()
@@ -64,10 +64,10 @@ void WorldGenerator::Init()
 	m_groundHeights.resize(window.getSize().x);
 
 	inputManager.RegisterRectangleEntry(
-		sf::Mouse::Button::Left, &m_worldGenerationImage->GetTransform(), m_worldGenerationImage->GetComponent<RectangleComponent>()->GetRectangle(),
+		sf::Mouse::Button::Left, &m_worldGenerationImage->GetTransformable(), m_worldGenerationImage->GetComponent<RectangleComponent>()->GetRectangle(),
 		std::bind(&WorldGenerator::OnDraw, this, std::placeholders::_1, std::placeholders::_2));
 	inputManager.RegisterRectangleEntry(
-		sf::Mouse::Button::Right, &m_worldGenerationImage->GetTransform(), m_worldGenerationImage->GetComponent<RectangleComponent>()->GetRectangle(),
+		sf::Mouse::Button::Right, &m_worldGenerationImage->GetTransformable(), m_worldGenerationImage->GetComponent<RectangleComponent>()->GetRectangle(),
 		std::bind(&WorldGenerator::OnErase, this, std::placeholders::_1, std::placeholders::_2));
 
 
@@ -152,26 +152,26 @@ void WorldGenerator::Init()
 	float ySave = window.getSize().y * 0.95f;
 	float yOffset = window.getSize().y * 0.05f;
 
-	m_worldGenerationImage->GetTransform().translate(window.getSize().x * 0.6f, window.getSize().y * 0.5f);
+	m_worldGenerationImage->GetTransformable().move(window.getSize().x * 0.6f, window.getSize().y * 0.5f);
 	m_worldGenerationImage->Scale(0.7f);
 
-	m_inputField->GetTransform().translate(window.getSize().x * 0.5f, ySave);
+	m_inputField->GetTransformable().move(window.getSize().x * 0.5f, ySave);
 
 	m_sliderDensity->Translate(xUISettings + 70, yDensity);
 	m_sliderIterationSteps->Translate(xUISettings + 70, yIterationSteps);
 
 	indexer = 0;
-	buttons[indexer++]->GetTransform().translate(xUISettings, yGenerate);
-	buttons[indexer++]->GetTransform().translate(xUISettings, yIterate + yOffset);
-	buttons[indexer++]->GetTransform().translate(xUISettings, yBrush);
-	buttons[indexer++]->GetTransform().translate(xUISettings - 50, yUndo);
-	buttons[indexer++]->GetTransform().translate(xUISettings + 50, yUndo);
-	buttons[indexer++]->GetTransform().translate(window.getSize().x * 0.5f + 150, ySave);
+	buttons[indexer++]->GetTransformable().move(xUISettings, yGenerate);
+	buttons[indexer++]->GetTransformable().move(xUISettings, yIterate + yOffset);
+	buttons[indexer++]->GetTransformable().move(xUISettings, yBrush);
+	buttons[indexer++]->GetTransformable().move(xUISettings - 50, yUndo);
+	buttons[indexer++]->GetTransformable().move(xUISettings + 50, yUndo);
+	buttons[indexer++]->GetTransformable().move(window.getSize().x * 0.5f + 150, ySave);
 
-	m_densityInfo->GetTransform().translate(xUISettings - 50, yDensity);
-	m_itterationInfo->GetTransform().translate(xUISettings, yIterate);
-	m_itterationStepsInfo->GetTransform().translate(xUISettings - 50, yIterationSteps);
-	m_brushRadiusInfo->GetTransform().translate(xUISettings, yBrush + yOffset * 1.3f);
+	m_densityInfo->GetTransformable().move(xUISettings - 50, yDensity);
+	m_itterationInfo->GetTransformable().move(xUISettings, yIterate);
+	m_itterationStepsInfo->GetTransformable().move(xUISettings - 50, yIterationSteps);
+	m_brushRadiusInfo->GetTransformable().move(xUISettings, yBrush + yOffset * 1.3f);
 
 
 

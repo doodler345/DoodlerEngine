@@ -50,10 +50,9 @@ public:
 	void RemoveComponent();
 	template<typename T>
 	T* GetComponent();
-	void OnInputRecieved(sf::Vector2f direction);
 
 	sf::Vector2u GetScreenPosition();
-	sf::Transform& GetTransform() { return m_transform; }
+	sf::Transformable& GetTransformable() { return m_transformable; }
 	
 
 protected:
@@ -62,7 +61,7 @@ protected:
 
 	std::string m_name;
 	int m_id = -1;
-	sf::Transform m_transform;
+	sf::Transformable m_transformable;
 
 private:
 	std::vector<std::shared_ptr<EntityComponent>> entityComponents;

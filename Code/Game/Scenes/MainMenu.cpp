@@ -26,9 +26,9 @@ void MainMenu::Init()
 	sf::Vector2f windowCenter = sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2);
 
 	int yOffset = 100;
-	buttons[0]->GetTransform().translate(windowCenter - sf::Vector2f(0, yOffset));
-	buttons[1]->GetTransform().translate(windowCenter);
-	buttons[2]->GetTransform().translate(windowCenter + sf::Vector2f(0, yOffset));
+	buttons[0]->GetTransformable().move(windowCenter - sf::Vector2f(0, yOffset));
+	buttons[1]->GetTransformable().move(windowCenter);
+	buttons[2]->GetTransformable().move(windowCenter + sf::Vector2f(0, yOffset));
 
 	buttons[0]->SetFontSize(64);
 	buttons[1]->SetFontSize(64);

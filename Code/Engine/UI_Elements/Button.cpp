@@ -157,5 +157,5 @@ void Button::Submit()
 void Button::DestroyDerived()
 {
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	inputManager.UnregisterRectangleEntry(&GetTransform());
+	inputManager.UnregisterRectangleEntry(&GetTransformable());
 }

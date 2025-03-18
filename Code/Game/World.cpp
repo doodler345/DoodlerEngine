@@ -49,7 +49,7 @@ void World::EntityInit()
 
 void World::Scale(float factor)
 {
-	GetTransform().scale(factor, factor);
+	GetTransformable().scale(factor, factor);
 	m_rectangleComponent->GetRectangle()->setSize((sf::Vector2f)m_shaderSpaceSize * factor);
 	m_rectangleComponent->Center();
 
@@ -620,12 +620,12 @@ void World::TryDestroyPixel(int index)
 
 void World::UpdateBorders()
 {
-	const float* imageMatrix = GetTransform().getMatrix();
+	sf::Vector2f position = GetTransformable().getPosition();
 	sf::FloatRect imageRect = GetComponent<RectangleComponent>()->GetRectangle()->getGlobalBounds();
-	m_worldImageBorders[0] = imageMatrix[12] + imageRect.left;
-	m_worldImageBorders[1] = imageMatrix[12] - imageRect.left;
-	m_worldImageBorders[2] = imageMatrix[13] + imageRect.top;
-	m_worldImageBorders[3] = imageMatrix[13] - imageRect.top;
+	m_worldImageBorders[0] = position.x + imageRect.left;
+	m_worldImageBorders[1] = position.x - imageRect.left;
+	m_worldImageBorders[2] = position.y + imageRect.top;
+	m_worldImageBorders[3] = position.y - imageRect.top;
 }
 
 void World::DestroyDerived()

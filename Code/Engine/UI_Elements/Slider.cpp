@@ -36,13 +36,13 @@ void Slider::Setup(Empty* handlerOwner, sf::Vector2f size, ValueChangedCallback 
 	m_rectangleBackground->Center();
 	m_rectangleHandler->Center();
 
-	inputManager.RegisterRectangleEntry(sf::Mouse::Button::Left, &m_rectangleHandlerOwner->GetTransform(), m_rectangleHandler->GetRectangle(), std::bind(&Slider::OnClick, this, std::placeholders::_1, std::placeholders::_2));
+	inputManager.RegisterRectangleEntry(sf::Mouse::Button::Left, &m_rectangleHandlerOwner->GetTransformable(), m_rectangleHandler->GetRectangle(), std::bind(&Slider::OnClick, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Slider::Translate(float x, float y)
 {
-	GetTransform().translate(x, y);
-	m_rectangleHandlerOwner->GetTransform().translate(x, y);
+	GetTransformable().move(x, y);
+	m_rectangleHandlerOwner->GetTransformable().move(x, y);
 }
 
 void Slider::SetValue(float relValue)
@@ -58,7 +58,7 @@ void Slider::SetValue(float relValue)
 	int possibleTravelAreaX = backgroundSize.x - handlerSize.x;
 
 	float handlerTargetLocationX = backgroundPos.x - 0.5f * backgroundSize.x + 0.5f * handlerSize.x + possibleTravelAreaX * relValue;
-	m_rectangleHandlerOwner->GetTransform().translate(sf::Vector2f(handlerTargetLocationX - handlerPos.x, 0));
+	m_rectangleHandlerOwner->GetTransformable().move(sf::Vector2f(handlerTargetLocationX - handlerPos.x, 0));
 
 	valueChangedCallback(m_currentValue);
 }
@@ -91,7 +91,7 @@ void Slider::Update(float deltaTime)
 			sliderNextPos.x = (backgroundPos.x + 0.5f * backgroundSize.x) - (handlerPos.x + 0.5f * handlerSize.x);
 		}
 
-		m_rectangleHandlerOwner->GetTransform().translate(sf::Vector2f(sliderNextPos.x, 0));
+		m_rectangleHandlerOwner->GetTransformable().move(sf::Vector2f(sliderNextPos.x, 0));
 
 		handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
 		int possibleTravelAreaX = backgroundSize.x - handlerSize.x; 
@@ -115,6 +115,6 @@ void Slider::OnClick(sf::Vector2f mousePos, bool isPressedDown)
 void Slider::DestroyDerived()
 {
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	inputManager.UnregisterRectangleEntry(&m_rectangleHandlerOwner->GetTransform());
+	inputManager.UnregisterRectangleEntry(&m_rectangleHandlerOwner->GetTransformable());
 	//inputManager.UnregisterRectangleEntry(&m_rectangleBackground->GetTransform());
 }
