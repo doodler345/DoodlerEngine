@@ -286,7 +286,7 @@ sf::Vector2u World::ScreenToWorldPosition(sf::Vector2u screenPosition)
 	return worldPosition;
 }
 
-sf::Vector2u World::WorldToScreenPosition(sf::Vector2u worldPosition)
+sf::Vector2i World::WorldToScreenPosition(sf::Vector2u worldPosition)
 {
 	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
 	
@@ -294,7 +294,7 @@ sf::Vector2u World::WorldToScreenPosition(sf::Vector2u worldPosition)
 	windowPositionRelative.x = worldPosition.x / (float)windowSize.x;
 	windowPositionRelative.y = worldPosition.y / (float)windowSize.y;
 
-	sf::Vector2u screenPosition;
+	sf::Vector2i screenPosition;
 	screenPosition.x = windowSize.x * windowPositionRelative.x;
 	screenPosition.y = windowSize.y * windowPositionRelative.y;
 

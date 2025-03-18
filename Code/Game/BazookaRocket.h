@@ -13,7 +13,7 @@ protected:
 
 	void Move(float deltaTime);
 	void CheckCollision();
-	void Explode(sf::Vector2u worldPosition);
+	void Explode(sf::Vector2i worldPosition);
 
 	void DestroyDerived() override;
 

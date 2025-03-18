@@ -44,16 +44,10 @@ void BazookaRocket::Move(float deltaTime)
 
 void BazookaRocket::CheckCollision()
 {
-	sf::Vector2u worldPosition = sf::Vector2u(GetTransformable().getPosition());
-
-	// HACK: avoid undefined behavior if y < 0 (at ceiling)
-	if (worldPosition.y > 10000000) 
-	{
-		return;
-	}
+	sf::Vector2i worldPosition = sf::Vector2i(GetTransformable().getPosition());
 
 	// Check if window ground collision
-	sf::Vector2u screenPosition = m_world->WorldToScreenPosition(worldPosition);
+	sf::Vector2i screenPosition = m_world->WorldToScreenPosition(sf::Vector2u(worldPosition));
 	if (worldPosition.y >= m_world->m_worldHeight) 
 	{
 		Explode(screenPosition);
@@ -69,15 +63,15 @@ void BazookaRocket::CheckCollision()
 
 	for (int i = 0; i < m_spriteSizeWorld.x * m_COLLISION_RADIUS_RELATIVE; i++)
 	{
-		sf::Vector2u xOffset = sf::Vector2u(0.5f * (m_spriteSizeWorld.x * m_COLLISION_RADIUS_RELATIVE), 0);
-		screenPosition = m_world->WorldToScreenPosition(worldPosition - xOffset + sf::Vector2u(i, 0));
+		sf::Vector2i xOffset = sf::Vector2i(0.5f * (m_spriteSizeWorld.x * m_COLLISION_RADIUS_RELATIVE), 0);
+		screenPosition = m_world->WorldToScreenPosition(sf::Vector2u(worldPosition - xOffset + sf::Vector2i(i, 0)));
 
 		if (screenPosition.x >= windowSize.x || screenPosition.x < 0 || screenPosition.y >= windowSize.y || screenPosition.y < 0)
 		{
 			continue;
 		}
 
-		int pixelCheck = *m_world->GetPixelValue(screenPosition);
+		int pixelCheck = *m_world->GetPixelValue(sf::Vector2u(screenPosition));
 		if (pixelCheck == 1)
 		{
 			Explode(screenPosition);
@@ -87,15 +81,15 @@ void BazookaRocket::CheckCollision()
 	// vertical axis
 	for (int i = 0; i < m_spriteSizeWorld.y * m_COLLISION_RADIUS_RELATIVE; i++)
 	{
-		sf::Vector2u yOffset = sf::Vector2u(0, 0.5f * (m_spriteSizeWorld.y * m_COLLISION_RADIUS_RELATIVE));
-		screenPosition = m_world->WorldToScreenPosition(worldPosition - yOffset + sf::Vector2u(0, i));
+		sf::Vector2i yOffset = sf::Vector2i(0, 0.5f * (m_spriteSizeWorld.y * m_COLLISION_RADIUS_RELATIVE));
+		screenPosition = m_world->WorldToScreenPosition(sf::Vector2u(worldPosition - yOffset + sf::Vector2i(0, i)));
 
 		if (screenPosition.x >= windowSize.x || screenPosition.x < 0 || screenPosition.y >= windowSize.y || screenPosition.y < 0)
 		{
 			continue;
 		}
 
-		int pixelCheck = *m_world->GetPixelValue(screenPosition);
+		int pixelCheck = *m_world->GetPixelValue(sf::Vector2u(screenPosition));
 		if (pixelCheck == 1)
 		{
 			Explode(screenPosition);
@@ -104,7 +98,7 @@ void BazookaRocket::CheckCollision()
 	}
 }
 
-void BazookaRocket::Explode(sf::Vector2u worldPosition)
+void BazookaRocket::Explode(sf::Vector2i worldPosition)
 {
 	int x;
 	int prevX = worldPosition.x + cos(0) * m_EXPLOSION_RADIUS * -1;

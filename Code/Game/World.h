@@ -22,7 +22,7 @@ public:
 
 	int* GetPixelValue(const sf::Vector2u& worldPositon);
 	sf::Vector2u ScreenToWorldPosition(sf::Vector2u screenPosition);
-	sf::Vector2u WorldToScreenPosition(sf::Vector2u worldPosition);
+	sf::Vector2i WorldToScreenPosition(sf::Vector2u worldPosition);
 
 	bool* GetNeighbours(int index, bool onlyLeftandRight = false); //TODO: add onlyUpAndDown (e.g. for gras)
 	bool* GetNeighbours2(int index, bool onlyLeftandRight = false);

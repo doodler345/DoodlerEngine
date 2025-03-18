@@ -84,6 +84,7 @@ void Player::DestroyDerived()
 
 void Player::Update(float deltaTime)
 {
+
 	if (!GroundedCheck())
 	{
 		m_velocity.x = 0;
@@ -214,7 +215,7 @@ void Player::Move(float deltaTime)
 
 		if (i >= m_worldVeritcalClimbingThreshold)
 		{
-			sf::Vector2u screenPositionCheckHorizontalWall = m_world->WorldToScreenPosition(worldPositionCheckHorizontalWall + sf::Vector2u(0,1));
+			sf::Vector2i screenPositionCheckHorizontalWall = m_world->WorldToScreenPosition(sf::Vector2u(worldPositionCheckHorizontalWall + sf::Vector2u(0,1)));
 			float verticalClimbValue = (GetScreenPosition().y + 0.5*m_spriteSize.y) - screenPositionCheckHorizontalWall.y;
 			worldClimbValue.y = -verticalClimbValue; 
 			break;
