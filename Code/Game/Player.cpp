@@ -84,13 +84,19 @@ void Player::Update(float deltaTime)
 {
 	if (!GroundedCheck())
 	{
+		m_velocity.x = 0;
 		ApplyGravity(deltaTime);
+		m_transform.translate(m_velocity);
 	}
 	else
 	{
+		m_velocity = sf::Vector2f(0,0);
 		Move(deltaTime);
+
 		RotateAimDirection(deltaTime);
 	}
+
+	m_transform.translate(m_velocity);
 }
 
 void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
@@ -160,7 +166,7 @@ bool Player::GroundedCheck()
 void Player::ApplyGravity(float deltaTime)
 {
 	//std::cout << "Falling";
-	m_transform.translate(sf::Vector2f(0, 1) * m_FALLSPEED * deltaTime);
+	m_velocity += sf::Vector2f(0, m_FALLSPEED) * deltaTime;
 }
 
 void Player::Move(float deltaTime)
@@ -213,8 +219,9 @@ void Player::Move(float deltaTime)
 		}
 	}
 
-	sf::Vector2f newScreenPosition = moveDirection * m_MOVESPEED * deltaTime + worldClimbValue;
-	m_transform.translate(newScreenPosition);
+	m_velocity = moveDirection * m_MOVESPEED * deltaTime;
+
+	m_transform.translate(worldClimbValue);
 }
 
 void Player::RotateAimDirection(float deltaTime)

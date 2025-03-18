@@ -28,7 +28,7 @@ private:
 	void RotateAimDirection(float deltaTime);
 
 	const float m_RAD45 = sf::degToRad(45);
-	const float m_FALLSPEED = 300;
+	const float m_FALLSPEED = 0.2f;
 	const float m_MOVESPEED = 30;
 	const float m_RELATIVE_WORLD_VERTICAL_CLIMBING_THRESHOLD = 0.6f;
 	const float m_RELATIVE_COLLISION_WIDTH = 0.6f;
@@ -44,9 +44,10 @@ private:
 
 	sf::Vector2f m_inputMoveDirection = sf::Vector2f(0,0);
 	sf::Vector2f m_inputAimDirection = sf::Vector2f(0,0);
+	sf::Vector2f m_velocity;
 	bool m_isGrounded = false;
+	float m_dragTimer = 0;
 
-	
 	std::array<sf::Keyboard::Key, 2> m_movementKeys;
 	std::array<sf::Keyboard::Key, 2> m_aimKeys;
 	sf::Keyboard::Key m_fireKey;
