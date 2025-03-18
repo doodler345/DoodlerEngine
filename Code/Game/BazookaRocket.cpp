@@ -10,7 +10,7 @@ void BazookaRocket::EntityInit()
 {
 	DebugPrint("BazookaRocket " + std::to_string(m_id) + " spawned", TextColor::Green, DebugChannel::Entity, __FILE__, __LINE__);
 
-	std::string path = "../Resources/BazookaRocket.png";
+	std::string path = "../Resources/Sprites/BazookaRocket.png";
 	m_spriteComponent = std::make_shared<SpriteComponent>(path, this);
 	m_spriteComponent->m_drawable.setScale(m_SPRITE_SCALE, m_SPRITE_SCALE);
 	m_spriteSize = m_spriteComponent->m_drawable.getGlobalBounds().getSize();
@@ -19,6 +19,8 @@ void BazookaRocket::EntityInit()
 	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
 	m_world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
 	assert(m_world);
+	
+	m_spriteSizeWorld = m_world->ScreenToWorldPosition(sf::Vector2u(m_spriteSize));
 }
 
 void BazookaRocket::Fire(sf::Vector2f direction, float strength)
@@ -28,11 +30,20 @@ void BazookaRocket::Fire(sf::Vector2f direction, float strength)
 
 void BazookaRocket::Update(float deltaTime)
 {
+	Move(deltaTime);
+	CheckCollision();
+}
+
+void BazookaRocket::Move(float deltaTime)
+{
 	m_velocity += sf::Vector2f(0, 800) * deltaTime; // Applying fake gravity
 	GetTransform().translate(m_velocity * deltaTime);
 
 	m_spriteComponent->m_drawable.setRotation(atan2(m_velocity.y, m_velocity.x) * 180 / std::numbers::pi);
+}
 
+void BazookaRocket::CheckCollision()
+{
 	// Check if window ground collision
 	sf::Vector2u worldPosition = sf::Vector2u(GetTransform().transformPoint(0, 0));
 	sf::Vector2u screenPosition = m_world->WorldToScreenPosition(worldPosition);
@@ -42,12 +53,32 @@ void BazookaRocket::Update(float deltaTime)
 		return;
 	}
 
+	
+	// TODO: Make a real Radius Collision Check instead of an AXIS-Collison Check
 	// Check if world collision
-	int pixelCheck = *m_world->GetPixelValue(screenPosition);
-	if (pixelCheck == 1)
+	// horizontal axis
+	for (int i = 0; i < m_spriteSizeWorld.x * m_COLLISION_RADIUS_RELATIVE; i++)
 	{
-		Explode(screenPosition);
-		return;
+		sf::Vector2u xOffset = sf::Vector2u(0.5f * (m_spriteSizeWorld.x * m_COLLISION_RADIUS_RELATIVE), 0);
+		screenPosition = m_world->WorldToScreenPosition(worldPosition - xOffset + sf::Vector2u(i, 0));
+		int pixelCheck = *m_world->GetPixelValue(screenPosition);
+		if (pixelCheck == 1)
+		{
+			Explode(screenPosition);
+			return;
+		}
+	}
+	// vertical axis
+	for (int i = 0; i < m_spriteSizeWorld.y * m_COLLISION_RADIUS_RELATIVE; i++)
+	{
+		sf::Vector2u yOffset = sf::Vector2u(0, 0.5f * (m_spriteSizeWorld.y * m_COLLISION_RADIUS_RELATIVE));
+		screenPosition = m_world->WorldToScreenPosition(worldPosition - yOffset + sf::Vector2u(0, i));
+		int pixelCheck = *m_world->GetPixelValue(screenPosition);
+		if (pixelCheck == 1)
+		{
+			Explode(screenPosition);
+			return;
+		}
 	}
 }
 
