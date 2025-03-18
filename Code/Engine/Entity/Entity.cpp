@@ -7,6 +7,14 @@ Entity::~Entity()
 
 void Entity::EntityUpdate(float deltaTime)
 {
+	if (m_parent != nullptr)
+	{
+		sf::Vector2u m_parentScreenPositionDelta = sf::Vector2u(m_parent->GetScreenPosition() - m_parentLastScreenPosition);
+		std::cout << m_parentScreenPositionDelta.x << " " << m_parentScreenPositionDelta.y << std::endl;
+		m_transform.translate(sf::Vector2f(m_parentScreenPositionDelta));
+		m_parentLastScreenPosition = m_parent->GetScreenPosition();
+	}
+
 	Update(deltaTime);
 
 	for (int i = 0; i < entityComponents.size(); i++)
@@ -26,6 +34,12 @@ void Entity::Destroy()
 	DebugPrint("All Entity-Components of Entity " + std::to_string(m_id) + " destroyed", TextColor::Yellow, DebugChannel::Entity, __FILE__, __LINE__);
 
 	DestroyDerived();
+}
+
+void Entity::SetParent(Entity* parent)
+{
+	m_parent = parent;
+	m_parentLastScreenPosition = m_parent->GetScreenPosition();
 }
 
 void Entity::OnInputRecieved(sf::Vector2f direction)

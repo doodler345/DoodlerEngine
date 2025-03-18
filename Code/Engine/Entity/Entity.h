@@ -38,9 +38,10 @@ public:
 	void Destroy(); 
 
 	void SetID(int _id) { m_id = _id; }
-	int GetID() { return m_id; }
-
 	void SetName(std::string name){ m_name = name; }
+	void SetParent(Entity* parent);
+
+	int GetID() { return m_id; }
 	std::string GetName(){ return m_name; }
 
 	template<typename T>
@@ -65,6 +66,8 @@ protected:
 
 private:
 	std::vector<std::shared_ptr<EntityComponent>> entityComponents;
+	Entity* m_parent = nullptr;
+	sf::Vector2u m_parentLastScreenPosition;
 };
 
 template<typename T>

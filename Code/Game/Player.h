@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../Engine/Entity/Entity.h"
+#include "../Engine/Entity/Empty.h"
+
 #include "World.h"
 #include "Bazooka.h"
 
@@ -36,6 +38,8 @@ private:
 
 	World* m_world = nullptr;
 	Bazooka* m_bazooka = nullptr;
+	Empty* m_aimDirectionHolder = nullptr;
+
 	std::shared_ptr<SpriteComponent> m_aimDirection = nullptr;
 	sf::Vector2f m_spriteSize;
 	sf::Vector2u m_worldPlayerSize;

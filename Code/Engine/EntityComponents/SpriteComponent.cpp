@@ -5,15 +5,12 @@
 SpriteComponent::SpriteComponent(Entity* owner)
 {
 	m_ownerEntity = owner;		
-	m_allowMultiple = true;
 }
 
 SpriteComponent::SpriteComponent(std::string& texturePath, Entity* owner)
 {
 	m_ownerEntity = owner;		
 	SetTexture(texturePath);
-
-	m_allowMultiple = true;
 }
 
 void SpriteComponent::SetTexture(std::string& texturePath)
@@ -57,6 +54,26 @@ void SpriteComponent::CenterTexture()
 {
 	sf::Vector2u texSize = GetTextureSize();
 	m_drawable.setOrigin(0.5f * texSize.x, 0.5f * texSize.y);
+}
+
+void SpriteComponent::SetVisibility(bool isVisible)
+{
+	if (m_isVisible == isVisible)
+	{
+		return;
+	}
+
+	m_isVisible = isVisible;
+	
+	RenderSystem& renderSystem = Engine::GetInstance()->GetRenderSystem();
+	if (isVisible)
+	{
+		renderSystem.AddSprite(&m_drawable, m_ownerEntity);
+	}
+	else
+	{
+		renderSystem.RemoveSprite(m_ownerEntity);
+	}
 }
 
 sf::Vector2u SpriteComponent::GetTextureSize()

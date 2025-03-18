@@ -18,6 +18,11 @@ void Player::EntityInit()
 {
 	DebugPrint("Player " + std::to_string(m_id) + " spawned", TextColor::Green, DebugChannel::Entity, __FILE__, __LINE__);
 	
+	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
+	PlayScene* playScene = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene());
+	m_world = playScene->GetWorld();
+	assert(m_world);
+
 	// Sprite Player 
 	std::string path = "../Resources/Sprites/Profilbild Sonic Infusion.png";
 	std::shared_ptr<SpriteComponent> spriteComponent = std::make_shared<SpriteComponent>(path, this);
@@ -25,16 +30,13 @@ void Player::EntityInit()
 	m_spriteSize = spriteComponent->m_drawable.getGlobalBounds().getSize();
 	AddComponent(spriteComponent);
 
-	// Sprite Aim Direction
+	// Aim Direction
 	path = "../Resources/Sprites/AimDirection.png";
-	m_aimDirection = std::make_shared<SpriteComponent>(path, this);
+	m_aimDirectionHolder = playScene->Instantiate(Empty, AimDirectionHolder);
+	m_aimDirectionHolder->SetParent(this);
+	m_aimDirection = std::make_shared<SpriteComponent>(path, m_aimDirectionHolder);
 	m_aimDirection->m_drawable.setScale(m_SPRITE_SCALE + 0.5f, m_SPRITE_SCALE + 0.5f);
-	AddComponent(m_aimDirection);
-
-	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
-	PlayScene* playScene = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene());
-	m_world = playScene->GetWorld();
-	assert(m_world);
+	m_aimDirectionHolder->AddComponent(m_aimDirection);
 
 	m_bazooka = playScene->Instantiate(Bazooka, Bazooka);
 	m_bazooka->SetOwner(this);
@@ -87,9 +89,12 @@ void Player::Update(float deltaTime)
 		m_velocity.x = 0;
 		ApplyGravity(deltaTime);
 		m_transform.translate(m_velocity);
+
+		//m_aimDirection->SetVisibility(false);
 	}
 	else
 	{
+		//m_aimDirection->SetVisibility(true);
 		m_velocity = sf::Vector2f(0,0);
 		Move(deltaTime);
 
@@ -97,6 +102,8 @@ void Player::Update(float deltaTime)
 	}
 
 	m_transform.translate(m_velocity);
+	//m_aimDirectionHolder->GetTransform().translate(m_velocity);
+	//std::cout << std::to_string(m_aimDirectionHolder->GetScreenPosition().x) + " " + std::to_string(m_aimDirectionHolder->GetScreenPosition().y) << std::endl;
 }
 
 void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)

@@ -13,12 +13,14 @@ public:
 	void SetTexture(std::string& texturePath);
 	void UpdateTexture();
 	void CenterTexture();
+	void SetVisibility(bool isVisible);
 	sf::Vector2u GetTextureSize();
 	virtual void ShutDown() override;
 
 	sf::Sprite m_drawable; 
 private:
 	bool m_isInitialized = false;
+	bool m_isVisible = true;
 	std::string m_texturePath = "";
 	sf::Texture m_texture;
 };
