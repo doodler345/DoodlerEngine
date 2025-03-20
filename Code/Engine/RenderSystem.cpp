@@ -9,24 +9,24 @@ void RenderSystem::Update()
 	sf::RenderWindow& renderWindow = Engine::GetInstance()->GetRenderWindow();
 
 	sf::RenderStates renderState;
-	for (auto it : m_shaderEntries)
+	for (auto& it : m_shaderEntries)
 	{
 		renderState.transform = it.second.m_owner->GetTransformable().getTransform();
 		renderState.shader = it.second.m_shader;
 		renderWindow.draw(*it.second.m_drawable, renderState); // ***** Transform missing (maybe)?
 	}
 
-	for (auto it : m_spriteEntries)
+	for (auto& it : m_spriteEntries)
 	{
 		renderWindow.draw(*it.second.m_drawable, it.second.m_owner->GetTransformable().getTransform());
 	}
 
-	for (auto it : m_shapeEntries)
+	for (auto& it : m_shapeEntries)
 	{
 		renderWindow.draw(*it.second.m_drawable, it.second.m_owner->GetTransformable().getTransform());
 	}
 
-	for (auto it : m_textEntries)
+	for (auto& it : m_textEntries)
 	{
 		renderWindow.draw(*it.second.m_drawable, it.second.m_owner->GetTransformable().getTransform());
 	}
@@ -47,7 +47,7 @@ void RenderSystem::AddText(sf::Text* text, Entity* owner)
 	RenderEntry entry;
 	entry.m_owner = owner;
 	entry.m_drawable = text;
-	m_textEntries[owner->GetID()] = entry);
+	m_textEntries[owner->GetID()] = entry;
 }
 
 void RenderSystem::AddShape(sf::Shape* drawable, Entity* owner)
@@ -55,7 +55,7 @@ void RenderSystem::AddShape(sf::Shape* drawable, Entity* owner)
 	RenderEntry entry;
 	entry.m_owner = owner;
 	entry.m_drawable = drawable;
-	m_shapeEntries[owner->GetID()] = entry);
+	m_shapeEntries[owner->GetID()] = entry;
 }
 
 void RenderSystem::AddShader(sf::Drawable* drawable, sf::Shader* shader, Entity* owner)
@@ -64,7 +64,7 @@ void RenderSystem::AddShader(sf::Drawable* drawable, sf::Shader* shader, Entity*
 	entry.m_owner = owner;
 	entry.m_drawable = drawable;
 	entry.m_shader = shader;
-	m_shaderEntries[owner->GetID()] = entry);
+	m_shaderEntries[owner->GetID()] = entry;
 }
 
 void RenderSystem::RemoveSprite(Entity* owner)
