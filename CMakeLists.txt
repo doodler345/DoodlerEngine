@@ -10,10 +10,11 @@ project(${ENGINE_PROJECT_NAME})
 set(THIRDPARTY_DIR "Code/ThirdParty")
 
 # SFML
-set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/Code/ThirdParty/SFML-2.6.1/lib/cmake/SFML")
+set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/${THIRDPARTY_DIR}/SFML-2.6.1/lib/cmake/SFML")
+set(OPENAL_DLL "${CMAKE_CURRENT_LIST_DIR}/${THIRDPARTY_DIR}/SFML-2.6.1/bin/openal32.dll")
 set(SFML_STATIC_LIBRARIES TRUE)
 
-find_package(SFML 2.6 COMPONENTS graphics REQUIRED)
+find_package(SFML 2.6 COMPONENTS graphics audio REQUIRED)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/${THIRDPARTY_DIR}/SFML-2.6.1/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/${THIRDPARTY_DIR}/SFMLMath)
 
@@ -122,10 +123,16 @@ add_dependencies(${GAME_PROJECT_NAME} ${ENGINE_PROJECT_NAME})
 
 # Library Verlinkungen
 target_link_libraries(${ENGINE_PROJECT_NAME}
-    PRIVATE
     #debug box2dd.lib 	sfml-graphics # Debug-Version
     #optimized box2d.lib sfml-graphics # Release-Version
-	debug 		sfml-graphics # Debug-Version
-    optimized 	sfml-graphics # Release-Version
+	sfml-graphics
+	sfml-audio
 )
 target_link_libraries(${GAME_PROJECT_NAME} ${ENGINE_PROJECT_NAME})
+
+
+
+# Copy the DLL to the output directory
+add_custom_command(TARGET ${GAME_PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${OPENAL_DLL} $<TARGET_FILE_DIR:${GAME_PROJECT_NAME}>)

@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
 #include "BazookaRocket.h"
 
 class Bazooka : public Entity
@@ -18,6 +19,8 @@ private:
 	Entity* m_owner = nullptr;
 	BazookaRocket* m_rocket = nullptr;
 
+	sf::Sound m_sound;
+	sf::SoundBuffer m_fireSoundBuffer;
 	float m_shootStrength = 0;
 	bool m_loadShootStrength = false;
 };
