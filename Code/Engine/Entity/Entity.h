@@ -19,6 +19,7 @@ public:
 	virtual void ShutDown() = 0;
 
 	Entity* GetOwner() { return m_ownerEntity; }
+	std::string m_name;
 
 	bool m_allowMultiple = false;
 protected:
@@ -66,7 +67,7 @@ protected:
 private:
 	void ApplyParentTransform();
 
-	std::multimap<int, std::shared_ptr<EntityComponent>> entityComponents;
+	std::vector<std::shared_ptr<EntityComponent>> entityComponents;
 	Entity* m_parent = nullptr;
 	sf::Vector2u m_parentLastScreenPosition;
 	float m_parentLastRotation;
@@ -81,9 +82,9 @@ inline bool Entity::AddComponent(std::shared_ptr<T> newComponent)
 	std::string type = typeid(T).name();
 	if (!dynamic_cast<EntityComponent*>(newComponent.get())->m_allowMultiple)
 	{
-		for (auto& it : entityComponents)
+		for (int i = 0; i < entityComponents.size(); i++)
 		{
-			if (typeid(T) == typeid(*it.second.get()))
+			if (typeid(T) == typeid(*entityComponents[i].get()))
 			{
 				DebugPrint("Component " + type + " already exists!", TextColor::Red, DebugChannel::EntityComponent, __FILE__, __LINE__, 1);
 				return false;
@@ -93,7 +94,7 @@ inline bool Entity::AddComponent(std::shared_ptr<T> newComponent)
 
 	DebugPrint("Added new Component " + type + " to Entity ", TextColor::Green, DebugChannel::EntityComponent, __FILE__, __LINE__);
 
-	entityComponents[m_id] = newComponent;
+	entityComponents.push_back(newComponent);
 	return true;
 }
 
@@ -102,14 +103,14 @@ inline void Entity::RemoveComponent()
 {
 	T* test;
 	dynamic_cast<EntityComponent*>(test); //checks if it's a EntityComponent 
-	
+
 	std::string type = typeid(T).name();
-	for (auto& it : entityComponents)
+	for (int i = 0; i < entityComponents.size(); i++)
 	{
-		if (typeid(T) == typeid(*it.second.get()))
+		if (typeid(T) == typeid(*entityComponents[i].get()))
 		{
-			it.second->ShutDown();
-			entityComponents.erase(it.first); // TODO: if multiple components of the same type exist, only the first one will be removed 
+			entityComponents[i]->ShutDown();
+			entityComponents.erase(entityComponents.begin() + i); // TODO: if multiple components of the same type exist, only the first one will be removed 
 			DebugPrint("Component " + type + " of Entity " + std::to_string(m_id) + " removed!", TextColor::LightRed, DebugChannel::EntityComponent, __FILE__, __LINE__);
 			break;
 		}
@@ -123,12 +124,12 @@ inline T* Entity::GetComponent()
 	dynamic_cast<EntityComponent*>(test); //checks if it's a EntityComponent 
 
 	std::string type = typeid(T).name();
-	for (auto& it : entityComponents)
+	for (int i = 0; i < entityComponents.size(); i++)
 	{
-		if (typeid(T) == typeid(*it.second.get()))
+		if (typeid(T) == typeid(*entityComponents[i].get()))
 		{
 			DebugPrint("Component " + type + " of Entity " + std::to_string(m_id) + " found!", TextColor::LightYellow, DebugChannel::EntityComponent, __FILE__, __LINE__);
-			return dynamic_cast<T*>(it.second.get()); 
+			return dynamic_cast<T*>(entityComponents[i].get());
 		}
 	}
 

@@ -11,17 +11,17 @@ void Entity::EntityUpdate(float deltaTime)
 
 	Update(deltaTime);
 
-	for (auto& it : entityComponents)
+	for (int i = 0; i < entityComponents.size(); i++)
 	{
-		it.second->Update(deltaTime);
+		entityComponents[i]->Update(deltaTime);
 	}
 }
 
 void Entity::Destroy()
 {
-	for (auto& it : entityComponents)
+	for (int i = 0; i < entityComponents.size(); i++)
 	{
-		it.second->ShutDown();
+		entityComponents[i]->ShutDown();
 	}
 
 	DebugPrint("All Entity-Components of Entity " + std::to_string(m_id) + " destroyed", TextColor::Yellow, DebugChannel::Entity, __FILE__, __LINE__);
@@ -86,5 +86,5 @@ void Entity::ApplyParentTransform()
 
 EntityComponent::~EntityComponent()
 {
-	DebugPrint("EntityComponent destroyed", TextColor::Yellow, DebugChannel::EntityComponent, __FILE__, __LINE__);
+	DebugPrint("EntityComponent " + m_name + " destroyed", TextColor::Yellow, DebugChannel::EntityComponent, __FILE__, __LINE__);
 }
