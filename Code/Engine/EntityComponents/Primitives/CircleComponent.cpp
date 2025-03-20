@@ -5,6 +5,8 @@
 
 CircleComponent::CircleComponent(Entity* owner)
 {
+	std::string type = typeid(this).name();
+	m_name = type;
 
 	m_ownerEntity = owner;
 	m_allowMultiple = true;

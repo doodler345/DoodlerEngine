@@ -1,4 +1,7 @@
 #include "TextComponent.h"
+
+#include <iostream>
+
 #include "../RenderSystem.h"
 #include "../Engine.h"
 
@@ -6,6 +9,9 @@
 TextComponent::TextComponent(std::string& path, std::string& text, Entity* owner, sf::Color color, bool centerHorizontal, bool centerVertical) :
 	m_fontPath(path), m_textColor(color), m_centerHorizontal(centerHorizontal), m_centerVertical(centerVertical)
 {
+	std::string type = typeid(this).name();
+	m_name = type;
+
 	m_ownerEntity = owner;
 
 	ResourceManager& resourceManager = Engine::GetInstance()->GetResourceManager();

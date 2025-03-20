@@ -4,11 +4,17 @@
 
 SpriteComponent::SpriteComponent(Entity* owner)
 {
+	std::string type = typeid(this).name();
+	m_name = type;
+
 	m_ownerEntity = owner;		
 }
 
 SpriteComponent::SpriteComponent(std::string& texturePath, Entity* owner)
 {
+	std::string type = typeid(this).name();
+	m_name = type;
+
 	m_ownerEntity = owner;		
 	SetTexture(texturePath);
 }

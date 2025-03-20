@@ -6,6 +6,9 @@
 
 ShaderComponent::ShaderComponent(sf::Drawable* drawable, std::string& vertShaderPath, std::string& fragShaderPath, Entity* owner)
 {
+	std::string type = typeid(this).name();
+	m_name = type;
+
 	m_ownerEntity = owner;
 
 	m_vertPath = vertShaderPath;
