@@ -209,9 +209,8 @@ void InputManager::Update(float mouseScrollDelta)
 	case InputMode::InputFieldMode:
 
 		// check if clicked out of InputField 
-		sf::FloatRect rect = m_activeInputField->GetComponent<RectangleComponent>()->GetRectangle()->getGlobalBounds();
 		sf::Vector2f entryPosition = m_activeInputField->GetTransformable().getPosition();
-
+		sf::FloatRect rect = m_activeInputField->GetRectangle()->getGlobalBounds();
 
 			// inverted Hover-check (AABB)
 		if (mousePos.x >= (entryPosition.x - rect.left) ||	//right

@@ -20,7 +20,7 @@ public:
 	void AppendCharacter(std::string newChar);
 	void RemoveCharacter();
 	std::string GetText() { return m_inputText; }
-
+	sf::RectangleShape* GetRectangle() { return m_rectangle; }
 
 private:
 	void UpdateText();
@@ -31,6 +31,7 @@ private:
 	TextComponent* m_textComponent = nullptr;
 	TextComponent* m_textComponentFileEnding = nullptr;
 	
+	sf::RectangleShape* m_rectangle = nullptr;
 	std::string m_inputText;
 	std::string m_fileEndingText;
 	const sf::Vector2f m_inputFieldSize = sf::Vector2f(220, 30);

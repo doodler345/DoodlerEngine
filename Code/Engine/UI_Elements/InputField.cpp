@@ -28,6 +28,8 @@ void InputField::EntityInit()
 	m_rectangleComponent = rectangleComponent.get();
 	m_rectangleMarker = rectangleMarker.get();
 
+	m_rectangle = m_rectangleComponent->GetRectangle();
+
 	m_textComponent->m_text.setPosition(m_textOffset);
 	m_textComponentFileEnding->m_isRightAligned = true;
 	m_textComponentFileEnding->m_text.setPosition(-m_textOffset);
