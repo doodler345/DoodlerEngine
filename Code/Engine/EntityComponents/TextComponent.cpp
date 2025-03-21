@@ -24,12 +24,12 @@ TextComponent::TextComponent(std::string& path, std::string& text, Entity* owner
 	SetFontSize(20);
 	UpdateText();
 
-	renderSystem.AddText(&m_text, owner);
+	renderSystem.AddText(&m_text, this);
 }
 
 void TextComponent::ShutDown()
 {
-	Engine::GetInstance()->GetRenderSystem().RemoveText(m_ownerEntity);
+	Engine::GetInstance()->GetRenderSystem().RemoveText(this);
 }
 
 void TextComponent::SetText(std::string text)

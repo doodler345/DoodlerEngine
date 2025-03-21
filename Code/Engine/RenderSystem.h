@@ -7,7 +7,7 @@
 
 struct RenderEntry
 {
-	Entity* m_owner = nullptr;
+	EntityComponent* m_owner = nullptr;
 	sf::Drawable* m_drawable = nullptr;
 	sf::Shader* m_shader = nullptr;
 };
@@ -18,15 +18,15 @@ class RenderSystem
 public:
 	void Update();
 	
-	void AddSprite(sf::Sprite* sprite, Entity* owner);
-	void AddText(sf::Text* text, Entity* owner);
-	void AddShape(sf::Shape* shape, Entity* owner);
-	void AddShader(sf::Drawable* drawable, sf::Shader* shader, Entity* owner);
+	void AddSprite(sf::Sprite* sprite, EntityComponent* owner);
+	void AddText(sf::Text* text, EntityComponent* owner);
+	void AddShape(sf::Shape* shape, EntityComponent* owner);
+	void AddShader(sf::Drawable* drawable, sf::Shader* shader, EntityComponent* owner);
 	
-	void RemoveSprite(Entity* owner);
-	void RemoveText(Entity* owner);
-	void RemoveShape(Entity* owner);
-	void RemoveShader(Entity* owner);
+	void RemoveSprite(EntityComponent* owner);
+	void RemoveText(EntityComponent* owner);
+	void RemoveShape(EntityComponent* owner);
+	void RemoveShader(EntityComponent* owner);
 
 private:
 	

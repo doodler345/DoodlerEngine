@@ -26,7 +26,7 @@ void SpriteComponent::SetTexture(std::string& texturePath)
 
 	if (m_isInitialized)
 	{
-		renderSystem.RemoveSprite(m_ownerEntity);
+		renderSystem.RemoveSprite(this);
 	}
 	else
 	{
@@ -39,7 +39,7 @@ void SpriteComponent::SetTexture(std::string& texturePath)
 
 	CenterTexture();
 
-	renderSystem.AddSprite(&m_drawable, m_ownerEntity);
+	renderSystem.AddSprite(&m_drawable, this);
 }
 
 void SpriteComponent::UpdateTexture()
@@ -74,11 +74,11 @@ void SpriteComponent::SetVisibility(bool isVisible)
 	RenderSystem& renderSystem = Engine::GetInstance()->GetRenderSystem();
 	if (isVisible)
 	{
-		renderSystem.AddSprite(&m_drawable, m_ownerEntity);
+		renderSystem.AddSprite(&m_drawable, this);
 	}
 	else
 	{
-		renderSystem.RemoveSprite(m_ownerEntity);
+		renderSystem.RemoveSprite(this);
 	}
 }
 
@@ -91,6 +91,6 @@ void SpriteComponent::ShutDown()
 {
 	if (m_texturePath != "")
 	{
-		Engine::GetInstance()->GetRenderSystem().RemoveSprite(m_ownerEntity);
+		Engine::GetInstance()->GetRenderSystem().RemoveSprite(this);
 	}
 }

@@ -16,7 +16,7 @@ CircleComponent::CircleComponent(Entity* owner)
 
 
 	RenderSystem& renderSystem = Engine::GetInstance()->GetRenderSystem();
-	renderSystem.AddShape(m_drawable.get(), m_ownerEntity);
+	renderSystem.AddShape(m_drawable.get(), this);
 }
 
 void CircleComponent::SetRadius(float radius)
@@ -33,5 +33,5 @@ void CircleComponent::Center()
 
 void CircleComponent::ShutDown()
 {
-	Engine::GetInstance()->GetRenderSystem().RemoveShape(m_ownerEntity);
+	Engine::GetInstance()->GetRenderSystem().RemoveShape(this);
 }

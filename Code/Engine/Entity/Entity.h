@@ -5,6 +5,7 @@
 #include <assert.h>
 #include "SFML/Graphics.hpp"
 #include "../Engine.h"
+#include "../Entity/EntitySystem.h"
 #include "../Debug.h"
 
 
@@ -13,6 +14,7 @@ class Entity;
 class EntityComponent
 {
 public:
+	EntityComponent();
 	~EntityComponent();
 
 	virtual void Update(float deltaTime) {};
@@ -20,12 +22,14 @@ public:
 
 	Entity* GetOwner() { return m_ownerEntity; }
 	std::string m_name;
+	int m_id = -1;
 
 	bool m_allowMultiple = false;
+
+	static int s_componentIDCounter;
 protected:
 	Entity* m_ownerEntity = nullptr;
 };
-
 
 class Entity
 {
@@ -86,13 +90,13 @@ inline bool Entity::AddComponent(std::shared_ptr<T> newComponent)
 		{
 			if (typeid(T) == typeid(*entityComponents[i].get()))
 			{
-				DebugPrint("Component " + type + " already exists on Entity " + std::to_string(m_id), TextColor::Red, DebugChannel::EntityComponent, __FILE__, __LINE__, 1);
+				DebugPrint("Component " + type + " already exists on Entity " + m_name + "  (e_id: " + std::to_string(m_id) + ")", TextColor::Red, DebugChannel::EntityComponent, __FILE__, __LINE__, 1);
 				return false;
 			}
 		}
 	}
 
-	DebugPrint("Added new Component " + type + " to Entity " + std::to_string(m_id), TextColor::Green, DebugChannel::EntityComponent, __FILE__, __LINE__);
+	DebugPrint("Added new Component " + type + " (c_id: " + std::to_string(newComponent->m_id) + ") to Entity " + m_name + "  (e_id: " + std::to_string(m_id) + ")", TextColor::Green, DebugChannel::EntityComponent, __FILE__, __LINE__);
 
 	entityComponents.push_back(newComponent);
 	return true;
@@ -110,8 +114,9 @@ inline void Entity::RemoveComponent()
 		if (typeid(T) == typeid(*entityComponents[i].get()))
 		{
 			entityComponents[i]->ShutDown();
+			int componentID = entityComponents[i]->m_id;
 			entityComponents.erase(entityComponents.begin() + i); // TODO: if multiple components of the same type exist, only the first one will be removed 
-			DebugPrint("Component " + type + " of Entity " + std::to_string(m_id) + " removed!", TextColor::LightRed, DebugChannel::EntityComponent, __FILE__, __LINE__);
+			DebugPrint("Component " + type + " (c_id: " + std::to_string(componentID) + ") of Entity " + m_name + " (e_id: " + std::to_string(m_id) + ") removed!", TextColor::LightRed, DebugChannel::EntityComponent, __FILE__, __LINE__);
 			break;
 		}
 	}
@@ -128,11 +133,12 @@ inline T* Entity::GetComponent()
 	{
 		if (typeid(T) == typeid(*entityComponents[i].get()))
 		{
-			DebugPrint("Component " + type + " of Entity " + std::to_string(m_id) + " found!", TextColor::LightYellow, DebugChannel::EntityComponent, __FILE__, __LINE__);
+			int componentID = entityComponents[i]->m_id;
+			DebugPrint("Component " + type + " (c_id: " + std::to_string(componentID) + ") of Entity " + m_name + " (e_id: " + std::to_string(m_id) + ") found!", TextColor::LightYellow, DebugChannel::EntityComponent, __FILE__, __LINE__);
 			return dynamic_cast<T*>(entityComponents[i].get());
 		}
 	}
 
-	DebugPrint("Component " + type + " of Entity " + std::to_string(m_id) + " not found!", TextColor::Red, DebugChannel::EntityComponent, __FILE__, __LINE__, 1);
+	DebugPrint("Component " + type + " of Entity " + m_name + " (e_id: " + std::to_string(m_id) + ") not found!", TextColor::Red, DebugChannel::EntityComponent, __FILE__, __LINE__, 1);
 	return nullptr;
 }
