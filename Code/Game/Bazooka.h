@@ -19,8 +19,8 @@ private:
 	Entity* m_owner = nullptr;
 	BazookaRocket* m_rocket = nullptr;
 
-	sf::Sound m_sound;
-	sf::SoundBuffer m_fireSoundBuffer;
+	sf::Sound m_shootSound;
+	sf::SoundBuffer m_shootSoundBuffer;
 	float m_shootStrength = 0;
 	bool m_loadShootStrength = false;
 };
