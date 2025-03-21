@@ -86,5 +86,5 @@ void Entity::ApplyParentTransform()
 
 EntityComponent::~EntityComponent()
 {
-	DebugPrint("EntityComponent " + m_name + " destroyed", TextColor::Yellow, DebugChannel::EntityComponent, __FILE__, __LINE__);
+	//DebugPrint("EntityComponent " + m_name + " destroyed", TextColor::Yellow, DebugChannel::EntityComponent, __FILE__, __LINE__);
 }

@@ -10,9 +10,8 @@ Entity* EntitySystem::RegisterEntity(std::shared_ptr<Entity> entity, std::string
 	m_entities[m_idCounter] = entity;
 	m_idCounter++;
 
-	entity->EntityInit();
-
 	DebugPrint("Registered Entity " + m_name + " (id: " + std::to_string(entity->GetID()) + ")", TextColor::Green, DebugChannel::Entity, __FILE__, __LINE__);
+	entity->EntityInit();
 
 	return entity.get();
 }
@@ -32,14 +31,15 @@ void EntitySystem::DestroyEntity(Entity* entity)
 
 void EntitySystem::Update(float deltaTime)
 {
-	for (auto& it : m_entities)
-	{
-		it.second->EntityUpdate(deltaTime);
-	}
-
+	// Has to be done like this because entities can be destroyed during EntityUpdate
 	for (int i = 0; i < m_entitiesToDestroy.size(); i++)
 	{	
 		m_entities.erase(m_entitiesToDestroy[i]->GetID());
 	}
 	m_entitiesToDestroy.clear();
+
+	for (auto& it : m_entities)
+	{
+		it.second->EntityUpdate(deltaTime);
+	}
 }

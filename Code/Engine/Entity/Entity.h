@@ -86,13 +86,13 @@ inline bool Entity::AddComponent(std::shared_ptr<T> newComponent)
 		{
 			if (typeid(T) == typeid(*entityComponents[i].get()))
 			{
-				DebugPrint("Component " + type + " already exists!", TextColor::Red, DebugChannel::EntityComponent, __FILE__, __LINE__, 1);
+				DebugPrint("Component " + type + " already exists on Entity " + std::to_string(m_id), TextColor::Red, DebugChannel::EntityComponent, __FILE__, __LINE__, 1);
 				return false;
 			}
 		}
-	}
+	//}
 
-	DebugPrint("Added new Component " + type + " to Entity ", TextColor::Green, DebugChannel::EntityComponent, __FILE__, __LINE__);
+	DebugPrint("Added new Component " + type + " to Entity " + std::to_string(m_id), TextColor::Green, DebugChannel::EntityComponent, __FILE__, __LINE__);
 
 	entityComponents.push_back(newComponent);
 	return true;
