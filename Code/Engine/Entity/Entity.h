@@ -90,7 +90,7 @@ inline bool Entity::AddComponent(std::shared_ptr<T> newComponent)
 				return false;
 			}
 		}
-	//}
+	}
 
 	DebugPrint("Added new Component " + type + " to Entity " + std::to_string(m_id), TextColor::Green, DebugChannel::EntityComponent, __FILE__, __LINE__);
 
