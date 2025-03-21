@@ -1,19 +1,19 @@
 #include "PlayScene.h"
 
-#include <SFML/Network.hpp>
+//#include <SFML/Network.hpp>
 
 #include "../Player.h"
 
 void PlayScene::SetWorld(std::string bmpFilePath)
 {
-	sf::UdpSocket socket;
-	socket.bind(54000);
-	socket.setBlocking(false);
+	//sf::UdpSocket socket;
+	//socket.bind(54000);
+	//socket.setBlocking(false);
 
-	sf::Packet packet;
-	char data[6] = "Hello";
-	packet << data;
-	socket.send(packet, sf::IpAddress::LocalHost, 54000);
+	//sf::Packet packet;
+	//char data[6] = "Hello";
+	//packet << data;
+	//socket.send(packet, sf::IpAddress(192, 168, 178, XX), 54000);
 
 	//Create World Entity
 	sf::RenderWindow& window = Engine::GetInstance()->GetRenderWindow();
