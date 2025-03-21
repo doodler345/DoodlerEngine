@@ -8,6 +8,8 @@
 #include <thread>
 #include <mutex>
 
+#include <SFML/Network.hpp>
+
 #include "../../Engine/Engine.h"
 #include "../../Engine/InputManager.h"
 #include "../../Engine/UI_Elements/ButtonMenu.h"
@@ -20,6 +22,17 @@ float afterTime = 0;
 
 WorldGenerator::~WorldGenerator()
 {
+	sf::UdpSocket socket;
+	socket.bind(54000);
+
+	sf::Packet packet2;
+	char data2[6];
+	unsigned short port = 54000;
+	sf::IpAddress sender = sf::IpAddress::LocalHost;
+	socket.receive(packet2, sender, port);
+	packet2 >> data2;
+	std::cout << "Received: " << data2 << std::endl;
+
 	if (!Engine::GetInstance()->GetRenderWindow().isOpen()) return; //avoid issues after closing game
 
 	DebugPrint("Destroying derived Scene " + m_name, TextColor::Blue, DebugChannel::Game, __FILE__, __LINE__);
@@ -31,6 +44,11 @@ WorldGenerator::~WorldGenerator()
 
 void WorldGenerator::Init()
 {
+	sf::UdpSocket socket;
+	socket.bind(54000);
+
+
+
 	///////////////////////////////////////////
 	// WorldGenerator
 
