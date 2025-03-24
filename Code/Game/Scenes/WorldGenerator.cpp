@@ -49,9 +49,8 @@ void WorldGenerator::Init()
 	sf::Socket::Status status = socket.connect(serverIP, port, sf::Time(sf::seconds(20)));
 
 	socket.receive(packet);
-	std::string data;
+	std::vector<int> data;
 	packet >> data;
-	std::cout << data;
 
 
 	///////////////////////////////////////////

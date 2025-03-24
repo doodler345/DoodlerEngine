@@ -30,7 +30,7 @@ void PlayScene::SetWorld(std::string bmpFilePath)
 	sf::Packet packet;
 	//std::string localAddress = sf::IpAddress::getLocalAddress().toString();
 	//packet << localAddress;
-	packet << "Hello";
+	packet << world->m_pixelValues;
 	
 	//int i = localAddress.length() - 1;
 	//while (localAddress[i] != '.')

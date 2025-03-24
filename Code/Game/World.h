@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 
 #include "../../Engine/BMPImage.h"
 #include "../Engine/Engine.h"
@@ -66,4 +67,27 @@ private:
 	ShaderComponent* m_shaderComponent = nullptr;
 	sf::Vector2u m_shaderSpaceSize;
 };
+
+
+sf::Packet& operator <<(sf::Packet& packet, const std::vector<int>& vector)
+{
+	sf::Int32 value;
+	for (int i = 0; i < vector.size(); i++)
+	{
+		value = vector[i];
+		packet << value;
+	}
+	return packet;
+}
+
+sf::Packet& operator >>(sf::Packet& packet, const std::vector<int>& vector)
+{
+	int value;
+	for (sf::Int32 i = 0; i < vector.size(); i++)
+	{
+		value = vector[i];
+		packet >> value;
+	}
+	return packet;
+}
 
