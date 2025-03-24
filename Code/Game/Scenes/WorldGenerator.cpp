@@ -8,7 +8,7 @@
 #include <thread>
 #include <mutex>
 
-//#include <SFML/Network.hpp>
+#include <SFML/Network.hpp>
 
 #include "../../Engine/Engine.h"
 #include "../../Engine/InputManager.h"
@@ -34,12 +34,12 @@ WorldGenerator::~WorldGenerator()
 void WorldGenerator::Init()
 {
 	//sf::UdpSocket socket;
-	//socket.bind(54000);
+	//unsigned short port = 54000;
+	//socket.bind(port);
 
 	//sf::Packet packet2;
 	//char data2[6];
-	//unsigned short port = 54000;
-	//sf::IpAddress sender = sf::IpAddress(192, 168, 178, XX);
+	//sf::IpAddress sender;
 	//socket.receive(packet2, sender, port);
 	//packet2 >> data2;
 	//std::cout << "Received: " << data2 << std::endl;
