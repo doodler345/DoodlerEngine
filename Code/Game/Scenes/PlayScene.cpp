@@ -6,27 +6,6 @@
 
 void PlayScene::SetWorld(std::string bmpFilePath)
 {
-	//sf::UdpSocket socket;
-	//unsigned short port = 54000;
-	//socket.bind(port);
-	//socket.setBlocking(false);
-
-	//sf::Packet packet;
-	//std::string localAddress = sf::IpAddress::getLocalAddress().toString();
-	//packet << localAddress;
-	//
-	//int i = localAddress.length() - 1;
-	//while (localAddress[i] != '.')
-	//{
-	//	i--;
-	//}
-	//std::string broadcastAddress = localAddress;
-	//broadcastAddress.erase(i + 1, localAddress.length() - 1);
-	//broadcastAddress.append("255");
-
-	//sf::IpAddress recipientIP = sf::IpAddress(broadcastAddress);
-
-	//socket.send(packet, recipientIP, port);
 
 	//Create World Entity
 	sf::RenderWindow& window = Engine::GetInstance()->GetRenderWindow();
@@ -42,6 +21,37 @@ void PlayScene::SetWorld(std::string bmpFilePath)
 	world->UpdateTexture();
 	world->Colorize(true);
 	m_world = world;
+
+	//sf::UdpSocket socket;
+	unsigned short port = 54000;
+	//socket.bind(port);
+	//socket.setBlocking(false);
+
+	sf::Packet packet;
+	//std::string localAddress = sf::IpAddress::getLocalAddress().toString();
+	//packet << localAddress;
+	packet << "Hello";
+	
+	//int i = localAddress.length() - 1;
+	//while (localAddress[i] != '.')
+	//{
+	//	i--;
+	//}
+	//std::string broadcastAddress = localAddress;
+	//broadcastAddress.erase(i + 1, localAddress.length() - 1);
+	//broadcastAddress.append("255");
+
+	//sf::IpAddress recipientIP = sf::IpAddress(broadcastAddress);
+
+	//socket.send(packet, recipientIP, port);
+
+	sf::TcpListener listener;
+	listener.listen(port);
+
+	sf::TcpSocket clientSocket;
+	listener.accept(clientSocket);
+
+	clientSocket.send(packet);
 }
 
 World* PlayScene::GetWorld()

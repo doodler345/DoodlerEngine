@@ -34,15 +34,24 @@ WorldGenerator::~WorldGenerator()
 void WorldGenerator::Init()
 {
 	//sf::UdpSocket socket;
-	//unsigned short port = 54000;
+	unsigned short port = 54000;
 	//socket.bind(port);
 
-	//sf::Packet packet2;
+	sf::Packet packet;
 	//char data2[6];
 	//sf::IpAddress sender;
-	//socket.receive(packet2, sender, port);
+	//socket.receive(packet, sender, port);
 	//packet2 >> data2;
 	//std::cout << "Received: " << data2 << std::endl;
+
+	sf::TcpSocket socket;
+	sf::IpAddress serverIP = sf::IpAddress("192.168.178.164");
+	sf::Socket::Status status = socket.connect(serverIP, port, sf::Time(sf::seconds(20)));
+
+	socket.receive(packet);
+	std::string data;
+	packet >> data;
+	std::cout << data;
 
 
 	///////////////////////////////////////////
@@ -355,7 +364,6 @@ void WorldGenerator::OnSaveWorld()
 	{
 		for (int x = 0; x < m_worldGenerationImage->m_worldWidth; x++)
 		{
-			//bmp::Color texColor = bmp::Color(m_worldGenerationImage->m_pixelColors[i * 4] / 255.0f, m_worldGenerationImage->m_pixelColors[i * 4 + 1] / 255.0f, m_worldGenerationImage->m_pixelColors[i * 4 + 2] / 255.0f);
 			bmp::Color texColor = bmp::Color(m_worldGenerationImage->m_pixelValues[i]);
 			bmpWorld.SetColor(texColor, x, y);
 			i++;
