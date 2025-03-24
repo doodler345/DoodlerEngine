@@ -22,36 +22,20 @@ void PlayScene::SetWorld(std::string bmpFilePath)
 	world->Colorize(true);
 	m_world = world;
 
-	//sf::UdpSocket socket;
-	unsigned short port = 54000;
-	//socket.bind(port);
-	//socket.setBlocking(false);
+	////////////////////////////////////////////////////////
+	//unsigned short port = 54000;
 
-	sf::Packet packet;
-	//std::string localAddress = sf::IpAddress::getLocalAddress().toString();
-	//packet << localAddress;
-	packet << world->m_pixelValues;
-	
-	//int i = localAddress.length() - 1;
-	//while (localAddress[i] != '.')
-	//{
-	//	i--;
-	//}
-	//std::string broadcastAddress = localAddress;
-	//broadcastAddress.erase(i + 1, localAddress.length() - 1);
-	//broadcastAddress.append("255");
+	//sf::Packet packet;
+	//packet << world->m_pixelValues;
 
-	//sf::IpAddress recipientIP = sf::IpAddress(broadcastAddress);
+	//sf::TcpListener listener;
+	//listener.listen(port);
 
-	//socket.send(packet, recipientIP, port);
+	//sf::TcpSocket clientSocket;
+	//listener.accept(clientSocket);
 
-	sf::TcpListener listener;
-	listener.listen(port);
-
-	sf::TcpSocket clientSocket;
-	listener.accept(clientSocket);
-
-	clientSocket.send(packet);
+	//clientSocket.send(packet);
+	////////////////////////////////////////////////////////
 }
 
 World* PlayScene::GetWorld()
