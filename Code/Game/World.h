@@ -71,16 +71,17 @@ private:
 
 sf::Packet& operator <<(sf::Packet& packet, const std::vector<int>& vector)
 {
-	sf::Int32 value;
+	//sf::Int32 value;
 	for (int i = 0; i < vector.size(); i++)
 	{
-		value = vector[i];
-		packet << value;
+		//value = vector[i];
+		//packet << value;
+		packet << vector[i];
 	}
 	return packet;
 }
 
-sf::Packet& operator >>(sf::Packet& packet, const std::vector<int>& vector)
+sf::Packet& operator >>(sf::Packet& packet, std::vector<int>& vector)
 {
 	int value;
 	for (sf::Int32 i = 0; i < vector.size(); i++)
