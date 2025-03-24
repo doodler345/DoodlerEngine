@@ -33,24 +33,22 @@ WorldGenerator::~WorldGenerator()
 
 void WorldGenerator::Init()
 {
-	//sf::UdpSocket socket;
-	unsigned short port = 54000;
-	//socket.bind(port);
+	///////////////////////////////////////////
+	//unsigned short port = 54000;
 
-	sf::Packet packet;
-	//char data2[6];
-	//sf::IpAddress sender;
-	//socket.receive(packet, sender, port);
-	//packet2 >> data2;
-	//std::cout << "Received: " << data2 << std::endl;
+	//sf::Packet packet;
 
-	sf::TcpSocket socket;
-	sf::IpAddress serverIP = sf::IpAddress("192.168.178.164");
-	sf::Socket::Status status = socket.connect(serverIP, port, sf::Time(sf::seconds(20)));
+	//sf::TcpSocket socket;
+	//sf::IpAddress serverIP = sf::IpAddress("192.168.178.164");
+	//sf::Socket::Status status = socket.connect(serverIP, port, sf::Time(sf::seconds(20)));
 
-	socket.receive(packet);
-	std::vector<int> data;
-	packet >> data;
+	//socket.receive(packet);
+	//std::vector<int> data;
+	//
+	//packet >> data;
+	///////////////////////////////////////////
+
+
 
 
 	///////////////////////////////////////////
@@ -106,18 +104,18 @@ void WorldGenerator::Init()
 
 
 	// InputField Setup
-	std::ifstream inputStream(m_pathBmpIndex);
-	std::string bmpIndex;
-	std::getline(inputStream, bmpIndex);
-	if (bmpIndex.empty())
+	std::ifstream inputStream2(m_pathBmpIndex);
+	std::string bmpIndex2;
+	std::getline(inputStream2, bmpIndex2);
+	if (bmpIndex2.empty())
 	{
 		std::ofstream outputStream(m_pathBmpIndex);
 		outputStream << "0";
-		bmpIndex = "0";
+		bmpIndex2 = "0";
 		outputStream.close();
 	}
 
-	m_inputField->SetText("GeneratedMap" + bmpIndex);
+	m_inputField->SetText("GeneratedMap" + bmpIndex2);
 	m_inputField->SetFileEnding(".bmp");
 	m_inputField->SetMaxChars(15);
 
@@ -201,6 +199,27 @@ void WorldGenerator::Init()
 	//Finalizing
 	OnGenerateNoisemap();
 	m_initializing = false;
+
+
+
+
+
+	///////////////////////////////////////////
+	//int i = 0;
+	//BMPImage bmpWorld = BMPImage(m_worldGenerationImage->m_worldWidth, m_worldGenerationImage->m_worldHeight);
+	//for (int y = 0; y < m_worldGenerationImage->m_worldHeight; y++)
+	//{
+	//	for (int x = 0; x < m_worldGenerationImage->m_worldWidth; x++)
+	//	{
+	//		bmp::Color texColor = bmp::Color(data[i]);
+	//		bmpWorld.SetColor(texColor, x, y);
+	//		i++;
+	//	}
+	//}
+
+	//std::string savePath = "../Resources/bmp/CopiedMap.bmp";
+	//bmpWorld.Export(savePath.c_str());
+	///////////////////////////////////////////
 }
 
 void WorldGenerator::OnChangeDensity(float relativeValue)

@@ -69,13 +69,14 @@ private:
 };
 
 
+// TODO: make type-sizes fixed (e.g. sf::Int32 instead int)
 inline sf::Packet& operator <<(sf::Packet& packet, const std::vector<int>& vector)
 {
-	//sf::Int32 value;
+	int size = vector.size();
+	packet << size;
+	
 	for (int i = 0; i < vector.size(); i++)
 	{
-		//value = vector[i];
-		//packet << value;
 		packet << vector[i];
 	}
 	return packet;
@@ -84,10 +85,13 @@ inline sf::Packet& operator <<(sf::Packet& packet, const std::vector<int>& vecto
 inline sf::Packet& operator >>(sf::Packet& packet, std::vector<int>& vector)
 {
 	int value;
-	for (sf::Int32 i = 0; i < vector.size(); i++)
+	int size;
+	packet >> size;
+	vector.clear();
+	for (int i = 0; i < size; i++)
 	{
-		value = vector[i];
 		packet >> value;
+		vector.push_back(value);
 	}
 	return packet;
 }
