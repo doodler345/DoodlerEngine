@@ -38,8 +38,10 @@ void Player::EntityInit()
 	m_aimDirection->m_drawable.setScale(m_SPRITE_SCALE + 0.5f, m_SPRITE_SCALE + 0.5f);
 	m_aimDirectionHolder->AddComponent(m_aimDirection);
 
+	// Bazooka
 	m_bazooka = playScene->Instantiate(Bazooka, Bazooka);
 	m_bazooka->SetOwner(this);
+	m_bazooka->SetParent(m_aimDirectionHolder);
 
 	// Calculating Player World Height
 	m_worldPlayerSize = m_world->ScreenToWorldPosition(sf::Vector2u(m_spriteSize));
@@ -157,7 +159,7 @@ void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
 	{
 		if (key == m_fireKey)
 		{
-			float aimDirectionRotation = m_aimDirection->m_drawable.getRotation();
+			float aimDirectionRotation = m_aimDirectionHolder->GetTransformable().getRotation();
 			sf::Vector2f shootDirection = sf::Vector2f(cosf(aimDirectionRotation / 360.f * 2 * std::numbers::pi), sinf(aimDirectionRotation / 360.f * 2 * std::numbers::pi));
 			m_bazooka->Fire(shootDirection);
 		}
@@ -255,5 +257,5 @@ void Player::RotateAimDirection(float deltaTime)
 		return;
 	}
 
-	m_aimDirection->m_drawable.rotate(-m_inputAimDirection.y * 100 * deltaTime);
+	m_aimDirectionHolder->GetTransformable().rotate(-m_inputAimDirection.y * 100 * deltaTime);
 }
