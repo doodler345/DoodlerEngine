@@ -49,6 +49,8 @@ ${ENGINE_SOURCE_PATH}/EntityComponents/SpriteComponent.h
 ${ENGINE_SOURCE_PATH}/EntityComponents/SpriteComponent.cpp
 ${ENGINE_SOURCE_PATH}/EntityComponents/TextComponent.h
 ${ENGINE_SOURCE_PATH}/EntityComponents/TextComponent.cpp
+${ENGINE_SOURCE_PATH}/EntityComponents/AnimatorComponent.h
+${ENGINE_SOURCE_PATH}/EntityComponents/AnimatorComponent.cpp
 ${ENGINE_SOURCE_PATH}/EntityComponents/Primitives/CircleComponent.h
 ${ENGINE_SOURCE_PATH}/EntityComponents/Primitives/CircleComponent.cpp
 ${ENGINE_SOURCE_PATH}/EntityComponents/Primitives/RectangleComponent.h
