@@ -24,5 +24,6 @@ private:
 
 	Player* m_player1 = nullptr;
 	Player* m_player2 = nullptr;
+	bool m_isGameOver = false;
 };
 

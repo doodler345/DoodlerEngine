@@ -11,8 +11,11 @@
 
 PlayScene::~PlayScene()
 {
-	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
-	inputManager.UnregisterKeyboardEntry(KEY::Z);
+	if (m_isGameOver)
+	{
+		InputManager& inputManager = Engine::GetInstance()->GetInputManager();
+		inputManager.UnregisterKeyboardEntry(KEY::Z);
+	}
 }
 
 void PlayScene::SetWorld(std::string bmpFilePath)
@@ -57,6 +60,8 @@ World* PlayScene::GetWorld()
 
 void PlayScene::GameOver(int deadPlayerNumber)
 {
+	m_isGameOver = true;
+
 	m_player1->StopUpdate();
 	m_player2->StopUpdate();
 
