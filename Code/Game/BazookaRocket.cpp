@@ -16,7 +16,7 @@ void BazookaRocket::EntityInit()
 	m_spriteSize = m_spriteComponent->m_drawable.getGlobalBounds().getSize();
 	AddComponent(m_spriteComponent);
 
-	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
+	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity());
 	m_world = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene())->GetWorld();
 	assert(m_world);
 	
@@ -136,7 +136,7 @@ void BazookaRocket::Explode(sf::Vector2i worldPosition)
 	m_world->UpdateTexture();
 
 
-	Scene* scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager())->GetCurrentScene();
+	Scene* scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->GetCurrentScene();
 	scene->DestroyEntity(this);
 }
 

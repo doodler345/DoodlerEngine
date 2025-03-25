@@ -32,7 +32,7 @@ public:
 	EntitySystem& GetEntitySystem() { return *m_entitySystem; }
 	InputManager& GetInputManager() { return *m_inputManager; }
 
-	Entity* GetGameManager() { return m_gameManagerEntity; }
+	Entity* GetGameManagerEntity() { return m_gameManagerEntity; }
 
 	float GetTimeAsSeconds() { return m_clock.getElapsedTime().asSeconds(); }
 

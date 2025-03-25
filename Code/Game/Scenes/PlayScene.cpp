@@ -1,11 +1,23 @@
 #include "PlayScene.h"
 
+#include <functional>
 #include <SFML/Network.hpp>
 
 #include "../Player.h"
+#include "../GameManager.h"
+#include "../../Engine/Engine.h"
+#include "../../Engine/InputManager.h"
+#include "../../Engine/UI_Elements/Text.h"
+
+PlayScene::~PlayScene()
+{
+	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
+	inputManager.UnregisterKeyboardEntry(KEY::Z);
+}
 
 void PlayScene::SetWorld(std::string bmpFilePath)
 {
+	m_bmpFilePath = bmpFilePath;
 
 	//Create World Entity
 	sf::RenderWindow& window = Engine::GetInstance()->GetRenderWindow();
@@ -43,6 +55,33 @@ World* PlayScene::GetWorld()
 	return m_world;
 }
 
+void PlayScene::GameOver(int deadPlayerNumber)
+{
+	m_player1->StopUpdate();
+	m_player2->StopUpdate();
+
+	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
+	inputManager.RegisterKeyboardEntry(KEY::Z, std::bind(&PlayScene::ReloadScene, this, std::placeholders::_1, std::placeholders::_2));
+		
+
+	Text* text_gameOver = Instantiate(Text, GameOverText);
+	Text* text_replayButton = Instantiate(Text, GameOverReplayButtonText);
+	assert(text_gameOver);
+	assert(text_replayButton);
+
+	text_gameOver->m_textComponent->SetText("Player " + std::to_string(deadPlayerNumber) + " died!");
+	text_gameOver->m_textComponent->SetFontSize(75);
+	text_gameOver->m_textComponent->SetTextColor(sf::Color::White);
+
+	text_replayButton->m_textComponent->SetText("Press Z to restart");
+	text_replayButton->m_textComponent->SetFontSize(50);
+	text_replayButton->m_textComponent->SetTextColor(sf::Color::White);
+
+	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
+	text_gameOver->GetTransformable().move(sf::Vector2f(windowSize.x / 2, windowSize.y / 5));
+	text_replayButton->GetTransformable().move(sf::Vector2f(windowSize.x / 2, windowSize.y / 5 + 70));
+}
+
 void PlayScene::Init()
 {
 	m_name = "PlayScene";
@@ -51,8 +90,8 @@ void PlayScene::Init()
 	sf::RenderWindow& window = Engine::GetInstance()->GetRenderWindow();
 
 	//Player 1
-	Player* player = Instantiate(Player, PlayerOne);
-	assert(player);
+	m_player1 = Instantiate(Player, PlayerOne);
+	assert(m_player1);
 
 	std::array<KEY, 2> movementKeysPlayer1 =
 	{
@@ -65,19 +104,32 @@ void PlayScene::Init()
 		KEY::S,
 	};
 
-	player->SetInputKeys(movementKeysPlayer1, aimKeysPlayer1, KEY::Space);
-	player->GetTransformable().move(sf::Vector2f(window.getSize().x / 5, window.getSize().y / 5));
+	m_player1->Setup(1, movementKeysPlayer1, aimKeysPlayer1, KEY::Space);
+	m_player1->GetTransformable().move(sf::Vector2f(window.getSize().x / 5, window.getSize().y / 5));
 
 
 	//Player 2
-	//Player* player2 = Instantiate(Player, PlayerTwo);
-	//assert(player2);
+	m_player2 = Instantiate(Player, PlayerTwo);
+	assert(m_player2);
 
-	//std::array<KEY, 2> inputKeysPlayer2 =
-	//{
-	//	KEY::Left,
-	//	KEY::Right,
-	//};
-	//player2->SetMovementKeys(inputKeysPlayer2);
-	//player2->GetTransform().translate(sf::Vector2f(window.getSize().x - window.getSize().x / 5, window.getSize().y / 5));
+	std::array<KEY, 2> movementKeysPlayer2 =
+	{
+		KEY::Left,
+		KEY::Right,
+	};
+	std::array<KEY, 2> aimKeysPlayer2 =
+	{
+		KEY::Up,
+		KEY::Down,
+	};
+
+	m_player2->Setup(2, movementKeysPlayer2, aimKeysPlayer2, KEY::Enter);
+	m_player2->GetTransformable().move(sf::Vector2f(window.getSize().x - window.getSize().x / 5, window.getSize().y / 5));
+}
+
+void PlayScene::ReloadScene(const KEY key, const bool keyDown)
+{
+	if (!keyDown) return;
+
+	dynamic_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->SwitchToPlayScene(m_bmpFilePath);
 }

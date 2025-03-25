@@ -28,7 +28,7 @@ void Bazooka::PullTrigger()
 
 void Bazooka::Fire(sf::Vector2f direction)
 {
-	Scene* scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager())->GetCurrentScene();
+	Scene* scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->GetCurrentScene();
 	BazookaRocket* rocket = scene->Instantiate(BazookaRocket, BazookaRocket);
 	rocket->GetTransformable().move(m_owner->GetTransformable().getPosition());
 	rocket->Fire(direction, m_shootStrength);

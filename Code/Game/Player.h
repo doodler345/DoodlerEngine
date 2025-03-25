@@ -15,8 +15,8 @@ class Player : public Entity
 {
 public:
 	virtual void EntityInit() override;
-	void SetInputKeys(std::array<sf::Keyboard::Key, 2>& movementKeys, std::array<sf::Keyboard::Key, 2>& aimKeys, sf::Keyboard::Key fireKey);
-
+	void Setup(int playerNumber, std::array<sf::Keyboard::Key, 2>& movementKeys, std::array<sf::Keyboard::Key, 2>& aimKeys, sf::Keyboard::Key fireKey);
+	void StopUpdate();
 
 protected:
 	virtual void DestroyDerived() override;
@@ -36,6 +36,8 @@ private:
 	const float m_RELATIVE_COLLISION_WIDTH = 0.6f;
 	const float m_SPRITE_SCALE = 1.5f;
 
+	bool m_isUpdateStopped = false;
+
 	World* m_world = nullptr;
 	Bazooka* m_bazooka = nullptr;
 	Empty* m_aimDirectionHolder = nullptr;
@@ -43,6 +45,7 @@ private:
 	std::shared_ptr<SpriteComponent> m_aimDirection = nullptr;
 	sf::Vector2f m_spriteSize;
 	sf::Vector2u m_worldPlayerSize;
+	int m_playerNumber;
 	int m_screenPlayerCollisionWidth;
 	int m_worldVeritcalClimbingThreshold;
 

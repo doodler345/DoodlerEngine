@@ -18,7 +18,7 @@ void Player::EntityInit()
 {
 	DebugPrint("Player " + std::to_string(m_id) + " spawned", TextColor::Green, DebugChannel::Entity, __FILE__, __LINE__);
 	
-	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManager());
+	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity());
 	PlayScene* playScene = reinterpret_cast<PlayScene*>(gameManager->GetCurrentScene());
 	m_world = playScene->GetWorld();
 	assert(m_world);
@@ -48,8 +48,9 @@ void Player::EntityInit()
 	m_screenPlayerCollisionWidth = m_spriteSize.x * m_RELATIVE_COLLISION_WIDTH * 0.5f;
 }
 
-void Player::SetInputKeys(std::array<sf::Keyboard::Key, 2>& movementKeys, std::array<sf::Keyboard::Key, 2>& aimKeys, sf::Keyboard::Key fireKey)
+void Player::Setup(int playerNumber, std::array<sf::Keyboard::Key, 2>& movementKeys, std::array<sf::Keyboard::Key, 2>& aimKeys, sf::Keyboard::Key fireKey)
 {
+	m_playerNumber = playerNumber;
 	m_movementKeys = movementKeys;
 	m_aimKeys = aimKeys;
 	m_fireKey = fireKey;
@@ -65,6 +66,11 @@ void Player::SetInputKeys(std::array<sf::Keyboard::Key, 2>& movementKeys, std::a
 	}
 
 	inputManager.RegisterKeyboardEntry(fireKey, std::bind(&Player::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
+}
+
+void Player::StopUpdate()
+{
+	m_isUpdateStopped = true;
 }
 
 void Player::DestroyDerived()
@@ -84,6 +90,10 @@ void Player::DestroyDerived()
 
 void Player::Update(float deltaTime)
 {
+	if (m_isUpdateStopped)
+	{
+		return;
+	}
 
 	if (!GroundedCheck())
 	{
@@ -109,6 +119,11 @@ void Player::Update(float deltaTime)
 
 void Player::OnInputRecieved(const sf::Keyboard::Key key, const bool keyDown)
 {
+	if (m_isUpdateStopped)
+	{
+		return;
+	}
+
 	int inverter = keyDown ? 1 : -1;
 
 	//***** change to switch (caused an error, moveDirection should be "const", how to solve?)
@@ -154,6 +169,8 @@ bool Player::GroundedCheck()
 	sf::Vector2u worldPositionBeneath = m_world->ScreenToWorldPosition(GetScreenPosition()) + sf::Vector2u(0, m_worldPlayerSize.y * 0.5f);
 	if (worldPositionBeneath.y >= m_world->m_worldHeight)
 	{
+		Scene* scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->GetCurrentScene();
+		reinterpret_cast<PlayScene*>(scene)->GameOver(m_playerNumber);
 		return true;
 	}
 
@@ -173,7 +190,6 @@ bool Player::GroundedCheck()
 
 void Player::ApplyGravity(float deltaTime)
 {
-	//std::cout << "Falling";
 	m_velocity += sf::Vector2f(0, m_FALLSPEED) * deltaTime;
 }
 

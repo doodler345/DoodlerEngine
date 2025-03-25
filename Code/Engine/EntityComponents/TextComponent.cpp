@@ -22,7 +22,7 @@ TextComponent::TextComponent(std::string& path, std::string& text, Entity* owner
 	m_text.setFillColor(m_textColor);
 	m_text.setString(text);
 	SetFontSize(20);
-	UpdateText();
+	CenterText();
 
 	renderSystem.AddText(&m_text, this);
 }
@@ -35,7 +35,7 @@ void TextComponent::ShutDown()
 void TextComponent::SetText(std::string text)
 {
 	m_text.setString(text);
-	UpdateText();
+	CenterText();
 }
 
 void TextComponent::SetTextColor(sf::Color color)
@@ -52,24 +52,19 @@ void TextComponent::SetFont(std::string& path)
 	m_font = resourceManager.RegisterFont(m_fontPath);
 	m_text.setFont(m_font);
 
-	UpdateText();
+	CenterText();
 }
 
 void TextComponent::SetFontSize(int fontSize)
 {
 	m_text.setCharacterSize(fontSize);
 	this->m_fontSize = fontSize;
-	UpdateText();
+
+	CenterText();
 }
 
-void TextComponent::UpdateText()
+void TextComponent::CenterText()
 {
-	if (!m_centerHorizontal && !m_centerVertical)
-	{
-		DebugPrint("Text cannot be centered, because bool is set to false!", TextColor::Red, DebugChannel::EntityComponent, __FILE__, __LINE__, true);
-		return;
-	}
-
 	auto center = m_text.getGlobalBounds().getSize() / 2.f;
 	sf::Vector2f newOrigin = m_text.getLocalBounds().getPosition();
 

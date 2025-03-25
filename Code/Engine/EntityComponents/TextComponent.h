@@ -26,7 +26,7 @@ public:
 	bool m_centerVertical = true;
 
 private:
-	void UpdateText();
+	void CenterText();
 
 	std::string m_fontPath;
 	sf::Font m_font;

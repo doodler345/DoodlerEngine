@@ -57,7 +57,7 @@ void LevelSelectionScene::Init()
 		buttons[i]->SetText(m_levelFileNames[i]);
 
 		std::string filePath = m_levelFilePaths[i];
-		std::function<void()> callback = [filePath]() { dynamic_cast<GameManager*>(Engine::GetInstance()->GetGameManager())->SwitchToPlayScene(filePath); };
+		std::function<void()> callback = [filePath]() { dynamic_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->SwitchToPlayScene(filePath); };
 		buttons[i]->SetButtonCallback(callback);
 
 		if (row % 10 == 0)
