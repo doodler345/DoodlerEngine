@@ -42,7 +42,7 @@ private:
 	void OnColorizeWorld();
 	void OnSaveWorld();
 
-	void CheckNeighbours(std::vector<int>& pixelArray_copy, int startColumn, int endColumn, int thread);
+	void DoCellularAutomata(std::vector<int>& pixelArray_copy, int startColumn, int endColumn, int thread);
 	void ColorizeWorld(bool useColor);
 	void PushOldValues();
 

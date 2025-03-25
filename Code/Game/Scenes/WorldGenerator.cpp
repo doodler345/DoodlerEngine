@@ -316,10 +316,10 @@ void WorldGenerator::OnCellularAutomataIterate()
 
 		if (useFourThreads)
 		{
-			std::thread t1(&WorldGenerator::CheckNeighbours, this, std::ref(pixelAlive_copy), 0, quaterCol, 1);
-			std::thread t2(&WorldGenerator::CheckNeighbours, this, std::ref(pixelAlive_copy), quaterCol, 2 * quaterCol, 2);
-			std::thread t3(&WorldGenerator::CheckNeighbours, this, std::ref(pixelAlive_copy), 2 * quaterCol, 3 * quaterCol, 3);
-			std::thread t4(&WorldGenerator::CheckNeighbours, this, std::ref(pixelAlive_copy), 3 * quaterCol, m_worldGenerationImage->m_worldHeight, 4);
+			std::thread t1(&WorldGenerator::DoCellularAutomata, this, std::ref(pixelAlive_copy), 0, quaterCol, 1);
+			std::thread t2(&WorldGenerator::DoCellularAutomata, this, std::ref(pixelAlive_copy), quaterCol, 2 * quaterCol, 2);
+			std::thread t3(&WorldGenerator::DoCellularAutomata, this, std::ref(pixelAlive_copy), 2 * quaterCol, 3 * quaterCol, 3);
+			std::thread t4(&WorldGenerator::DoCellularAutomata, this, std::ref(pixelAlive_copy), 3 * quaterCol, m_worldGenerationImage->m_worldHeight, 4);
 
 			t1.join();
 			t2.join();
@@ -328,8 +328,8 @@ void WorldGenerator::OnCellularAutomataIterate()
 		}
 		else
 		{
-			std::thread t1(&WorldGenerator::CheckNeighbours, this, std::ref(pixelAlive_copy), 0, 2 * quaterCol, 1);
-			std::thread t2(&WorldGenerator::CheckNeighbours, this, std::ref(pixelAlive_copy), 2 * quaterCol, m_worldGenerationImage->m_worldHeight, 2);
+			std::thread t1(&WorldGenerator::DoCellularAutomata, this, std::ref(pixelAlive_copy), 0, 2 * quaterCol, 1);
+			std::thread t2(&WorldGenerator::DoCellularAutomata, this, std::ref(pixelAlive_copy), 2 * quaterCol, m_worldGenerationImage->m_worldHeight, 2);
 			t1.join();
 			t2.join();
 		}
@@ -409,7 +409,7 @@ void WorldGenerator::OnSaveWorld()
 }
 
 
-void WorldGenerator::CheckNeighbours(std::vector<int>& pixelArray_copy, int startColumn, int endColumn, int thread)
+void WorldGenerator::DoCellularAutomata(std::vector<int>& pixelArray_copy, int startColumn, int endColumn, int thread)
 {
 	int i = startColumn * m_worldGenerationImage->m_worldWidth;
 
