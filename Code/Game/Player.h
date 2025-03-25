@@ -2,6 +2,8 @@
 
 #include "../Engine/Entity/Entity.h"
 #include "../Engine/Entity/Empty.h"
+#include "../../Engine/EntityComponents/SpriteComponent.h"
+#include "../../Engine/EntityComponents/AnimatorComponent.h"
 
 #include "World.h"
 #include "Bazooka.h"
@@ -10,6 +12,11 @@
 #include <SFMLMath/SFMLMath.hpp>
 #include <array>
 
+enum WalkType
+{
+	Idle,
+	Walk
+};
 
 class Player : public Entity
 {
@@ -42,7 +49,12 @@ private:
 	Bazooka* m_bazooka = nullptr;
 	Empty* m_aimDirectionHolder = nullptr;
 
+	std::shared_ptr<SpriteComponent> m_spriteComponent = nullptr;
+	std::shared_ptr<AnimatorComponent> m_animatorComponent = nullptr;
 	std::shared_ptr<SpriteComponent> m_aimDirection = nullptr;
+
+	WalkType m_walkType = WalkType::Idle;
+
 	sf::Vector2f m_spriteSize;
 	sf::Vector2u m_worldPlayerSize;
 	int m_playerNumber;

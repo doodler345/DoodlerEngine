@@ -4,7 +4,6 @@
 #include <../../Engine/InputManager.h>
 #include <../../Engine/Debug.h>
 #include <../../Engine/Scene.h>
-#include "../../Engine/EntityComponents/SpriteComponent.h"
 #include "../../Engine/EntityComponents/TextComponent.h"
 #include "Scenes/PlayScene.h"
 #include "GameManager.h"
@@ -23,18 +22,28 @@ void Player::EntityInit()
 	m_world = playScene->GetWorld();
 	assert(m_world);
 
-	// Sprite Player 
-	std::string path = "../Resources/Sprites/Profilbild Sonic Infusion.png";
-	std::shared_ptr<SpriteComponent> spriteComponent = std::make_shared<SpriteComponent>(path, this);
-	spriteComponent->m_drawable.setScale(m_SPRITE_SCALE, m_SPRITE_SCALE);
-	m_spriteSize = spriteComponent->m_drawable.getGlobalBounds().getSize();
-	AddComponent(spriteComponent);
+	// Sprite  
+	std::string pathTextureIdle = "../Resources/Sprites/SonicInfusion_Idle.png";
+	m_spriteComponent = std::make_shared<SpriteComponent>(pathTextureIdle, this);
+	m_spriteComponent->m_drawable.setScale(m_SPRITE_SCALE, m_SPRITE_SCALE);
+	m_spriteSize = m_spriteComponent->m_drawable.getGlobalBounds().getSize();
+	AddComponent(m_spriteComponent);
+
+	// Animator
+	std::string pathTextureWalk0 = "../Resources/Sprites/SonicInfusion_Walk_0.png";
+	std::string pathTextureWalk1 = "../Resources/Sprites/SonicInfusion_Walk_1.png";
+	m_animatorComponent = std::make_shared<AnimatorComponent>();
+	m_animatorComponent->Setup(m_spriteComponent);
+	m_animatorComponent->AddAnimation("Idle", { pathTextureIdle }, 0);
+	m_animatorComponent->AddAnimation("Walk", { pathTextureIdle, pathTextureWalk0, pathTextureWalk1 }, 0.4f);
+	m_animatorComponent->SetAnimation("Idle");
+	AddComponent(m_animatorComponent);
 
 	// Aim Direction
-	path = "../Resources/Sprites/AimDirection.png";
+	pathTextureIdle = "../Resources/Sprites/AimDirection.png";
 	m_aimDirectionHolder = playScene->Instantiate(Empty, AimDirectionHolder);
 	m_aimDirectionHolder->SetParent(this);
-	m_aimDirection = std::make_shared<SpriteComponent>(path, m_aimDirectionHolder);
+	m_aimDirection = std::make_shared<SpriteComponent>(pathTextureIdle, m_aimDirectionHolder);
 	m_aimDirection->m_drawable.setScale(m_SPRITE_SCALE + 0.5f, m_SPRITE_SCALE + 0.5f);
 	m_aimDirectionHolder->AddComponent(m_aimDirection);
 
@@ -204,8 +213,20 @@ void Player::Move(float deltaTime)
 {
 	if (m_inputMoveDirection.x == 0)
 	{
+		if (m_walkType == WalkType::Walk)
+		{
+			m_walkType = WalkType::Idle;
+			m_animatorComponent->SetAnimation("Idle");
+		}
 		return;
 	}
+
+	if (m_walkType == WalkType::Idle)
+	{
+		m_walkType = WalkType::Walk;
+		m_animatorComponent->SetAnimation("Walk");
+	}
+
 
 	sf::Vector2f moveDirection = m_inputMoveDirection;
 	sf::Vector2u screenHorizontalDestination = GetScreenPosition() + sf::Vector2u(moveDirection.x * m_screenPlayerCollisionWidth,0);
