@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <SFML/Audio.hpp>
 
 #include "../../Engine/Scene.h"
 #include "../World.h"
@@ -14,6 +15,7 @@ public:
 	void SetWorld(std::string bmpFileName);
 	World* GetWorld();
 
+	void PlayExplosionSound();	
 	void GameOver(int deadPlayerNumber);
 
 private:
@@ -25,5 +27,9 @@ private:
 	Player* m_player1 = nullptr;
 	Player* m_player2 = nullptr;
 	bool m_isGameOver = false;
+
+	sf::Sound m_sound;
+	sf::SoundBuffer m_gameOverSoundBuffer;
+	sf::SoundBuffer m_explosionSoundBuffer;
 };
 

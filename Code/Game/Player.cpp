@@ -50,7 +50,7 @@ void Player::EntityInit()
 	m_screenPlayerCollisionWidth = m_spriteSize.x * m_RELATIVE_COLLISION_WIDTH * 0.5f;
 }
 
-void Player::Setup(int playerNumber, std::array<sf::Keyboard::Key, 2>& movementKeys, std::array<sf::Keyboard::Key, 2>& aimKeys, sf::Keyboard::Key fireKey)
+void Player::Setup(int playerNumber, std::array<sf::Keyboard::Key, 2>& movementKeys, std::array<sf::Keyboard::Key, 2>& aimKeys, sf::Keyboard::Key fireKey, bool lookToLeft)
 {
 	m_playerNumber = playerNumber;
 	m_movementKeys = movementKeys;
@@ -68,6 +68,11 @@ void Player::Setup(int playerNumber, std::array<sf::Keyboard::Key, 2>& movementK
 	}
 
 	inputManager.RegisterKeyboardEntry(fireKey, std::bind(&Player::OnInputRecieved, this, std::placeholders::_1, std::placeholders::_2));
+
+	if (lookToLeft)
+	{
+		m_aimDirectionHolder->GetTransformable().rotate(180);
+	}
 }
 
 void Player::StopUpdate()

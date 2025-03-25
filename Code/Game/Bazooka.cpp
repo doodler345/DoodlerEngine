@@ -5,7 +5,7 @@
 
 void Bazooka::EntityInit()
 {
-	m_shootSoundBuffer.loadFromFile("../Resources/Audio/Aud_Sound_Pistol_0.wav");
+	m_shootSoundBuffer.loadFromFile("../Resources/Audio/Aud_Sound_BazookaShot_0.wav");
 
 	std::string path = "../Resources/Sprites/ShootStrengthIndicator.png";
 	m_scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->GetCurrentScene();
@@ -24,11 +24,7 @@ void Bazooka::DestroyDerived()
 
 void Bazooka::Update(float deltaTime)
 {
-	if (m_loadShootStrength)
-	{
-		m_shootStrength += deltaTime * 1000;
-		m_shootStrengthIndicator->m_drawable.setScale(m_shootStrength * 0.05f, m_SHOOT_STRENGTH_INDICATOR_SCALE);
-	}
+	UpdateShootStrength(deltaTime);
 }
 
 void Bazooka::PullTrigger()
@@ -48,4 +44,13 @@ void Bazooka::Fire(sf::Vector2f direction)
 
 	m_loadShootStrength = false;
 	m_shootStrengthIndicator->m_drawable.setScale(0, m_SHOOT_STRENGTH_INDICATOR_SCALE);
+}
+
+void Bazooka::UpdateShootStrength(float deltaTime)
+{
+	if (m_loadShootStrength)
+	{
+		m_shootStrength += deltaTime * 1000;
+		m_shootStrengthIndicator->m_drawable.setScale(m_shootStrength * 0.05f, m_SHOOT_STRENGTH_INDICATOR_SCALE);
+	}
 }

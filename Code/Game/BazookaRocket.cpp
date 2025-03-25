@@ -135,8 +135,8 @@ void BazookaRocket::Explode(sf::Vector2i worldPosition)
 
 	m_world->UpdateTexture();
 
-
 	Scene* scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->GetCurrentScene();
+	reinterpret_cast<PlayScene*>(scene)->PlayExplosionSound();
 	scene->DestroyEntity(this);
 }
 

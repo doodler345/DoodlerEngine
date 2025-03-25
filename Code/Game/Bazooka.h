@@ -20,6 +20,8 @@ public:
 	void SetOwner(Entity* owner) { m_owner = owner; }
 
 private:
+	void UpdateShootStrength(float deltaTime);
+
 	Entity* m_owner = nullptr;
 	BazookaRocket* m_rocket = nullptr;
 	Scene* m_scene = nullptr;

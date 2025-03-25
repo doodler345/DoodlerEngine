@@ -15,7 +15,7 @@ class Player : public Entity
 {
 public:
 	virtual void EntityInit() override;
-	void Setup(int playerNumber, std::array<sf::Keyboard::Key, 2>& movementKeys, std::array<sf::Keyboard::Key, 2>& aimKeys, sf::Keyboard::Key fireKey);
+	void Setup(int playerNumber, std::array<sf::Keyboard::Key, 2>& movementKeys, std::array<sf::Keyboard::Key, 2>& aimKeys, sf::Keyboard::Key fireKey, bool lookToLeft = false);
 	void StopUpdate();
 
 protected:

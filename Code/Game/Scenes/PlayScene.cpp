@@ -58,6 +58,12 @@ World* PlayScene::GetWorld()
 	return m_world;
 }
 
+void PlayScene::PlayExplosionSound()
+{
+	m_sound = sf::Sound(m_explosionSoundBuffer);
+	m_sound.play();
+}
+
 void PlayScene::GameOver(int deadPlayerNumber)
 {
 	m_isGameOver = true;
@@ -85,6 +91,9 @@ void PlayScene::GameOver(int deadPlayerNumber)
 	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
 	text_gameOver->GetTransformable().move(sf::Vector2f(windowSize.x / 2, windowSize.y / 5));
 	text_replayButton->GetTransformable().move(sf::Vector2f(windowSize.x / 2, windowSize.y / 5 + 70));
+
+	m_sound = sf::Sound(m_gameOverSoundBuffer);
+	m_sound.play();
 }
 
 void PlayScene::Init()
@@ -124,12 +133,17 @@ void PlayScene::Init()
 	};
 	std::array<KEY, 2> aimKeysPlayer2 =
 	{
-		KEY::Up,
 		KEY::Down,
+		KEY::Up,
 	};
 
-	m_player2->Setup(2, movementKeysPlayer2, aimKeysPlayer2, KEY::Enter);
+	m_player2->Setup(2, movementKeysPlayer2, aimKeysPlayer2, KEY::Enter, true);
 	m_player2->GetTransformable().move(sf::Vector2f(window.getSize().x - window.getSize().x / 5, window.getSize().y / 5));
+
+
+	// Audio
+	m_gameOverSoundBuffer.loadFromFile("../Resources/Audio/Aud_Sound_GameOver_0.wav");
+	m_explosionSoundBuffer.loadFromFile("../Resources/Audio/Aud_Sound_BazookaRocketExplosion_0.wav");
 }
 
 void PlayScene::ReloadScene(const KEY key, const bool keyDown)
