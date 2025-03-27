@@ -27,6 +27,7 @@
 #include "Scenes/WorldGenerator.h"
 #include "Scenes/LevelSelectionScene.h"
 #include "Scenes/PlayScene.h"
+#include "Scenes/MultiplayerLobbyListScene.h"
 
 //Others
 #include "../Engine/BMPImage.h"
@@ -76,6 +77,10 @@ void GameManager::SwitchScene(int index)
 		break;
 	case 2:
 		m_currentScene = std::make_unique<WorldGenerator>();
+		m_currentScene->Init();
+		break;
+	case 3:
+		m_currentScene = std::make_unique<MultiplayerLobbyListScene>();
 		m_currentScene->Init();
 		break;
 	}

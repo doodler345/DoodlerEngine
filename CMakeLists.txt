@@ -85,12 +85,16 @@ ${GAME_SOURCE_PATH}/Bazooka.h
 ${GAME_SOURCE_PATH}/Bazooka.cpp
 ${GAME_SOURCE_PATH}/BazookaRocket.h
 ${GAME_SOURCE_PATH}/BazookaRocket.cpp
+${GAME_SOURCE_PATH}/CreateLobbyForm.h
+${GAME_SOURCE_PATH}/CreateLobbyForm.cpp
 ${GAME_SOURCE_PATH}/Scenes/MainMenu.h
 ${GAME_SOURCE_PATH}/Scenes/MainMenu.cpp
 ${GAME_SOURCE_PATH}/Scenes/LevelSelectionScene.h
 ${GAME_SOURCE_PATH}/Scenes/LevelSelectionScene.cpp
 ${GAME_SOURCE_PATH}/Scenes/PlayScene.h
 ${GAME_SOURCE_PATH}/Scenes/PlayScene.cpp
+${GAME_SOURCE_PATH}/Scenes/MultiplayerLobbyListScene.h
+${GAME_SOURCE_PATH}/Scenes/MultiplayerLobbyListScene.cpp
 ${GAME_SOURCE_PATH}/Scenes/WorldGenerator.h
 ${GAME_SOURCE_PATH}/Scenes/WorldGenerator.cpp
 )

@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "World.h"
 #include "BrushTool.h"
+#include "CreateLobbyForm.h"
 
 
 #include "../Engine/BMPImage.h"
@@ -27,6 +28,7 @@ int main()
     entitiyFactoryManager->REGISTER(Bazooka);
     entitiyFactoryManager->REGISTER(BazookaRocket);
     entitiyFactoryManager->REGISTER(BrushTool);
+    entitiyFactoryManager->REGISTER(CreateLobbyForm);
 
     int windowWidth = 1280;
     int windowHeight = 720;
