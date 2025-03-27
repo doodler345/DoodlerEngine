@@ -2,8 +2,8 @@
 
 #include "../Engine/Entity/Entity.h"
 #include "../Engine/Entity/Empty.h"
-#include "../../Engine/EntityComponents/SpriteComponent.h"
-#include "../../Engine/EntityComponents/AnimatorComponent.h"
+#include "../Engine/EntityComponents/SpriteComponent.h"
+#include "../Engine/EntityComponents/AnimatorComponent.h"
 
 #include "World.h"
 #include "Bazooka.h"

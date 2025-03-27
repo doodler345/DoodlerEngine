@@ -23,19 +23,24 @@ void Player::EntityInit()
 	assert(m_world);
 
 	// Sprite  
-	std::string pathTextureIdle = "../Resources/Sprites/SonicInfusion_Idle.png";
+	std::string pathTextureIdle = "../Resources/Sprites/Character_01.png";
 	m_spriteComponent = std::make_shared<SpriteComponent>(pathTextureIdle, this);
 	m_spriteComponent->m_drawable.setScale(m_SPRITE_SCALE, m_SPRITE_SCALE);
 	m_spriteSize = m_spriteComponent->m_drawable.getGlobalBounds().getSize();
 	AddComponent(m_spriteComponent);
 
 	// Animator
-	std::string pathTextureWalk0 = "../Resources/Sprites/SonicInfusion_Walk_0.png";
-	std::string pathTextureWalk1 = "../Resources/Sprites/SonicInfusion_Walk_1.png";
+	std::vector<std::string> pathTexturesWalk;
+	pathTexturesWalk.push_back("../Resources/Sprites/Character_01.png");
+	pathTexturesWalk.push_back("../Resources/Sprites/Character_02.png");
+	pathTexturesWalk.push_back("../Resources/Sprites/Character_03.png");
+	pathTexturesWalk.push_back("../Resources/Sprites/Character_04.png");
+	pathTexturesWalk.push_back("../Resources/Sprites/Character_03.png");
+	pathTexturesWalk.push_back("../Resources/Sprites/Character_02.png");
 	m_animatorComponent = std::make_shared<AnimatorComponent>();
 	m_animatorComponent->Setup(m_spriteComponent);
 	m_animatorComponent->AddAnimation("Idle", { pathTextureIdle }, 0);
-	m_animatorComponent->AddAnimation("Walk", { pathTextureIdle, pathTextureWalk0, pathTextureWalk1 }, 0.4f);
+	m_animatorComponent->AddAnimation("Walk", pathTexturesWalk, 0.4f);
 	m_animatorComponent->SetAnimation("Idle");
 	AddComponent(m_animatorComponent);
 
