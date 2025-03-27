@@ -38,16 +38,8 @@ public:
 	void Init(sf::RenderWindow* renderWindow);
 	void Update();
 	
-	void AddSprite(sf::Sprite* sprite, EntityComponent* owner, int layer = 0);
-	void AddText(sf::Text* text, EntityComponent* owner, int layer = 0);
-	void AddShape(sf::Shape* shape, EntityComponent* owner, int layer = 0);
-	void AddShader(sf::Drawable* drawable, sf::Shader* shader, EntityComponent* owner, int layer = 0);
-	
-	//void RemoveEntry(EntityComponent* owner, EntryType type);
-	void RemoveSprite(EntityComponent* owner);
-	void RemoveText(EntityComponent* owner);
-	void RemoveShape(EntityComponent* owner);
-	void RemoveShader(EntityComponent* owner);
+	void AddEntry(sf::Drawable* drawable, EntityComponent* owner, EntryType type, int layer = 0, sf::Shader* shader = nullptr);	
+	void RemoveEntry(EntityComponent* owner, EntryType type);
 
 private:
 	sf::RenderWindow* m_renderWindow = nullptr;

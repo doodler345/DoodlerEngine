@@ -15,7 +15,7 @@ RectangleComponent::RectangleComponent(Entity* owner, int renderLayer)
 	m_drawable->setFillColor(sf::Color::Green);
 
 	RenderSystem& renderSystem = Engine::GetInstance()->GetRenderSystem();
-	renderSystem.AddShape(m_drawable.get(), this, renderLayer);
+	renderSystem.AddEntry(m_drawable.get(), this, EntryType::ShapeEntry, renderLayer);
 }
 
 void RectangleComponent::Center(bool horizontal, bool vertical)
@@ -41,5 +41,5 @@ void RectangleComponent::Center(bool horizontal, bool vertical)
 
 void RectangleComponent::ShutDown()
 {
-	Engine::GetInstance()->GetRenderSystem().RemoveShape(this);
+	Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::ShapeEntry);
 }

@@ -24,12 +24,12 @@ TextComponent::TextComponent(std::string& path, std::string& text, Entity* owner
 	SetFontSize(20);
 	CenterText();
 
-	renderSystem.AddText(&m_text, this, renderLayer);
+	renderSystem.AddEntry(&m_text, this, EntryType::TextEntry, renderLayer);
 }
 
 void TextComponent::ShutDown()
 {
-	Engine::GetInstance()->GetRenderSystem().RemoveText(this);
+	Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::TextEntry);
 }
 
 void TextComponent::SetText(std::string text)

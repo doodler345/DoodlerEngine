@@ -26,10 +26,10 @@ ShaderComponent::ShaderComponent(sf::Drawable* drawable, std::string& vertShader
 		return;
 	}
 
-	Engine::GetInstance()->GetRenderSystem().AddShader(drawable, &m_shader, this, renderLayer);
+	Engine::GetInstance()->GetRenderSystem().AddEntry(drawable, this, EntryType::ShaderEntry, renderLayer, &m_shader);
 }
 
 void ShaderComponent::ShutDown()
 {
-	Engine::GetInstance()->GetRenderSystem().RemoveShader(this);
+	Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::ShaderEntry);
 }
