@@ -8,8 +8,8 @@
 class SpriteComponent : public EntityComponent
 {
 public:
-	SpriteComponent(Entity* owner);
-	SpriteComponent(std::string& texturePath, Entity* owner);
+	SpriteComponent(Entity* owner, int renderLayer = 0);
+	SpriteComponent(std::string& texturePath, Entity* owner, int renderLayer = 0);
 	void SetTexture(std::string& texturePath);
 	void UpdateTexture();
 	void CenterTexture();
@@ -21,6 +21,7 @@ public:
 private:
 	bool m_isInitialized = false;
 	bool m_isVisible = true;
+	int m_renderLayer;
 	std::string m_texturePath = "";
 	sf::Texture m_texture;
 };

@@ -8,7 +8,7 @@
 class CircleComponent : public EntityComponent
 {
 public:
-	CircleComponent(Entity* owner);
+	CircleComponent(Entity* owner, int renderLayer = 0);
 
 	// TODO: Circle Position not really moved yet! It just gets rendered at owners position
 	sf::CircleShape* GetCircle() { return m_drawable.get(); }

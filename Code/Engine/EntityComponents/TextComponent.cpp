@@ -6,7 +6,7 @@
 #include "../Engine.h"
 
 
-TextComponent::TextComponent(std::string& path, std::string& text, Entity* owner, sf::Color color, bool centerHorizontal, bool centerVertical) :
+TextComponent::TextComponent(std::string& path, std::string& text, Entity* owner, sf::Color color, bool centerHorizontal, bool centerVertical, int renderLayer) :
 	m_fontPath(path), m_textColor(color), m_centerHorizontal(centerHorizontal), m_centerVertical(centerVertical)
 {
 	std::string type = typeid(this).name();
@@ -24,7 +24,7 @@ TextComponent::TextComponent(std::string& path, std::string& text, Entity* owner
 	SetFontSize(20);
 	CenterText();
 
-	renderSystem.AddText(&m_text, this);
+	renderSystem.AddText(&m_text, this, renderLayer);
 }
 
 void TextComponent::ShutDown()

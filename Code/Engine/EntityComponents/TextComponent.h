@@ -8,7 +8,7 @@
 class TextComponent : public EntityComponent
 {
 public:
-	TextComponent(std::string& path, std::string& text, Entity* owner, sf::Color color = sf::Color::Black, bool centerHorizontal = true, bool centerVertical = true);
+	TextComponent(std::string& path, std::string& text, Entity* owner, sf::Color color = sf::Color::Black, bool centerHorizontal = true, bool centerVertical = true, int renderLayer = 0);
 
 	virtual void ShutDown() override;
 

@@ -8,7 +8,7 @@
 class RectangleComponent : public EntityComponent
 {
 public:
-	RectangleComponent(Entity* owner);
+	RectangleComponent(Entity* owner, int renderLayer = 0);
 
 	// TODO: Rectangles Position not really moved yet! It just gets rendered at owners position
 	sf::RectangleShape* GetRectangle() { return m_drawable.get(); }

@@ -42,9 +42,11 @@ void Engine::Run(int windowWidth, int windowHeight)
     m_renderWindow = std::make_unique<sf::RenderWindow>(sf::VideoMode(windowWidth, windowHeight), "FPS", sf::Style::Titlebar | sf::Style::Close);
 
     m_renderSystem = std::make_unique<RenderSystem>();
+	m_renderSystem->Init(m_renderWindow.get());
     m_resourceManager = std::make_unique<ResourceManager>();
     m_entitySystem = std::make_unique<EntitySystem>();
     m_inputManager = std::make_unique<InputManager>();
+
 
     EntityFactoryManager* entityFactoryManager = EntityFactoryManager::GetInstance();
     entityFactoryManager->Register<Empty>("Empty");

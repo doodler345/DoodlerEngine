@@ -3,7 +3,7 @@
 #include "../../Engine/Engine.h"
 #include "../../Engine/RenderSystem.h"
 
-RectangleComponent::RectangleComponent(Entity* owner)
+RectangleComponent::RectangleComponent(Entity* owner, int renderLayer)
 {
 	std::string type = typeid(this).name();
 	m_name = type;
@@ -15,7 +15,7 @@ RectangleComponent::RectangleComponent(Entity* owner)
 	m_drawable->setFillColor(sf::Color::Green);
 
 	RenderSystem& renderSystem = Engine::GetInstance()->GetRenderSystem();
-	renderSystem.AddShape(m_drawable.get(), this);
+	renderSystem.AddShape(m_drawable.get(), this, renderLayer);
 }
 
 void RectangleComponent::Center(bool horizontal, bool vertical)

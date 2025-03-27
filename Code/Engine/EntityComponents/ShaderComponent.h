@@ -8,7 +8,7 @@
 class ShaderComponent : public EntityComponent
 {
 public:
-	ShaderComponent(sf::Drawable* drawable, std::string& vertShaderPath, std::string& fragShaderPath, Entity* owner);
+	ShaderComponent(sf::Drawable* drawable, std::string& vertShaderPath, std::string& fragShaderPath, Entity* owner, int renderLayer = 0);
 	
 	void ShutDown() override;
 

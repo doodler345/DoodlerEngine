@@ -4,7 +4,7 @@
 #include "../Engine.h"
 #include "../RenderSystem.h"
 
-ShaderComponent::ShaderComponent(sf::Drawable* drawable, std::string& vertShaderPath, std::string& fragShaderPath, Entity* owner)
+ShaderComponent::ShaderComponent(sf::Drawable* drawable, std::string& vertShaderPath, std::string& fragShaderPath, Entity* owner, int renderLayer)
 {
 	std::string type = typeid(this).name();
 	m_name = type;
@@ -26,7 +26,7 @@ ShaderComponent::ShaderComponent(sf::Drawable* drawable, std::string& vertShader
 		return;
 	}
 
-	Engine::GetInstance()->GetRenderSystem().AddShader(drawable, &m_shader, this);
+	Engine::GetInstance()->GetRenderSystem().AddShader(drawable, &m_shader, this, renderLayer);
 }
 
 void ShaderComponent::ShutDown()

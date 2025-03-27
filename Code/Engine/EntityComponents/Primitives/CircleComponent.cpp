@@ -3,7 +3,7 @@
 #include "../../Engine/Engine.h"
 #include "../../Engine/RenderSystem.h"
 
-CircleComponent::CircleComponent(Entity* owner)
+CircleComponent::CircleComponent(Entity* owner, int renderLayer)
 {
 	std::string type = typeid(this).name();
 	m_name = type;
@@ -16,7 +16,7 @@ CircleComponent::CircleComponent(Entity* owner)
 
 
 	RenderSystem& renderSystem = Engine::GetInstance()->GetRenderSystem();
-	renderSystem.AddShape(m_drawable.get(), this);
+	renderSystem.AddShape(m_drawable.get(), this, renderLayer);
 }
 
 void CircleComponent::SetRadius(float radius)

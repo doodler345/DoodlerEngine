@@ -2,20 +2,23 @@
 #include "../RenderSystem.h"
 #include "../Engine.h"
 
-SpriteComponent::SpriteComponent(Entity* owner)
+SpriteComponent::SpriteComponent(Entity* owner, int renderLayer)
 {
 	std::string type = typeid(this).name();
 	m_name = type;
 
-	m_ownerEntity = owner;		
+	m_ownerEntity = owner;	
+	m_renderLayer = renderLayer;
 }
 
-SpriteComponent::SpriteComponent(std::string& texturePath, Entity* owner)
+SpriteComponent::SpriteComponent(std::string& texturePath, Entity* owner, int renderLayer)
 {
 	std::string type = typeid(this).name();
 	m_name = type;
 
 	m_ownerEntity = owner;		
+	m_renderLayer = renderLayer;
+
 	SetTexture(texturePath);
 }
 

@@ -117,12 +117,15 @@ void InputManager::Update(float mouseScrollDelta)
 					m_activeInputField->Activate(true);
 					SwitchInputMode(InputMode::InputFieldMode);
 				}
-				
-				else // other rectangles
+				else
 				{
 					if (entry.m_button)
 					{
 						entry.m_button->Submit();
+					}
+					else
+					{
+						entry.m_rectangleCallback(sf::Vector2f(mousePos), true);
 					}
 
 					if (m_inputMode == InputMode::InputFieldMode)
@@ -130,11 +133,9 @@ void InputManager::Update(float mouseScrollDelta)
 						SwitchInputMode(InputMode::DefaultMode);
 					}
 				}
+				
 
-				if (!entry.m_button)
-				{
-					entry.m_rectangleCallback(sf::Vector2f(mousePos), true);
-				}
+
 				entry.m_pressed = true;
 				return;
 			}

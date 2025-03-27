@@ -4,82 +4,139 @@
 #include "Engine.h"
 
 
+void RenderSystem::Init(sf::RenderWindow* renderWindow)
+{
+	m_renderWindow = renderWindow;
+}
+
 void RenderSystem::Update()
 {
-	sf::RenderWindow& renderWindow = Engine::GetInstance()->GetRenderWindow();
 
-	sf::RenderStates renderState;
-	for (auto& it : m_shaderEntries)
+	for (auto& it : m_renderLayers)
 	{
-		renderState.transform = it.second.m_owner->GetOwner()->GetTransformable().getTransform();
-		renderState.shader = it.second.m_shader;
-		renderWindow.draw(*it.second.m_drawable, renderState); 
-	}
+		sf::RenderStates renderState;
+		for (auto& it2 : it.second->m_shaderEntries)
+		{
+			renderState.transform = it2.second.m_owner->GetOwner()->GetTransformable().getTransform();
+			renderState.shader = it2.second.m_shader;
+			m_renderWindow->draw(*it2.second.m_drawable, renderState);
+		}
 
-	for (auto& it : m_spriteEntries)
-	{
-		renderWindow.draw(*it.second.m_drawable, it.second.m_owner->GetOwner()->GetTransformable().getTransform());
-	}
+		for (auto& it2 : it.second->m_spriteEntries)
+		{
+			m_renderWindow->draw(*it2.second.m_drawable, it2.second.m_owner->GetOwner()->GetTransformable().getTransform());
+		}
 
-	for (auto& it : m_shapeEntries)
-	{
-		renderWindow.draw(*it.second.m_drawable, it.second.m_owner->GetOwner()->GetTransformable().getTransform());
-	}
+		for (auto& it2 : it.second->m_shapeEntries)
+		{
+			m_renderWindow->draw(*it2.second.m_drawable, it2.second.m_owner->GetOwner()->GetTransformable().getTransform());
+		}
 
-	for (auto& it : m_textEntries)
-	{
-		renderWindow.draw(*it.second.m_drawable, it.second.m_owner->GetOwner()->GetTransformable().getTransform());
+		for (auto& it2 : it.second->m_textEntries)
+		{
+			m_renderWindow->draw(*it2.second.m_drawable, it2.second.m_owner->GetOwner()->GetTransformable().getTransform());
+		}
 	}
 }
 
-void RenderSystem::AddSprite(sf::Sprite* sprite, EntityComponent* owner)
+void RenderSystem::AddSprite(sf::Sprite* sprite, EntityComponent* owner, int layer)
 {
 	RenderEntry entry;
 	entry.m_owner = owner;
 	entry.m_drawable = sprite;
-
-	int id = owner->m_id;
-	m_spriteEntries[id] = entry;
+	m_ownerToLayer[owner] = layer;
+	if (!m_renderLayers.contains(layer))
+	{
+		std::shared_ptr<RenderLayer> newLayer = std::make_shared<RenderLayer>();
+		m_renderLayersVector.push_back(newLayer);
+		m_renderLayers[layer] = newLayer.get();
+	}
+	m_renderLayers[layer]->m_spriteEntries[owner->m_id] = entry;
 
 	DebugPrint("Added Sprite to EntityComponent (c_id " + std::to_string(owner->m_id) + ")", TextColor::Yellow, DebugChannel::RenderSystem, __FILE__, __LINE__);
 }
 
-void RenderSystem::AddText(sf::Text* text, EntityComponent* owner)
+void RenderSystem::AddText(sf::Text* text, EntityComponent* owner, int layer)
 {
 	RenderEntry entry;
 	entry.m_owner = owner;
 	entry.m_drawable = text;
-	m_textEntries[owner->m_id] = entry;
+	m_ownerToLayer[owner] = layer;
+	if (!m_renderLayers.contains(layer))
+	{
+		std::shared_ptr<RenderLayer> newLayer = std::make_shared<RenderLayer>();
+		m_renderLayersVector.push_back(newLayer);
+		m_renderLayers[layer] = newLayer.get();
+	}
+	m_renderLayers[layer]->m_textEntries[owner->m_id] = entry;
 
 	DebugPrint("Added Text to EntityComponent (c_id " + std::to_string(owner->m_id) + ")", TextColor::Yellow, DebugChannel::RenderSystem, __FILE__, __LINE__);
 }
 
-void RenderSystem::AddShape(sf::Shape* drawable, EntityComponent* owner)
+void RenderSystem::AddShape(sf::Shape* drawable, EntityComponent* owner, int layer)
 {
 	RenderEntry entry;
 	entry.m_owner = owner;
 	entry.m_drawable = drawable;
-	m_shapeEntries[owner->m_id] = entry;
+	m_ownerToLayer[owner] = layer;
+	if (!m_renderLayers.contains(layer))
+	{
+		std::shared_ptr<RenderLayer> newLayer = std::make_shared<RenderLayer>();
+		m_renderLayersVector.push_back(newLayer);
+		m_renderLayers[layer] = newLayer.get();
+	}
+	m_renderLayers[layer]->m_shapeEntries[owner->m_id] = entry;
 
 	DebugPrint("Added Shape to EntityComponent (c_id " + std::to_string(owner->m_id) + ")", TextColor::Yellow, DebugChannel::RenderSystem, __FILE__, __LINE__);
 }
 
-void RenderSystem::AddShader(sf::Drawable* drawable, sf::Shader* shader, EntityComponent* owner)
+void RenderSystem::AddShader(sf::Drawable* drawable, sf::Shader* shader, EntityComponent* owner, int layer)
 {
 	RenderEntry entry;
 	entry.m_owner = owner;
-	entry.m_drawable = drawable;
 	entry.m_shader = shader;
-	m_shaderEntries[owner->m_id] = entry;
+	entry.m_drawable = drawable;
+	m_ownerToLayer[owner] = layer;
+	if (!m_renderLayers.contains(layer))
+	{
+		std::shared_ptr<RenderLayer> newLayer = std::make_shared<RenderLayer>();
+		m_renderLayersVector.push_back(newLayer);
+		m_renderLayers[layer] = newLayer.get();
+	}
+	m_renderLayers[layer]->m_shaderEntries[owner->m_id] = entry;
 
 	DebugPrint("Added Shader to EntityComponent (c_id " + std::to_string(owner->m_id) + ")", TextColor::Yellow, DebugChannel::RenderSystem, __FILE__, __LINE__);
 }
 
+//void RenderSystem::RemoveEntry(EntityComponent* owner, EntryType type)
+//{
+//	RenderLayer& layer = m_renderLayers[m_ownerToLayer[owner]];
+//
+//	switch (type)
+//	{
+//
+//	}
+//	std::map<int, RenderEntry>& entries = layer.m_spriteEntries;
+//
+//	if (auto search = entries.find(owner->m_id); search != entries.end())
+//	{
+//		entries.erase(search);
+//		DebugPrint("Removed Sprite from EntityComponent (c_id " + std::to_string(owner->m_id) + ")", TextColor::Yellow, DebugChannel::RenderSystem, __FILE__, __LINE__);
+//	}
+//	else
+//	{
+//		DebugPrint("Couldn't remove Sprite from EntityComponent (c_id " + std::to_string(owner->m_id) + ")", TextColor::Red, DebugChannel::RenderSystem, __FILE__, __LINE__, 1);
+//	}
+//}
+
 void RenderSystem::RemoveSprite(EntityComponent* owner)
 {
-	if (auto search = m_spriteEntries.find(owner->m_id); search != m_spriteEntries.end())
+	RenderLayer* layer = m_renderLayers[m_ownerToLayer[owner]];
+	std::map<int, RenderEntry>& entries = layer->m_spriteEntries;
+
+	if (auto search = entries.find(owner->m_id); search != entries.end())
 	{
-		m_spriteEntries.erase(search);
+		entries.erase(search);
 		DebugPrint("Removed Sprite from EntityComponent (c_id " + std::to_string(owner->m_id) + ")", TextColor::Yellow, DebugChannel::RenderSystem, __FILE__, __LINE__);
 	}
 	else
@@ -90,9 +147,12 @@ void RenderSystem::RemoveSprite(EntityComponent* owner)
 
 void RenderSystem::RemoveText(EntityComponent* owner)
 {
-	if (auto search = m_textEntries.find(owner->m_id); search != m_textEntries.end())
+	RenderLayer* layer = m_renderLayers[m_ownerToLayer[owner]];
+	std::map<int, RenderEntry>& entries = layer->m_textEntries;
+
+	if (auto search = entries.find(owner->m_id); search != entries.end())
 	{
-		m_textEntries.erase(search);
+		entries.erase(search);
 		DebugPrint("Removed Text from EntityComponent (c_id " + std::to_string(owner->m_id) + ")", TextColor::Yellow, DebugChannel::RenderSystem, __FILE__, __LINE__);
 	}
 	else
@@ -103,9 +163,12 @@ void RenderSystem::RemoveText(EntityComponent* owner)
 
 void RenderSystem::RemoveShape(EntityComponent* owner)
 {
-	if (auto search = m_shapeEntries.find(owner->m_id); search != m_shapeEntries.end())
+	RenderLayer* layer = m_renderLayers[m_ownerToLayer[owner]];
+	std::map<int, RenderEntry>& entries = layer->m_shapeEntries;
+
+	if (auto search = entries.find(owner->m_id); search != entries.end())
 	{
-		m_shapeEntries.erase(search);
+		entries.erase(search);
 		DebugPrint("Removed Shape from EntityComponent (c_id " + std::to_string(owner->m_id) + ")", TextColor::Yellow, DebugChannel::RenderSystem, __FILE__, __LINE__);
 	}
 	else
@@ -116,9 +179,12 @@ void RenderSystem::RemoveShape(EntityComponent* owner)
 
 void RenderSystem::RemoveShader(EntityComponent* owner)
 {
-	if (auto search = m_shaderEntries.find(owner->m_id); search != m_shaderEntries.end())
+	RenderLayer* layer = m_renderLayers[m_ownerToLayer[owner]];
+	std::map<int, RenderEntry>& entries = layer->m_shaderEntries;
+
+	if (auto search = entries.find(owner->m_id); search != entries.end())
 	{
-		m_shaderEntries.erase(search);
+		entries.erase(search);
 		DebugPrint("Removed Shader from EntityComponent (c_id " + std::to_string(owner->m_id) + ")", TextColor::Yellow, DebugChannel::RenderSystem, __FILE__, __LINE__);
 	}
 	else

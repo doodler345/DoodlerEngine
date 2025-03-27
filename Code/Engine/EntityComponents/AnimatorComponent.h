@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../Entity/Entity.h"
 
 #include <map>
