@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../Engine/Entity/Entity.h"
 #include "../Engine/EntityComponents/Primitives/RectangleComponent.h"
 

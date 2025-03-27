@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../../Engine/Scene.h"
 #include "../../Engine/UI_Elements/Text.h"
 #include "../../Engine/UI_Elements/Button.h"

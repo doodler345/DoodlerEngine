@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../Engine/Engine.h"
 #include "../Engine/Entity/Entity.h"
 #include "../Engine/EntityComponents/SpriteComponent.h"

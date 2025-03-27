@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../../Engine/Scene.h"
 
 #include <vector>
