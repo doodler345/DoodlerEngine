@@ -1,9 +1,11 @@
 #include "CreateLobbyForm.h"
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 
 #include "../Engine/Engine.h"
 #include "GameManager.h"
+#include "World.h"
 #include "Scenes/MultiplayerLobbyListScene.h"
 
 void CreateLobbyForm::EntityInit()
@@ -21,7 +23,7 @@ void CreateLobbyForm::EntityInit()
 	AddComponent(m_background);
 
 	// Buttons
-	m_buttonMenu = reinterpret_cast<GameManager*>(engine->GetGameManagerEntity())->GetCurrentScene()->Instantiate(ButtonMenu, ButtonMenu);
+	m_buttonMenu = m_scene->Instantiate(ButtonMenu, ButtonMenu);
 
 	std::array<KEY, 3> keys =
 	{
@@ -42,10 +44,19 @@ void CreateLobbyForm::EntityInit()
 	buttons[0]->SetText("Create");
 	buttons[1]->SetText("X");
 
+	buttons[0]->SetButtonCallback(std::bind(&CreateLobbyForm::CreateLobby, this));
 	buttons[1]->SetButtonCallback(std::bind(&CreateLobbyForm::SetActive, this, false));
 
 	buttons[0]->SetRenderLayer(1);
 	buttons[1]->SetRenderLayer(1);
+
+	// Text
+	m_waitForPlayerText = m_scene->Instantiate(Text, WaitForPlayerText);
+	m_waitForPlayerText->m_textComponent->SetText("Waiting for player...");
+	m_waitForPlayerText->m_textComponent->SetFontSize(50);
+	m_waitForPlayerText->m_textComponent->SetRenderLayer(1);
+	m_waitForPlayerText->GetTransformable().move(windowCenter);
+	m_waitForPlayerText->m_textComponent->SetVisibility(false);
 }
 
 void CreateLobbyForm::DestroyDerived()
@@ -57,4 +68,29 @@ void CreateLobbyForm::SetActive(bool value)
 	m_buttonMenu->SetVisibility(value);
 	m_background->SetVisibility(value);
 	reinterpret_cast<MultiplayerLobbyListScene*>(m_scene)->SetCreateLobbyButtonVisibility(!value);
+}
+
+void CreateLobbyForm::CreateLobby()
+{
+	m_buttonMenu->SetVisibility(false);
+	m_waitForPlayerText->m_textComponent->SetVisibility(true);
+
+	//World* world = m_scene->Instantiate(World, GameWorld);
+
+	//std::string strPath = "../Resources/bmp/DontDelete/DefaultMap.bmp";
+	//const char* path = strPath.c_str();
+	//world->Setup(path);
+
+	//unsigned short port = 54000;
+
+	//sf::Packet packet;
+	//packet << world->m_pixelValues;
+
+	//sf::TcpListener listener;
+	//listener.listen(port);
+
+	//sf::TcpSocket clientSocket;
+	//listener.accept(clientSocket);
+
+	//clientSocket.send(packet);
 }

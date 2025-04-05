@@ -1,7 +1,6 @@
 #include "PlayScene.h"
 
 #include <functional>
-#include <SFML/Network.hpp>
 
 #include "../Player.h"
 #include "../GameManager.h"
@@ -36,21 +35,6 @@ void PlayScene::SetWorld(std::string bmpFilePath)
 	world->UpdateTexture();
 	world->Colorize(true);
 	m_world = world;
-
-	////////////////////////////////////////////////////////
-	//unsigned short port = 54000;
-
-	//sf::Packet packet;
-	//packet << world->m_pixelValues;
-
-	//sf::TcpListener listener;
-	//listener.listen(port);
-
-	//sf::TcpSocket clientSocket;
-	//listener.accept(clientSocket);
-
-	//clientSocket.send(packet);
-	////////////////////////////////////////////////////////
 }
 
 World* PlayScene::GetWorld()
