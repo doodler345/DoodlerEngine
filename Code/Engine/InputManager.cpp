@@ -1,11 +1,12 @@
 #include "InputManager.h"
 
+#include <assert.h>
+
 #include "Debug.h"
-#include "EntityComponents/TextComponent.h"
-#include "EntityComponents/Primitives/RectangleComponent.h"
+#include "EntityComponents/Drawables/TextComponent.h"
+#include "EntityComponents/Drawables/RectangleComponent.h"
 #include "UI_Elements/ButtonMenu.h"
 #include "UI_Elements/InputFieldValidKeys.h"
-#include <assert.h>
 
 
 InputManager::InputManager()

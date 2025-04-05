@@ -1,6 +1,6 @@
 #include "SpriteComponent.h"
-#include "../RenderSystem.h"
-#include "../Engine.h"
+#include "../../RenderSystem.h"
+#include "../../Engine.h"
 
 SpriteComponent::SpriteComponent(Entity* owner, int renderLayer)
 {

@@ -3,7 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-#include "../Entity/Entity.h"
+#include "../../Entity/Entity.h"
+#include "../../Entity/EntityComponent.h"
 
 class ShaderComponent : public DrawableEntityComponent
 {

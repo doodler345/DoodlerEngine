@@ -6,7 +6,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
-#include "../EntityComponents/SpriteComponent.h"
+#include "../EntityComponents/Drawables/SpriteComponent.h"
 
 struct Animation
 {

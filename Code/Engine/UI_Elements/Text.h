@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "../Entity/Entity.h"
-#include "../EntityComponents/TextComponent.h"
+#include "../EntityComponents/Drawables/TextComponent.h"
 
 
 class Text : public Entity

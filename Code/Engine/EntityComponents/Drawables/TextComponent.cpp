@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "../RenderSystem.h"
-#include "../Engine.h"
+#include "../../RenderSystem.h"
+#include "../../Engine.h"
 
 
 TextComponent::TextComponent(std::string& path, std::string& text, Entity* owner, sf::Color color, bool centerHorizontal, bool centerVertical, int renderLayer) :

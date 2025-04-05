@@ -4,7 +4,7 @@
 #include <../../Engine/InputManager.h>
 #include <../../Engine/Debug.h>
 #include <../../Engine/Scene.h>
-#include "../../Engine/EntityComponents/TextComponent.h"
+#include <../../Engine/EntityComponents/Drawables/TextComponent.h>
 #include "Scenes/PlayScene.h"
 #include "GameManager.h"
 

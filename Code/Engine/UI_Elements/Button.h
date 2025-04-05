@@ -5,9 +5,9 @@
 #include "SFML/Graphics.hpp"
 
 #include "../Entity/InteractableUIEntity.h"
-#include "../EntityComponents/TextComponent.h"
-#include "../EntityComponents/SpriteComponent.h"
-#include "../EntityComponents/Primitives/RectangleComponent.h"
+#include "../EntityComponents/Drawables/TextComponent.h"
+#include "../EntityComponents/Drawables/SpriteComponent.h"
+#include "../EntityComponents/Drawables/RectangleComponent.h"
 
 class ButtonMenu;
 

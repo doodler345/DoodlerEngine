@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Entity/Entity.h"
-#include "../EntityComponents/SpriteComponent.h"
+#include "../EntityComponents/Drawables/SpriteComponent.h"
 
 class Image : public Entity
 {

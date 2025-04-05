@@ -1,9 +1,9 @@
 #pragma once
 
 #include <iostream>
-#include "../Entity/Entity.h"
-#include "../Entity/EntityComponent.h"
-#include "../ResourceManager.h"
+#include "../../Entity/Entity.h"
+#include "../../Entity/EntityComponent.h"
+#include "../../ResourceManager.h"
 #include "SFML/Graphics.hpp"
 
 class SpriteComponent : public DrawableEntityComponent

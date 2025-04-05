@@ -3,12 +3,12 @@
 #include "memory"
 #include "SFML/Graphics.hpp"
 
-
 #include "../Engine/Engine.h"
-#include "../Engine/EntityComponents/Primitives/CircleComponent.h"
-#include "../Engine/Entity/Entity.h"
 #include "../Engine/InputManager.h"
+#include "../Engine/Entity/Entity.h"
+#include "../Engine/EntityComponents/Drawables/CircleComponent.h"
 #include "../Engine/UI_Elements/Text.h"
+
 #include "World.h"
 
 class BrushTool : public Entity

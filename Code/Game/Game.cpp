@@ -3,7 +3,7 @@
 #include "../Engine/ResourceManager.h"
 #include "../Engine/Entity/EntitySystem.h"
 #include "../Engine/Entity/EntityFactoryManager.h"
-#include "../Engine/EntityComponents/SpriteComponent.h"
+#include "../Engine/EntityComponents/Drawables/SpriteComponent.h"
 #include "../Engine/InputManager.h"
 
 #include <SFML/Graphics.hpp>

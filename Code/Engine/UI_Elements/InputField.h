@@ -3,8 +3,8 @@
 #include <string>
 
 #include "../Entity/InteractableUIEntity.h"
-#include "../EntityComponents/TextComponent.h"
-#include "../EntityComponents/Primitives/RectangleComponent.h"
+#include "../EntityComponents/Drawables/TextComponent.h"
+#include "../EntityComponents/Drawables/RectangleComponent.h"
 
 class InputField : public InteractableUIEntity
 {
