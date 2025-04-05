@@ -111,7 +111,7 @@ sf::Vector2u SpriteComponent::GetTextureSize()
 
 void SpriteComponent::ShutDown()
 {
-	if (m_hasTexture)
+	if (m_hasTexture && m_isVisible)
 	{
 		Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::SpriteEntry);
 	}

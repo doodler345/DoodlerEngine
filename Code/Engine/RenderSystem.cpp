@@ -110,7 +110,7 @@ void RenderSystem::RemoveEntry(EntityComponent* owner, EntryType type)
 	}
 	else
 	{
-		DebugPrint("Couldn't remove Sprite from EntityComponent (c_id " + std::to_string(owner->m_id) + ")", TextColor::Red, DebugChannel::RenderSystem, __FILE__, __LINE__, 1);
+		DebugPrint("Couldn't remove " + entryType + " from EntityComponent(c_id " + std::to_string(owner->m_id) + ")", TextColor::Red, DebugChannel::RenderSystem, __FILE__, __LINE__, 1);
 	}
 }
 

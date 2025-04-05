@@ -77,7 +77,10 @@ void RectangleComponent::SetRenderLayer(int layer)
 
 void RectangleComponent::ShutDown()
 {
-	m_renderSystem->RemoveEntry(this, EntryType::ShapeEntry);
+	if (m_isVisible)
+	{
+		m_renderSystem->RemoveEntry(this, EntryType::ShapeEntry);
+	}
 }
 
 

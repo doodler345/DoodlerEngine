@@ -70,5 +70,8 @@ void ShaderComponent::SetRenderLayer(int layer)
 
 void ShaderComponent::ShutDown()
 {
-	Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::ShaderEntry);
+	if (m_isVisible)
+	{
+		Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::ShaderEntry);
+	}
 }

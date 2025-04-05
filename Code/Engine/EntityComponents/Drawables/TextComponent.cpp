@@ -65,7 +65,10 @@ void TextComponent::SetRenderLayer(int layer)
 
 void TextComponent::ShutDown()
 {
-	Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::TextEntry);
+	if (m_isVisible)
+	{
+		Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::TextEntry);
+	}
 }
 
 void TextComponent::SetText(std::string text)

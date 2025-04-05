@@ -69,5 +69,8 @@ void CircleComponent::SetRenderLayer(int layer)
 
 void CircleComponent::ShutDown()
 {
-	Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::ShapeEntry);
+	if (m_isVisible)
+	{
+		Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::ShapeEntry);
+	}
 }
