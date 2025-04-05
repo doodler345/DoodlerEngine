@@ -12,6 +12,7 @@ public:
 	TextComponent(std::string& path, std::string& text, Entity* owner, sf::Color color = sf::Color::Black, bool centerHorizontal = true, bool centerVertical = true, int renderLayer = 0);
 
 	void SetVisibility(bool value) override;
+	void SetRenderLayer(int layer) override;
 	virtual void ShutDown() override;
 
 	void SetText(std::string newText);

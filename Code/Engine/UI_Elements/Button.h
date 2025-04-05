@@ -22,6 +22,8 @@ public:
 	void SetFontSize(int fontSize);
 	void SetSprite(std::string texturePath);
 	void SetButtonCallback(ButtonCallback callback);
+	void SetVisibility(bool value);
+	void SetRenderLayer(int layer);
 
 	std::string GetText();
 
@@ -46,7 +48,7 @@ private:
 	float m_timer = 0;
 
 	//customizations
-	float m_selectedBlinkSpeed = 5.f;
+	const float m_BLINKSPEED = 5.f;
 
 	// Inherited via InteractableUIEntity
 	void SetInteractable(bool isInteractable) override;

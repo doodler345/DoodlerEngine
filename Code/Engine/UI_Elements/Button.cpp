@@ -36,7 +36,7 @@ void Button::Update(float deltaTime)
 {
 	if (m_selected)
 	{
-		m_timer += deltaTime * m_selectedBlinkSpeed; 
+		m_timer += deltaTime * m_BLINKSPEED; 
 		sf::Color textColor = m_textComponent->GetTextColor();
 		textColor.a = 128 + cos(m_timer) * 128; 
 		m_textComponent->SetTextColor(textColor);
@@ -75,6 +75,20 @@ void Button::SetButtonCallback(ButtonCallback callback)
 	m_buttonCallback = callback;
 }
 
+void Button::SetVisibility(bool value)
+{
+	m_textComponent->SetVisibility(value);
+	m_rectangleComponent->SetVisibility(value);
+	m_spriteComponent->SetVisibility(value);
+}
+
+void Button::SetRenderLayer(int layer)
+{
+	m_textComponent->SetRenderLayer(layer);
+	m_rectangleComponent->SetRenderLayer(layer);
+	m_spriteComponent->SetRenderLayer(layer);
+}
+
 std::string Button::GetText()
 {
 	return m_textComponent->m_text.getString();
@@ -90,7 +104,7 @@ void Button::AdjustBackgroundToText()
 
 void Button::AdjustBackgroundToSprite()
 {
-	sf::Vector2f spriteSize = m_spriteComponent->m_drawable.getLocalBounds().getSize();
+	sf::Vector2f spriteSize = m_spriteComponent->m_drawable->getLocalBounds().getSize();
 	m_rectangleComponent->GetRectangle()->setSize(sf::Vector2f(spriteSize.x, spriteSize.y));
 	m_rectangleComponent->Center();
 }

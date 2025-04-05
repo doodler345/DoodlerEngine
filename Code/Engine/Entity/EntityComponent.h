@@ -24,6 +24,8 @@ protected:
 	Entity* m_ownerEntity = nullptr;
 };
 
+
+
 #include "../Engine.h"
 #include "../RenderSystem.h"
 
@@ -31,7 +33,7 @@ class DrawableEntityComponent : public EntityComponent
 {
 public:
 	virtual void SetVisibility(bool value) = 0;
-	//virtual void SetRenderLayer(int layer) = 0; // TODO
+	virtual void SetRenderLayer(int layer) = 0;
 
 protected:
 	RenderSystem* m_renderSystem = nullptr;

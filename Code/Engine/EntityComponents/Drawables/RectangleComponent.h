@@ -14,6 +14,7 @@ public:
 	sf::RectangleShape* GetRectangle() { return m_drawable.get(); }
 	void Center(bool horizontal = true, bool vertical = true);
 	void SetVisibility(bool value) override;
+	void SetRenderLayer(int layer) override;
 	bool m_isRightAligned = false;
 
 private:

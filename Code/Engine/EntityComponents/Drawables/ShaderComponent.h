@@ -12,6 +12,7 @@ public:
 	ShaderComponent(sf::Drawable* drawable, std::string& vertShaderPath, std::string& fragShaderPath, Entity* owner, int renderLayer = 0);
 	
 	void SetVisibility(bool value) override;
+	void SetRenderLayer(int layer) override;
 	void ShutDown() override;
 
 	sf::Shader m_shader;

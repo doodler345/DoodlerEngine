@@ -15,6 +15,7 @@ public:
 	void SetRadius(float radius);
 	void Center();
 	void SetVisibility(bool value) override;
+	void SetRenderLayer(int layer) override;
 
 private:
 	std::unique_ptr<sf::CircleShape> m_drawable;

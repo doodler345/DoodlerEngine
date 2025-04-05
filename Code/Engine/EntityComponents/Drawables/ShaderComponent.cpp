@@ -52,6 +52,22 @@ void ShaderComponent::SetVisibility(bool value)
 	}
 }
 
+void ShaderComponent::SetRenderLayer(int layer)
+{
+	if (m_renderLayer == layer)
+	{
+		return;
+	}
+
+	m_renderLayer = layer;
+		
+	if (m_isVisible)
+	{
+		m_renderSystem->RemoveEntry(this, EntryType::ShaderEntry);
+		m_renderSystem->AddEntry(m_drawable, this, EntryType::ShaderEntry, m_renderLayer, &m_shader);
+	}
+}
+
 void ShaderComponent::ShutDown()
 {
 	Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::ShaderEntry);

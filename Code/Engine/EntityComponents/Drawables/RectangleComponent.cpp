@@ -59,8 +59,26 @@ void RectangleComponent::SetVisibility(bool value)
 	}
 }
 
+void RectangleComponent::SetRenderLayer(int layer)
+{
+	if (m_renderLayer == layer)
+	{
+		return;
+	}
+
+	m_renderLayer = layer;
+
+	if (m_isVisible)
+	{
+		m_renderSystem->RemoveEntry(this, EntryType::ShapeEntry);
+		m_renderSystem->AddEntry(m_drawable.get(), this, EntryType::ShapeEntry, m_renderLayer);
+	}
+}
+
 void RectangleComponent::ShutDown()
 {
 	m_renderSystem->RemoveEntry(this, EntryType::ShapeEntry);
 }
+
+
 

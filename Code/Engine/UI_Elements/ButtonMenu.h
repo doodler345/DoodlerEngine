@@ -15,6 +15,7 @@ public:
 	std::vector<Button*> InitMenu(int buttonCount, std::array<sf::Keyboard::Key, 3>& inputKeys);
 	void SelectButton(Button* button);
 	void Pause(bool isPaused);
+	void SetVisibility(bool value);
 
 private:
 	void OnNextButton(sf::Keyboard::Key key, bool isPressed);

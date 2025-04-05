@@ -5,6 +5,8 @@
 #include "../Entity/EntitySystem.h"
 #include "../Entity/EntityFactoryManager.h"
 
+#include "../EntityComponents/Drawables/SpriteComponent.h"
+#include "../EntityComponents/Drawables/RectangleComponent.h"
 
 std::vector<Button*> ButtonMenu::InitMenu(int buttonCount, std::array<sf::Keyboard::Key, 3>& inputKeys)
 {
@@ -57,6 +59,14 @@ void ButtonMenu::SelectButton(Button* button)
 void ButtonMenu::Pause(bool isPaused)
 {
 	m_buttons[m_selectedButtonIndex]->Select(!isPaused);
+}
+
+void ButtonMenu::SetVisibility(bool value)
+{
+	for (int i = 0; i < m_buttons.size(); i++)
+	{
+		m_buttons[i]->SetVisibility(value);
+	}
 }
 
 void ButtonMenu::OnNextButton(sf::Keyboard::Key key, bool isPressed)

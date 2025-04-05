@@ -15,12 +15,13 @@ public:
 	void UpdateTexture();
 	void CenterTexture();
 	void SetVisibility(bool value);
+	void SetRenderLayer(int layer);
 	sf::Vector2u GetTextureSize();
 	virtual void ShutDown() override;
 
-	sf::Sprite m_drawable; 
+	std::shared_ptr<sf::Sprite> m_drawable;
 private:
-	bool m_isInitialized = false;
+	bool m_hasTexture = false;
 	std::string m_texturePath = "";
 	sf::Texture m_texture;
 };

@@ -39,11 +39,27 @@ void TextComponent::SetVisibility(bool value)
 
 	if (m_isVisible)
 	{
-		m_renderSystem->AddEntry(&m_text, this, EntryType::TextEntry);
+		m_renderSystem->AddEntry(&m_text, this, EntryType::TextEntry, m_renderLayer);
 	}
 	else
 	{
 		m_renderSystem->RemoveEntry(this, EntryType::TextEntry);
+	}
+}
+
+void TextComponent::SetRenderLayer(int layer)
+{
+	if (m_renderLayer == layer)
+	{
+		return;
+	}
+
+	m_renderLayer = layer;
+		
+	if (m_isVisible)
+	{
+		m_renderSystem->RemoveEntry(this, EntryType::TextEntry);
+		m_renderSystem->AddEntry(&m_text, this, EntryType::TextEntry, m_renderLayer);
 	}
 }
 
