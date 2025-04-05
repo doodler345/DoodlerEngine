@@ -85,6 +85,12 @@ void InputManager::Update(float mouseScrollDelta)
 	for (int i = 0; i < m_rectangleEntries.size(); i++)
 	{
 		RectangleEntry& entry = m_rectangleEntries[i];
+
+		if (entry.m_interactableUIEntity != nullptr && !entry.m_interactableUIEntity->IsInteractable())
+		{
+			continue;
+		}
+
 		const sf::FloatRect floatRect = entry.m_rect->getGlobalBounds();
 		sf::Vector2f entryPosition = entry.m_transformable->getPosition();
 
@@ -213,7 +219,7 @@ void InputManager::Update(float mouseScrollDelta)
 		sf::Vector2f entryPosition = m_activeInputField->GetTransformable().getPosition();
 		sf::FloatRect rect = m_activeInputField->GetRectangle()->getGlobalBounds();
 
-			// inverted Hover-check (AABB)
+		// inverted Hover-check (AABB)
 		if (mousePos.x >= (entryPosition.x - rect.left) ||	//right
 			mousePos.x <= (entryPosition.x + rect.left) ||	//left
 			mousePos.y >= (entryPosition.y - rect.top) ||	//down
@@ -287,6 +293,7 @@ void InputManager::RegisterRectangleEntry(Button* button)
 	RectangleEntry newEntry;
 	newEntry.m_id = m_rectangleEntryIDCounter++;
 	newEntry.m_mouseButtonToListen = sf::Mouse::Left;
+	newEntry.m_interactableUIEntity = reinterpret_cast<InteractableUIEntity*>(button);
 	newEntry.m_button = button;
 	newEntry.m_transformable = &button->GetTransformable();
 	newEntry.m_rect = button->GetComponent<RectangleComponent>()->GetRectangle();
@@ -301,6 +308,7 @@ void InputManager::RegisterRectangleEntry(InputField* inputField)
 	RectangleEntry newEntry;
 	newEntry.m_id = m_rectangleEntryIDCounter++;
 	newEntry.m_mouseButtonToListen = sf::Mouse::Left;
+	newEntry.m_interactableUIEntity = reinterpret_cast<InteractableUIEntity*>(inputField);
 	newEntry.m_inputField = inputField;
 	newEntry.m_transformable = &inputField->GetTransformable();
 	newEntry.m_rect = inputField->GetComponent<RectangleComponent>()->GetRectangle();

@@ -2,13 +2,13 @@
 
 #include <functional>
 
-#include "../Entity/Entity.h"
+#include "../Entity/InteractableUIEntity.h"
 #include "../EntityComponents/Primitives/RectangleComponent.h"
 #include "../Entity/Empty.h"
 
 using ValueChangedCallback = std::function<void(float)>;
 
-class Slider : public Entity 
+class Slider : public InteractableUIEntity
 {
 public:
 	void EntityInit() override;

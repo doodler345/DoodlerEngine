@@ -4,7 +4,7 @@
 #include <functional>
 #include "SFML/Graphics.hpp"
 
-#include "../Entity/Entity.h"
+#include "../Entity/InteractableUIEntity.h"
 #include "../EntityComponents/TextComponent.h"
 #include "../EntityComponents/SpriteComponent.h"
 #include "../EntityComponents/Primitives/RectangleComponent.h"
@@ -13,7 +13,7 @@ class ButtonMenu;
 
 using ButtonCallback = std::function<void()>;
 
-class Button : public Entity
+class Button : public InteractableUIEntity
 {
 public:
 	virtual void EntityInit() override;
@@ -47,4 +47,7 @@ private:
 
 	//customizations
 	float m_selectedBlinkSpeed = 5.f;
+
+	// Inherited via InteractableUIEntity
+	void SetInteractable(bool isInteractable) override;
 };

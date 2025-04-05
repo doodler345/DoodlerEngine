@@ -4,6 +4,7 @@
 #include <string>
 #include <functional>
 #include "SFML/Graphics.hpp"
+#include "Entity/InteractableUIEntity.h"
 #include "UI_Elements/Button.h"
 #include "UI_Elements/InputField.h"
 
@@ -53,6 +54,7 @@ struct RectangleEntry : Entry
 	sf::Transformable* m_transformable;
 	sf::RectangleShape* m_rect;
 	RectangleCallback m_rectangleCallback;
+	InteractableUIEntity* m_interactableUIEntity = nullptr;
 	Button* m_button = nullptr;
 	InputField* m_inputField = nullptr;
 	bool m_hover = false;

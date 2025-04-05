@@ -125,3 +125,13 @@ void InputField::DestroyDerived()
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
 	inputManager.UnregisterRectangleEntry(&GetTransformable());
 }
+
+void InputField::SetInteractable(bool isInteractable)
+{
+	m_isInteractable = isInteractable;
+
+	if (!isInteractable && m_isActive)
+	{
+		Activate(false);
+	}
+}

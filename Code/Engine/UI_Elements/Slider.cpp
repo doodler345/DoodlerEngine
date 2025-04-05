@@ -66,40 +66,42 @@ void Slider::SetValue(float relValue)
 
 void Slider::Update(float deltaTime)
 {
-	if (m_getsDragged)
+	if (!m_getsDragged)
 	{
-		m_mousePos = Engine::GetInstance()->GetInputManager().GetMousePos();
-		m_deltaMousePos = m_mousePos - m_prevMousePos;
-		m_prevMousePos = m_mousePos;
-
-		if (m_deltaMousePos.x == 0.0f && m_deltaMousePos.y == 0.0f) return;
-
-		sf::Vector2u handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
-		const sf::Vector2u backgroundPos = GetScreenPosition();
-		const sf::Vector2f handlerSize = m_rectangleHandler->GetRectangle()->getSize();
-		const sf::Vector2f backgroundSize = m_rectangleBackground->GetRectangle()->getSize();
-
-		sf::Vector2f sliderNextPos = (sf::Vector2f)m_deltaMousePos;
-
-		// TODO: Check if handler at bounds
-		if (handlerPos.x - 0.5f * handlerSize.x + m_deltaMousePos.x < backgroundPos.x - 0.5f * backgroundSize.x)
-		{
-			sliderNextPos.x = (handlerPos.x - 0.5f * handlerSize.x) - (backgroundPos.x - 0.5f * backgroundSize.x);
-		}
-		else if	(handlerPos.x + 0.5f * handlerSize.x + m_deltaMousePos.x > backgroundPos.x + 0.5f * backgroundSize.x)
-		{
-			sliderNextPos.x = (backgroundPos.x + 0.5f * backgroundSize.x) - (handlerPos.x + 0.5f * handlerSize.x);
-		}
-
-		m_rectangleHandlerOwner->GetTransformable().move(sf::Vector2f(sliderNextPos.x, 0));
-
-		handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
-		int possibleTravelAreaX = backgroundSize.x - handlerSize.x; 
-		float currentZeroedHandlerPosX = handlerPos.x - (backgroundPos.x - 0.5f * backgroundSize.x + 0.5f * handlerSize.x);
-		m_currentValue = currentZeroedHandlerPosX / possibleTravelAreaX;
-		
-		valueChangedCallback(m_currentValue);
+		return;
 	}
+
+	m_mousePos = Engine::GetInstance()->GetInputManager().GetMousePos();
+	m_deltaMousePos = m_mousePos - m_prevMousePos;
+	m_prevMousePos = m_mousePos;
+
+	if (m_deltaMousePos.x == 0.0f && m_deltaMousePos.y == 0.0f) return;
+
+	sf::Vector2u handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
+	const sf::Vector2u backgroundPos = GetScreenPosition();
+	const sf::Vector2f handlerSize = m_rectangleHandler->GetRectangle()->getSize();
+	const sf::Vector2f backgroundSize = m_rectangleBackground->GetRectangle()->getSize();
+
+	sf::Vector2f sliderNextPos = (sf::Vector2f)m_deltaMousePos;
+
+	// TODO: Check if handler at bounds
+	if (handlerPos.x - 0.5f * handlerSize.x + m_deltaMousePos.x < backgroundPos.x - 0.5f * backgroundSize.x)
+	{
+		sliderNextPos.x = (handlerPos.x - 0.5f * handlerSize.x) - (backgroundPos.x - 0.5f * backgroundSize.x);
+	}
+	else if	(handlerPos.x + 0.5f * handlerSize.x + m_deltaMousePos.x > backgroundPos.x + 0.5f * backgroundSize.x)
+	{
+		sliderNextPos.x = (backgroundPos.x + 0.5f * backgroundSize.x) - (handlerPos.x + 0.5f * handlerSize.x);
+	}
+
+	m_rectangleHandlerOwner->GetTransformable().move(sf::Vector2f(sliderNextPos.x, 0));
+
+	handlerPos = m_rectangleHandlerOwner->GetScreenPosition();
+	int possibleTravelAreaX = backgroundSize.x - handlerSize.x; 
+	float currentZeroedHandlerPosX = handlerPos.x - (backgroundPos.x - 0.5f * backgroundSize.x + 0.5f * handlerSize.x);
+	m_currentValue = currentZeroedHandlerPosX / possibleTravelAreaX;
+		
+	valueChangedCallback(m_currentValue);
 }
 
 void Slider::OnClick(sf::Vector2f mousePos, bool isPressedDown)
@@ -117,4 +119,14 @@ void Slider::DestroyDerived()
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
 	inputManager.UnregisterRectangleEntry(&m_rectangleHandlerOwner->GetTransformable());
 	//inputManager.UnregisterRectangleEntry(&m_rectangleBackground->GetTransform());
+}
+
+void Slider::SetInteractable(bool isInteractable)
+{
+	m_isInteractable = isInteractable;
+
+	if (!isInteractable && m_getsDragged)
+	{
+		m_getsDragged = false;
+	}
 }

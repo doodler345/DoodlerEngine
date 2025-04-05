@@ -43,6 +43,8 @@ ${ENGINE_SOURCE_PATH}/Entity/EntityFactoryManager.h
 ${ENGINE_SOURCE_PATH}/Entity/EntityFactoryManager.cpp
 ${ENGINE_SOURCE_PATH}/Entity/EntitySystem.h
 ${ENGINE_SOURCE_PATH}/Entity/EntitySystem.cpp
+${ENGINE_SOURCE_PATH}/Entity/InteractableUIEntity.h
+${ENGINE_SOURCE_PATH}/Entity/InteractableUIEntity.cpp
 ${ENGINE_SOURCE_PATH}/EntityComponents/ShaderComponent.h
 ${ENGINE_SOURCE_PATH}/EntityComponents/ShaderComponent.cpp
 ${ENGINE_SOURCE_PATH}/EntityComponents/SpriteComponent.h

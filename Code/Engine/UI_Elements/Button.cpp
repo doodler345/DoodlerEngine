@@ -159,3 +159,13 @@ void Button::DestroyDerived()
 	InputManager& inputManager = Engine::GetInstance()->GetInputManager();
 	inputManager.UnregisterRectangleEntry(&GetTransformable());
 }
+
+void Button::SetInteractable(bool isInteractable)
+{
+	m_isInteractable = isInteractable;
+
+	if (!isInteractable && m_selected)
+	{
+		Select(false);
+	}
+}

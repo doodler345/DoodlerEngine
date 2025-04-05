@@ -45,7 +45,6 @@ void RenderSystem::AddEntry(sf::Drawable* drawable, EntityComponent* owner, Entr
 	entry.m_drawable = drawable;
 	entry.m_shader = shader;
 
-
 	m_ownerToLayer[owner] = layer;
 	if (!m_renderLayers.contains(layer))
 	{

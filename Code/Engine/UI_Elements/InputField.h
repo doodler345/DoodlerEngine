@@ -2,11 +2,11 @@
 
 #include <string>
 
-#include "../Entity/Entity.h"
+#include "../Entity/InteractableUIEntity.h"
 #include "../EntityComponents/TextComponent.h"
 #include "../EntityComponents/Primitives/RectangleComponent.h"
 
-class InputField : public Entity
+class InputField : public InteractableUIEntity
 {
 protected:
 	void EntityInit() override;
@@ -44,5 +44,8 @@ private:
 	const sf::Color m_markerColor = sf::Color::Black;
 	float m_blinkTimer = 0;
 	bool m_markerIsVisible = true;
+
+	// Inherited via InteractableUIEntity
+	void SetInteractable(bool isInteractable) override;
 };
 
