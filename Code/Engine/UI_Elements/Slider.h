@@ -31,5 +31,8 @@ private:
 	sf::Vector2i m_deltaMousePos;
 
 	float m_currentValue;
+
+	// Inherited via InteractableUIEntity
+	void SetInteractable(bool isInteractable) override;
 };
 
