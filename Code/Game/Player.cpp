@@ -25,8 +25,8 @@ void Player::EntityInit()
 	// Sprite  
 	std::string pathTextureIdle = "../Resources/Sprites/Character_01.png";
 	m_spriteComponent = std::make_shared<SpriteComponent>(pathTextureIdle, this);
-	m_spriteComponent->m_drawable.setScale(m_SPRITE_SCALE, m_SPRITE_SCALE);
-	m_spriteSize = m_spriteComponent->m_drawable.getGlobalBounds().getSize();
+	m_spriteComponent->m_drawable->setScale(m_SPRITE_SCALE, m_SPRITE_SCALE);
+	m_spriteSize = m_spriteComponent->m_drawable->getGlobalBounds().getSize();
 	AddComponent(m_spriteComponent);
 
 	// Animator
@@ -49,7 +49,7 @@ void Player::EntityInit()
 	m_aimDirectionHolder = playScene->Instantiate(Empty, AimDirectionHolder);
 	m_aimDirectionHolder->SetParent(this);
 	m_aimDirection = std::make_shared<SpriteComponent>(pathTextureIdle, m_aimDirectionHolder);
-	m_aimDirection->m_drawable.setScale(m_SPRITE_SCALE + 0.5f, m_SPRITE_SCALE + 0.5f);
+	m_aimDirection->m_drawable->setScale(m_SPRITE_SCALE + 0.5f, m_SPRITE_SCALE + 0.5f);
 	m_aimDirectionHolder->AddComponent(m_aimDirection);
 
 	// Bazooka

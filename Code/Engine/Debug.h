@@ -22,10 +22,10 @@ static std::map<DebugChannel, bool> DebugVisibility
     { DebugChannel::Engine,                 0 },
     { DebugChannel::Game,                   0 },
     { DebugChannel::Entity,                 0 },
-    { DebugChannel::EntityComponent,        0 },
+    { DebugChannel::EntityComponent,        1 },
     { DebugChannel::ResourceManager,        0 },
-    { DebugChannel::RenderSystem,           0 },
-    { DebugChannel::InputManager,           1 },
+    { DebugChannel::RenderSystem,           1 },
+    { DebugChannel::InputManager,           0 },
     { DebugChannel::UI,                     0 },
 };
 

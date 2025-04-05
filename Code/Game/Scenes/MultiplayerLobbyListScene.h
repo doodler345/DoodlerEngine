@@ -9,6 +9,7 @@ class MultiplayerLobbyListScene : public Scene
 {
 public:
 	void Init() override;
+	void SetCreateLobbyButtonVisibility(bool value);
 
 private:
 	void ToggleCreateLobbyForm(bool value);

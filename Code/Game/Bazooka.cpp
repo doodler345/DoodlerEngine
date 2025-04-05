@@ -12,8 +12,8 @@ void Bazooka::EntityInit()
 	m_shootStrengthIndicatorHolder = m_scene->Instantiate(Empty, ShootStrengthIndicatorHolder);
 	m_shootStrengthIndicatorHolder->SetParent(this);
 	m_shootStrengthIndicator = std::make_shared<SpriteComponent>(path, m_shootStrengthIndicatorHolder);
-	m_shootStrengthIndicator->m_drawable.setPosition(m_SHOOT_STRENGTH_INDICATOR_XOFFSET, 0);
-	m_shootStrengthIndicator->m_drawable.setScale(0, m_SHOOT_STRENGTH_INDICATOR_SCALE);
+	m_shootStrengthIndicator->m_drawable->setPosition(m_SHOOT_STRENGTH_INDICATOR_XOFFSET, 0);
+	m_shootStrengthIndicator->m_drawable->setScale(0, m_SHOOT_STRENGTH_INDICATOR_SCALE);
 
 	m_shootStrengthIndicatorHolder->AddComponent(m_shootStrengthIndicator);
 }
@@ -43,7 +43,7 @@ void Bazooka::Fire(sf::Vector2f direction)
 	m_shootSound.play();
 
 	m_loadShootStrength = false;
-	m_shootStrengthIndicator->m_drawable.setScale(0, m_SHOOT_STRENGTH_INDICATOR_SCALE);
+	m_shootStrengthIndicator->m_drawable->setScale(0, m_SHOOT_STRENGTH_INDICATOR_SCALE);
 }
 
 void Bazooka::UpdateShootStrength(float deltaTime)
@@ -51,6 +51,6 @@ void Bazooka::UpdateShootStrength(float deltaTime)
 	if (m_loadShootStrength)
 	{
 		m_shootStrength += deltaTime * 1000;
-		m_shootStrengthIndicator->m_drawable.setScale(m_shootStrength * 0.05f, m_SHOOT_STRENGTH_INDICATOR_SCALE);
+		m_shootStrengthIndicator->m_drawable->setScale(m_shootStrength * 0.05f, m_SHOOT_STRENGTH_INDICATOR_SCALE);
 	}
 }

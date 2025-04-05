@@ -1,16 +1,51 @@
 #include "CreateLobbyForm.h"
 
 #include <SFML/Graphics.hpp>
+
 #include "../Engine/Engine.h"
+#include "GameManager.h"
+#include "Scenes/MultiplayerLobbyListScene.h"
 
 void CreateLobbyForm::EntityInit()
 {
-	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
+	// General
+	Engine* engine = Engine::GetInstance();
+	sf::Vector2u windowSize = engine->GetRenderWindow().getSize();
+	m_scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->GetCurrentScene();
+
+	// Background
 	m_background = std::make_shared<RectangleComponent>(this, 1);
 	m_background->GetRectangle()->setSize(sf::Vector2f(windowSize.x * m_RELATIVE_SIZE.x, windowSize.y * m_RELATIVE_SIZE.y));
 	m_background->Center();
 	m_background->GetOwner()->GetTransformable().move(windowSize.x / 2, windowSize.y / 2);
 	AddComponent(m_background);
+
+	// Buttons
+	m_buttonMenu = reinterpret_cast<GameManager*>(engine->GetGameManagerEntity())->GetCurrentScene()->Instantiate(ButtonMenu, ButtonMenu);
+
+	std::array<KEY, 3> keys =
+	{
+		KEY::W,
+		KEY::S,
+		KEY::Enter,
+	};
+	std::vector<Button*> buttons = m_buttonMenu->InitMenu(2, keys);
+	sf::Vector2f windowCenter = sf::Vector2f(windowSize.x / 2, windowSize.y / 2);
+
+	int yOffset = 100;
+	buttons[0]->GetTransformable().move(windowSize.x * m_RELATIVE_SIZE.x, windowSize.y * m_RELATIVE_SIZE.y + ((1.0f - m_RELATIVE_SIZE.y) * windowSize.y) * 0.5f - 50);
+	buttons[1]->GetTransformable().move(windowSize.x * m_RELATIVE_SIZE.x + ((1.0f - m_RELATIVE_SIZE.x) * windowSize.x) * 0.5f - 50, ((1.0f - m_RELATIVE_SIZE.y) * windowSize.y) * 0.5f + 50);
+
+	buttons[0]->SetFontSize(64);
+	buttons[1]->SetFontSize(64);
+
+	buttons[0]->SetText("Create");
+	buttons[1]->SetText("X");
+
+	buttons[1]->SetButtonCallback(std::bind(&CreateLobbyForm::SetActive, this, false));
+
+	buttons[0]->SetRenderLayer(1);
+	buttons[1]->SetRenderLayer(1);
 }
 
 void CreateLobbyForm::DestroyDerived()
@@ -19,5 +54,7 @@ void CreateLobbyForm::DestroyDerived()
 
 void CreateLobbyForm::SetActive(bool value)
 {
+	m_buttonMenu->SetVisibility(value);
 	m_background->SetVisibility(value);
+	reinterpret_cast<MultiplayerLobbyListScene*>(m_scene)->SetCreateLobbyButtonVisibility(!value);
 }

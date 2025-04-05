@@ -12,8 +12,8 @@ void BazookaRocket::EntityInit()
 
 	std::string path = "../Resources/Sprites/BazookaRocket.png";
 	m_spriteComponent = std::make_shared<SpriteComponent>(path, this);
-	m_spriteComponent->m_drawable.setScale(m_SPRITE_SCALE, m_SPRITE_SCALE);
-	m_spriteSize = m_spriteComponent->m_drawable.getGlobalBounds().getSize();
+	m_spriteComponent->m_drawable->setScale(m_SPRITE_SCALE, m_SPRITE_SCALE);
+	m_spriteSize = m_spriteComponent->m_drawable->getGlobalBounds().getSize();
 	AddComponent(m_spriteComponent);
 
 	GameManager* gameManager = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity());
@@ -39,7 +39,7 @@ void BazookaRocket::Move(float deltaTime)
 	m_velocity += sf::Vector2f(0, 800) * deltaTime; // Applying fake gravity
 	GetTransformable().move(m_velocity * deltaTime);
 
-	m_spriteComponent->m_drawable.setRotation(atan2(m_velocity.y, m_velocity.x) * 180 / std::numbers::pi);
+	m_spriteComponent->m_drawable->setRotation(atan2(m_velocity.y, m_velocity.x) * 180 / std::numbers::pi);
 }
 
 void BazookaRocket::CheckCollision()
