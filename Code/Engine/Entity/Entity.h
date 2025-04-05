@@ -6,30 +6,8 @@
 #include "SFML/Graphics.hpp"
 #include "../Engine.h"
 #include "../Entity/EntitySystem.h"
+#include "../Entity/EntityComponent.h"
 #include "../Debug.h"
-
-
-class Entity;
-
-class EntityComponent
-{
-public:
-	EntityComponent();
-	~EntityComponent();
-
-	virtual void Update(float deltaTime) {};
-	virtual void ShutDown() = 0;
-
-	Entity* GetOwner() { return m_ownerEntity; }
-	std::string m_name;
-	int m_id = -1;
-
-	bool m_allowMultiple = false;
-
-	static int s_componentIDCounter;
-protected:
-	Entity* m_ownerEntity = nullptr;
-};
 
 class Entity
 {

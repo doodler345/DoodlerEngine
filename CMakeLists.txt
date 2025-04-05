@@ -39,6 +39,8 @@ ${ENGINE_SOURCE_PATH}/Entity/Empty.h
 ${ENGINE_SOURCE_PATH}/Entity/Empty.cpp
 ${ENGINE_SOURCE_PATH}/Entity/Entity.h
 ${ENGINE_SOURCE_PATH}/Entity/Entity.cpp
+${ENGINE_SOURCE_PATH}/Entity/EntityComponent.h
+${ENGINE_SOURCE_PATH}/Entity/EntityComponent.cpp
 ${ENGINE_SOURCE_PATH}/Entity/EntityFactoryManager.h
 ${ENGINE_SOURCE_PATH}/Entity/EntityFactoryManager.cpp
 ${ENGINE_SOURCE_PATH}/Entity/EntitySystem.h

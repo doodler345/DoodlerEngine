@@ -10,6 +10,7 @@ RectangleComponent::RectangleComponent(Entity* owner, int renderLayer)
 
 	m_ownerEntity = owner;
 	m_allowMultiple = true;
+	m_renderLayer = renderLayer;
 
 	m_drawable = std::make_unique<sf::RectangleShape>(sf::Vector2f(64, 64));
 	m_drawable->setFillColor(sf::Color::Green);
@@ -39,7 +40,27 @@ void RectangleComponent::Center(bool horizontal, bool vertical)
 	m_drawable.get()->setOrigin(newOrigin);
 }
 
+void RectangleComponent::SetVisibility(bool value)
+{
+	if (m_isVisible == value)
+	{
+		return;
+	}
+
+	m_isVisible = value;
+
+	if (value)
+	{
+		m_renderSystem->AddEntry(m_drawable.get(), this, EntryType::ShapeEntry, m_renderLayer);
+	}
+	else
+	{
+		m_renderSystem->RemoveEntry(this, EntryType::ShapeEntry);
+	}
+}
+
 void RectangleComponent::ShutDown()
 {
 	Engine::GetInstance()->GetRenderSystem().RemoveEntry(this, EntryType::ShapeEntry);
 }
+

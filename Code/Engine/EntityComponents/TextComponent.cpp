@@ -13,9 +13,10 @@ TextComponent::TextComponent(std::string& path, std::string& text, Entity* owner
 	m_name = type;
 
 	m_ownerEntity = owner;
+	m_renderLayer = renderLayer;
 
 	ResourceManager& resourceManager = Engine::GetInstance()->GetResourceManager();
-	RenderSystem& renderSystem = Engine::GetInstance()->GetRenderSystem();
+	m_renderSystem = &Engine::GetInstance()->GetRenderSystem();
 		
 	m_font = resourceManager.RegisterFont(m_fontPath);
 	m_text.setFont(m_font);
@@ -24,7 +25,26 @@ TextComponent::TextComponent(std::string& path, std::string& text, Entity* owner
 	SetFontSize(20);
 	CenterText();
 
-	renderSystem.AddEntry(&m_text, this, EntryType::TextEntry, renderLayer);
+	m_renderSystem->AddEntry(&m_text, this, EntryType::TextEntry, m_renderLayer);
+}
+
+void TextComponent::SetVisibility(bool value)
+{
+	if (m_isVisible == value)
+	{
+		return;
+	}
+
+	m_isVisible = value;
+
+	if (m_isVisible)
+	{
+		m_renderSystem->AddEntry(&m_text, this, EntryType::TextEntry);
+	}
+	else
+	{
+		m_renderSystem->RemoveEntry(this, EntryType::TextEntry);
+	}
 }
 
 void TextComponent::ShutDown()

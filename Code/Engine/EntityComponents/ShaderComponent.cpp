@@ -11,8 +11,12 @@ ShaderComponent::ShaderComponent(sf::Drawable* drawable, std::string& vertShader
 
 	m_ownerEntity = owner;
 
+	m_drawable = drawable;
 	m_vertPath = vertShaderPath;
 	m_fragPath = fragShaderPath;
+	m_renderLayer = renderLayer;
+
+	m_renderSystem = &Engine::GetInstance()->GetRenderSystem();
 
 	if (!sf::Shader::isAvailable)
 	{
@@ -26,7 +30,26 @@ ShaderComponent::ShaderComponent(sf::Drawable* drawable, std::string& vertShader
 		return;
 	}
 
-	Engine::GetInstance()->GetRenderSystem().AddEntry(drawable, this, EntryType::ShaderEntry, renderLayer, &m_shader);
+	Engine::GetInstance()->GetRenderSystem().AddEntry(m_drawable, this, EntryType::ShaderEntry, m_renderLayer, &m_shader);
+}
+
+void ShaderComponent::SetVisibility(bool value)
+{
+	if (m_isVisible == value)
+	{
+		return;
+	}
+
+	m_isVisible = value;
+
+	if (value)
+	{
+		m_renderSystem->AddEntry(m_drawable, this, EntryType::ShaderEntry, m_renderLayer, &m_shader);
+	}
+	else
+	{
+		m_renderSystem->RemoveEntry(this, EntryType::ShaderEntry);
+	}
 }
 
 void ShaderComponent::ShutDown()

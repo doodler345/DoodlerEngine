@@ -9,6 +9,7 @@ SpriteComponent::SpriteComponent(Entity* owner, int renderLayer)
 
 	m_ownerEntity = owner;	
 	m_renderLayer = renderLayer;
+	m_renderSystem = &Engine::GetInstance()->GetRenderSystem();
 }
 
 SpriteComponent::SpriteComponent(std::string& texturePath, Entity* owner, int renderLayer)
@@ -18,6 +19,7 @@ SpriteComponent::SpriteComponent(std::string& texturePath, Entity* owner, int re
 
 	m_ownerEntity = owner;		
 	m_renderLayer = renderLayer;
+	m_renderSystem = &Engine::GetInstance()->GetRenderSystem();
 
 	SetTexture(texturePath);
 }
@@ -65,23 +67,22 @@ void SpriteComponent::CenterTexture()
 	m_drawable.setOrigin(0.5f * texSize.x, 0.5f * texSize.y);
 }
 
-void SpriteComponent::SetVisibility(bool isVisible)
+void SpriteComponent::SetVisibility(bool value)
 {
-	if (m_isVisible == isVisible)
+	if (m_isVisible == value)
 	{
 		return;
 	}
 
-	m_isVisible = isVisible;
+	m_isVisible = value;
 	
-	RenderSystem& renderSystem = Engine::GetInstance()->GetRenderSystem();
-	if (isVisible)
+	if (value)
 	{
-		renderSystem.AddEntry(&m_drawable, this, EntryType::SpriteEntry, m_renderLayer);
+		m_renderSystem->AddEntry(&m_drawable, this, EntryType::SpriteEntry, m_renderLayer);
 	}
 	else
 	{
-		renderSystem.RemoveEntry(this, EntryType::SpriteEntry);
+		m_renderSystem->RemoveEntry(this, EntryType::SpriteEntry);
 	}
 }
 

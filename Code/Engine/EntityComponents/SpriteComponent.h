@@ -2,10 +2,11 @@
 
 #include <iostream>
 #include "../Entity/Entity.h"
+#include "../Entity/EntityComponent.h"
 #include "../ResourceManager.h"
 #include "SFML/Graphics.hpp"
 
-class SpriteComponent : public EntityComponent
+class SpriteComponent : public DrawableEntityComponent
 {
 public:
 	SpriteComponent(Entity* owner, int renderLayer = 0);
@@ -13,15 +14,13 @@ public:
 	void SetTexture(std::string& texturePath);
 	void UpdateTexture();
 	void CenterTexture();
-	void SetVisibility(bool isVisible);
+	void SetVisibility(bool value);
 	sf::Vector2u GetTextureSize();
 	virtual void ShutDown() override;
 
 	sf::Sprite m_drawable; 
 private:
 	bool m_isInitialized = false;
-	bool m_isVisible = true;
-	int m_renderLayer;
 	std::string m_texturePath = "";
 	sf::Texture m_texture;
 };

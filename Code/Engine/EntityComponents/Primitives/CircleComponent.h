@@ -5,7 +5,7 @@
 #include "SFML/Graphics.hpp"
 #include "../../Entity/Entity.h"
 
-class CircleComponent : public EntityComponent
+class CircleComponent : public DrawableEntityComponent
 {
 public:
 	CircleComponent(Entity* owner, int renderLayer = 0);
@@ -14,6 +14,7 @@ public:
 	sf::CircleShape* GetCircle() { return m_drawable.get(); }
 	void SetRadius(float radius);
 	void Center();
+	void SetVisibility(bool value) override;
 
 private:
 	std::unique_ptr<sf::CircleShape> m_drawable;

@@ -10,13 +10,14 @@ CircleComponent::CircleComponent(Entity* owner, int renderLayer)
 
 	m_ownerEntity = owner;
 	m_allowMultiple = true;
+	m_renderLayer = renderLayer;
 
 	m_drawable = std::make_unique<sf::CircleShape>(64);
 	m_drawable->setFillColor(sf::Color::Green);
 
 
 	RenderSystem& renderSystem = Engine::GetInstance()->GetRenderSystem();
-	renderSystem.AddEntry(m_drawable.get(), this, EntryType::ShapeEntry, renderLayer);
+	renderSystem.AddEntry(m_drawable.get(), this, EntryType::ShapeEntry, m_renderLayer);
 }
 
 void CircleComponent::SetRadius(float radius)
@@ -29,6 +30,25 @@ void CircleComponent::Center()
 {
 	float radius = m_drawable->getRadius();
 	m_drawable->setOrigin(sf::Vector2f(radius, radius));
+}
+
+void CircleComponent::SetVisibility(bool value)
+{
+	if (m_isVisible == value)
+	{
+		return;
+	}
+
+	m_isVisible = value;
+
+	if (value)
+	{
+		m_renderSystem->AddEntry(m_drawable.get(), this, EntryType::ShapeEntry, m_renderLayer);
+	}
+	else
+	{
+		m_renderSystem->RemoveEntry(this, EntryType::ShapeEntry);
+	}
 }
 
 void CircleComponent::ShutDown()
