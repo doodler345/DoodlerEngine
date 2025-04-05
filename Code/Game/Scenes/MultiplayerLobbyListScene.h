@@ -11,11 +11,12 @@ public:
 	void Init() override;
 
 private:
+	void ToggleCreateLobbyForm(bool value);
+
 	Text* m_headerText = nullptr;
 	Text* m_infoText = nullptr;
 	Button* m_createLobbyButton = nullptr;
 	CreateLobbyForm* m_createLobbyForm = nullptr;
-	// Form to create a lobby (own entity)
 	// LobbySearcher (own entity)
 	// List of LobbyListEntries (entities)
 };

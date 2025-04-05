@@ -9,6 +9,8 @@ public:
 	void EntityInit() override;
 	void DestroyDerived() override;
 
+	void SetActive(bool value);
+
 private:
 	std::shared_ptr <RectangleComponent> m_background = nullptr;
 

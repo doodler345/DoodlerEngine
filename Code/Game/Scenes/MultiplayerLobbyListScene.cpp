@@ -1,5 +1,7 @@
 #include "MultiplayerLobbyListScene.h"
 
+#include <functional>
+
 void MultiplayerLobbyListScene::Init()
 {
 	//Instantiations
@@ -18,8 +20,19 @@ void MultiplayerLobbyListScene::Init()
 	m_infoText->m_textComponent->SetFontSize(20);
 	m_infoText->GetTransformable().move(windowSize.x / 2, windowSize.y / 6 + 60);
 
+	// Create Lobby Form Setup
+	m_createLobbyForm->SetActive(false);
+	
 	// Button Setup
 	m_createLobbyButton->SetText("Create Lobby");
 	m_createLobbyButton->SetFontSize(30);
 	m_createLobbyButton->GetTransformable().move(windowSize.x / 7, windowSize.y * 0.9f);
+	m_createLobbyButton->SetButtonCallback(std::bind(&MultiplayerLobbyListScene::ToggleCreateLobbyForm, this, true));
+
+
+}
+
+void MultiplayerLobbyListScene::ToggleCreateLobbyForm(bool value)
+{
+
 }

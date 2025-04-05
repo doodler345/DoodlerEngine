@@ -16,3 +16,8 @@ void CreateLobbyForm::EntityInit()
 void CreateLobbyForm::DestroyDerived()
 {
 }
+
+void CreateLobbyForm::SetActive(bool value)
+{
+	m_background->SetVisibility(value);
+}
