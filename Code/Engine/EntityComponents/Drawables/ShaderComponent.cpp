@@ -1,8 +1,8 @@
 #include "ShaderComponent.h"
 
-#include "../Debug.h"
-#include "../Engine.h"
-#include "../RenderSystem.h"
+#include "../../Debug.h"
+#include "../../Engine.h"
+#include "../../RenderSystem.h"
 
 ShaderComponent::ShaderComponent(sf::Drawable* drawable, std::string& vertShaderPath, std::string& fragShaderPath, Entity* owner, int renderLayer)
 {

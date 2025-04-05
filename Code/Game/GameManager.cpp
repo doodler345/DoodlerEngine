@@ -12,9 +12,9 @@
 #include "../Engine/RenderSystem.h"
 
 //Components
-#include "../Engine/EntityComponents/SpriteComponent.h"
-#include "../Engine/EntityComponents/TextComponent.h"
-#include "../Engine/EntityComponents/Primitives/RectangleComponent.h"
+#include "../Engine/EntityComponents/Drawables/SpriteComponent.h"
+#include "../Engine/EntityComponents/Drawables/TextComponent.h"
+#include "../Engine/EntityComponents/Drawables/RectangleComponent.h"
 
 //Entities
 #include "Player.h"

@@ -4,7 +4,7 @@
 
 #include "GameManager.h"
 #include "Scenes/PlayScene.h"
-#include "../../Engine/EntityComponents/SpriteComponent.h"
+#include "../../Engine/EntityComponents/Drawables/SpriteComponent.h"
 
 void BazookaRocket::EntityInit()
 {

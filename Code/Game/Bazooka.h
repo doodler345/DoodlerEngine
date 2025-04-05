@@ -6,9 +6,9 @@
 #include "SFML/Audio.hpp"
 #include "BazookaRocket.h"
 
-#include "../../Engine/Scene.h"
-#include "../../Engine/Entity/Empty.h"
-#include "../../Engine/EntityComponents/SpriteComponent.h"
+#include "../Engine/Scene.h"
+#include "../Engine/Entity/Empty.h"
+#include "../Engine/EntityComponents/Drawables/SpriteComponent.h"
 
 class Bazooka : public Entity
 {

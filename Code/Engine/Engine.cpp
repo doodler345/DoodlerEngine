@@ -4,7 +4,7 @@
 #include "ResourceManager.h"
 #include "Entity/EntitySystem.h"
 #include "Entity/EntityFactoryManager.h"
-#include "EntityComponents/SpriteComponent.h"
+#include "EntityComponents/Drawables/SpriteComponent.h"
 #include "InputManager.h"
 #include "BMPImage.h"
 

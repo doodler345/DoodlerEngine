@@ -8,8 +8,8 @@
 #include "../../Engine/BMPImage.h"
 #include "../Engine/Engine.h"
 #include "../Engine/Entity/Entity.h"
-#include "../Engine/EntityComponents/ShaderComponent.h"
-#include "../Engine/EntityComponents/Primitives/RectangleComponent.h"
+#include "../Engine/EntityComponents/Drawables/ShaderComponent.h"
+#include "../Engine/EntityComponents/Drawables/RectangleComponent.h"
 
 class World : public Entity
 {

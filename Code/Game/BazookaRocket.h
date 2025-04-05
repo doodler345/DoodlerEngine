@@ -2,7 +2,7 @@
 
 #include "../Engine/Engine.h"
 #include "../Engine/Entity/Entity.h"
-#include "../Engine/EntityComponents/SpriteComponent.h"
+#include "../Engine/EntityComponents/Drawables/SpriteComponent.h"
 #include "World.h"
 
 class BazookaRocket : public Entity

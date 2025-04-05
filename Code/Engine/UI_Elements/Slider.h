@@ -3,7 +3,7 @@
 #include <functional>
 
 #include "../Entity/InteractableUIEntity.h"
-#include "../EntityComponents/Primitives/RectangleComponent.h"
+#include "../EntityComponents/Drawables/RectangleComponent.h"
 #include "../Entity/Empty.h"
 
 using ValueChangedCallback = std::function<void(float)>;

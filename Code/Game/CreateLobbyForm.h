@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Engine/Entity/Entity.h"
-#include "../Engine/EntityComponents/Primitives/RectangleComponent.h"
+#include "../Engine/EntityComponents/Drawables/RectangleComponent.h"
 
 class CreateLobbyForm : public Entity
 {
