@@ -3,6 +3,7 @@
 void LobbySearcher::EntityInit()
 {
 	m_udpSocket.setBlocking(false);
+	m_udpSocket.bind(m_PORT);
 }
 
 void LobbySearcher::Update(float deltaTime)
@@ -16,13 +17,14 @@ void LobbySearcher::DestroyDerived()
 
 void LobbySearcher::SearchForLobbies()
 {
-	sf::Packet m_lobbyPacket;
+	sf::Packet lobbyPacket;
 	sf::IpAddress sender;
-	m_udpSocket.receive(m_lobbyPacket, sender, m_PORT);
+	m_udpSocket.receive(lobbyPacket, sender, m_PORT);
 
-	if (m_lobbyPacket >> m_lobbyName)
+	std::string lobbyName;
+	if (lobbyPacket >> lobbyName)
 	{
-		std::cout << "Lobby found: " << m_lobbyName << std::endl;
+		std::cout << "Lobby found: " << lobbyName << std::endl;
 	}
 	else
 	{

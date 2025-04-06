@@ -16,5 +16,4 @@ private:
 
 	unsigned short m_PORT = 54000;
 	sf::UdpSocket m_udpSocket;
-	std::string m_lobbyName;
 };

@@ -1,5 +1,7 @@
 #include "CreateLobbyForm.h"
 
+#include <string>
+
 #include <SFML/Graphics.hpp>
 
 #include "../../Engine/Engine.h"
@@ -100,7 +102,8 @@ void CreateLobbyForm::CreateLobby()
 	broadcastAddress.append("255");
 	m_broadcastIp = sf::IpAddress(broadcastAddress);
 
-	m_lobbyPacket << "LobbyName";
+	std::string lobbyName = "LobbyName";
+	m_lobbyPacket << lobbyName;
 	m_worldPacket << m_broadcastWorld->m_pixelValues;
 	
 	m_udpSocket.setBlocking(false);
@@ -116,7 +119,7 @@ void CreateLobbyForm::CreateLobby()
 
 void CreateLobbyForm::BroadcastLobby()
 {
-	m_udpSocket.send(m_lobbyPacket, m_broadcastIp, m_udpSocket.getLocalPort());
+	m_udpSocket.send(m_lobbyPacket, m_broadcastIp, m_PORT);
 
 	if (m_tcpListener.accept(m_tcpClientSocket) != sf::Socket::Done)
 	{
