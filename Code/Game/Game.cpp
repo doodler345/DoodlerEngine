@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "World.h"
 #include "BrushTool.h"
+#include "LevelSelection.h"
 #include "MultiplayerLobbyList/CreateLobbyForm.h"
 #include "MultiplayerLobbyList/LobbySearcher.h"
 
@@ -29,6 +30,7 @@ int main()
     entitiyFactoryManager->REGISTER(Bazooka);
     entitiyFactoryManager->REGISTER(BazookaRocket);
     entitiyFactoryManager->REGISTER(BrushTool);
+    entitiyFactoryManager->REGISTER(LevelSelection);
     entitiyFactoryManager->REGISTER(CreateLobbyForm);
     entitiyFactoryManager->REGISTER(LobbySearcher);
 
