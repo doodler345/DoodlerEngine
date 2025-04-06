@@ -125,6 +125,7 @@ void CreateLobbyForm::CreateLobby()
 	m_lobby.id = rand(); 
 	m_lobby.name = m_lobbyNameInputField->GetText();
 	m_lobby.ipAddress = localAddress;
+	m_lobby.port = m_port;
 
 	m_lobbyPacket << m_lobby;
 	m_worldPacket << m_world->m_pixelValues;

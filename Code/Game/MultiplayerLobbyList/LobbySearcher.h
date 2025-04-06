@@ -6,15 +6,20 @@
 #include <../../Engine/Entity/Entity.h>
 #include "../MultiplayerLobbyList/Lobby.h"
 
+class MultiplayerLobbyListScene;
+
 class LobbySearcher : public Entity
 {
 public:
 	void EntityInit() override;
 	void Update(float deltaTime) override;
+
 	void DestroyDerived() override;
 
 private:
 	void SearchForLobbies();
+
+	MultiplayerLobbyListScene* m_multiplayerLobbyListScene = nullptr;
 
 	const float m_SEARCH_INTERVAL_SECONDS = 1.0f;
 	float m_timer = 0.0f;

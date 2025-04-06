@@ -1,11 +1,16 @@
 #include "LobbySearcher.h"
 
+#include <../../Engine/Engine.h>
+#include "../GameManager.h"
+#include "../Scenes/MultiplayerLobbyListScene.h"
 #include "Lobby.h"
 
 void LobbySearcher::EntityInit()
 {
 	m_udpSocket.setBlocking(false);
 	m_udpSocket.bind(m_port);
+
+	m_multiplayerLobbyListScene = reinterpret_cast<MultiplayerLobbyListScene*>(reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->GetCurrentScene());
 }
 
 void LobbySearcher::Update(float deltaTime)
@@ -40,12 +45,15 @@ void LobbySearcher::SearchForLobbies()
 		}
 
 		m_activeLobbies[lobby.id] = lobby;
+
+		m_multiplayerLobbyListScene->AddActiveLobby(&m_activeLobbies[lobby.id]);
 		std::cout << "Lobby found: " << lobby.id << " " << lobby.ipAddress << std::endl;
 	}
 	else
 	{
 		if (!m_activeLobbies.empty())
 		{
+			m_multiplayerLobbyListScene->ClearActiveLobbies();
 			m_activeLobbies.clear();
 		}
 	}
