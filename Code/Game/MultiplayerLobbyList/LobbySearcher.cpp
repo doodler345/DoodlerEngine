@@ -33,6 +33,7 @@ void LobbySearcher::SearchForLobbies()
 	sf::IpAddress sender;
 
 	// TODO: udpSocket manage multiple servers
+
 	bool foundServer = false;
 	while(m_udpSocket.receive(lobbyPacket, sender, m_remotePort) == sf::Socket::Done)
 	{
@@ -49,13 +50,13 @@ void LobbySearcher::SearchForLobbies()
 
 			m_multiplayerLobbyListScene->AddActiveLobby(&m_activeLobbies[lobby.id]);
 			foundServer = true;
-			std::cout << "Lobby found: " << lobby.id << " " << lobby.ipAddress << std::endl;
+			//std::cout << "Lobby found: " << lobby.id << " " << lobby.ipAddress << std::endl;
 		}
 	}
 	
 	if (!foundServer)
 	{
-		std::cout << "No Lobby found" << std::endl;
+		//std::cout << "No Lobby found" << std::endl;
 		if (!m_activeLobbies.empty())
 		{
 			m_multiplayerLobbyListScene->ClearActiveLobbies();

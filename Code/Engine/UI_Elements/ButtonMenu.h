@@ -12,10 +12,12 @@ class ButtonMenu : public Entity
 {
 public:
 	virtual void EntityInit() override {};
+	virtual void SetActive(bool value) override;
 	std::vector<Button*> InitMenu(int buttonCount, std::array<sf::Keyboard::Key, 3>& inputKeys);
 	void SelectButton(Button* button);
 	void Pause(bool isPaused);
 	void SetVisibility(bool value);
+	void SetRenderLayer(int layer);
 
 private:
 	void OnNextButton(sf::Keyboard::Key key, bool isPressed);

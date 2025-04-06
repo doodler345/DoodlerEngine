@@ -38,6 +38,7 @@ void MultiplayerLobbyListScene::Init()
 	m_activeLobbyButton->GetTransformable().move(windowSize.x / 2.0f, windowSize.y / 2.0f);
 	m_activeLobbyButton->SetButtonCallback(std::bind(&MultiplayerLobbyListScene::Connect, this));
 	m_activeLobbyButton->SetVisibility(false);
+	m_activeLobbyButton->SetInteractable(false);
 }
 
 void MultiplayerLobbyListScene::SetCreateLobbyButtonVisibility(bool value)
@@ -52,6 +53,7 @@ void MultiplayerLobbyListScene::AddActiveLobby(Lobby* lobby)
 	m_activeLobby = lobby;
 	m_activeLobbyButton->SetText(lobby->name);
 	m_activeLobbyButton->SetVisibility(true);
+	m_activeLobbyButton->SetInteractable(true);
 }
 
 void MultiplayerLobbyListScene::ClearActiveLobbies()
@@ -60,12 +62,13 @@ void MultiplayerLobbyListScene::ClearActiveLobbies()
 	m_activeLobby = nullptr;
 	m_activeLobbyButton->SetText("");
 	m_activeLobbyButton->SetVisibility(false);
+	m_activeLobbyButton->SetInteractable(false);
 }
 
 void MultiplayerLobbyListScene::ToggleCreateLobbyForm(bool value)
 {
 	SetCreateLobbyButtonVisibility(!value);
-	m_createLobbyForm->SetVisibility(true);
+	m_createLobbyForm->SetVisibility(value);
 }
 
 void MultiplayerLobbyListScene::Connect()

@@ -39,6 +39,7 @@ public:
 	
 
 protected:
+	virtual void SetActive(bool value) { }
 	virtual void Update(float deltaTime) {};
 	virtual void DestroyDerived() = 0; 
 

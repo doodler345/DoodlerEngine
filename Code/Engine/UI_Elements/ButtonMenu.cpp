@@ -8,6 +8,15 @@
 #include "../EntityComponents/Drawables/SpriteComponent.h"
 #include "../EntityComponents/Drawables/RectangleComponent.h"
 
+void ButtonMenu::SetActive(bool value)
+{
+	SetVisibility(value);
+	for (int i = 0; i < m_buttons.size(); i++)
+	{
+		m_buttons[i]->SetInteractable(value);
+	}
+}
+
 std::vector<Button*> ButtonMenu::InitMenu(int buttonCount, std::array<sf::Keyboard::Key, 3>& inputKeys)
 {
 	this->m_buttonCount = buttonCount;
@@ -66,6 +75,14 @@ void ButtonMenu::SetVisibility(bool value)
 	for (int i = 0; i < m_buttons.size(); i++)
 	{
 		m_buttons[i]->SetVisibility(value);
+	}
+}
+
+void ButtonMenu::SetRenderLayer(int layer)
+{
+	for (int i = 0; i < m_buttons.size(); i++)
+	{
+		m_buttons[i]->SetRenderLayer(layer);
 	}
 }
 
