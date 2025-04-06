@@ -24,6 +24,7 @@ public:
 	void SetButtonCallback(ButtonCallback callback);
 	void SetVisibility(bool value);
 	void SetRenderLayer(int layer);
+	void SetInteractable(bool isInteractable) override;
 
 	std::string GetText();
 
@@ -49,7 +50,4 @@ private:
 
 	//customizations
 	const float m_BLINKSPEED = 5.f;
-
-	// Inherited via InteractableUIEntity
-	void SetInteractable(bool isInteractable) override;
 };
