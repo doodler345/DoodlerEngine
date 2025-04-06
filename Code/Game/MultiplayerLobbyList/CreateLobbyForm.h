@@ -22,7 +22,7 @@ public:
 
 private:
 	void CreateLobby();
-	void BroadcastLobby();
+	void BroadcastLobby(float deltaTime);
 
 	sf::Vector2f m_RELATIVE_SIZE{ 0.7f, 0.7f }; // Relative size to the window size
 
@@ -45,4 +45,7 @@ private:
 	sf::TcpListener m_tcpListener;
 	sf::TcpSocket m_tcpClientSocket;
 	bool m_isBroadcastingLobby;
+
+	float m_BROADCAST_INTERVAL_SECONDS = 1.0f;
+	float m_timer = 0.0f;
 };

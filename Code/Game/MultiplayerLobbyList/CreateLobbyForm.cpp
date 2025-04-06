@@ -80,7 +80,7 @@ void CreateLobbyForm::Update(float deltaTime)
 {
 	if (m_isBroadcastingLobby)
 	{
-		BroadcastLobby();
+		BroadcastLobby(deltaTime);
 	}
 }
 
@@ -135,14 +135,17 @@ void CreateLobbyForm::CreateLobby()
 	m_isBroadcastingLobby = true;
 }
 
-void CreateLobbyForm::BroadcastLobby()
+void CreateLobbyForm::BroadcastLobby(float deltaTime)
 {
-	m_udpSocket.send(m_lobbyPacket, m_broadcastIp, m_remotePort);
-
-	if (m_tcpListener.accept(m_tcpClientSocket) != sf::Socket::Done)
+	m_timer += deltaTime;
+	if (m_timer > m_BROADCAST_INTERVAL_SECONDS)
 	{
-		return;
+		m_udpSocket.send(m_lobbyPacket, m_broadcastIp, m_remotePort);
+		m_timer = 0.0f;
 	}
 
-	m_tcpClientSocket.send(m_worldPacket);
+	if (m_tcpListener.accept(m_tcpClientSocket) == sf::Socket::Done)
+	{
+		m_tcpClientSocket.send(m_worldPacket);
+	}
 }
