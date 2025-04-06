@@ -44,6 +44,9 @@ void LobbySearcher::SearchForLobbies()
 	}
 	else
 	{
-		m_activeLobbies.clear();
+		if (!m_activeLobbies.empty())
+		{
+			m_activeLobbies.clear();
+		}
 	}
 }
