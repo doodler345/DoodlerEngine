@@ -12,16 +12,16 @@ class LevelSelection : public Entity
 public:
 	void EntityInit() override;
 	void SetActive(bool value) override;
-	void SetCallback(std::function<void(std::string)> callback) { m_callback = callback; }
+	void SetCallback(std::function<void(std::string, std::string)> callback) { m_callback = callback; }
 	ButtonMenu* GetButtonMenu() { return m_buttonMenu; }
 	void DestroyDerived() override;
 
 private:
-	void InvokeCallback(std::string filePath);
+	void InvokeCallback(std::string filePath, std::string fileName);
 
 	ButtonMenu* m_buttonMenu = nullptr;
 	std::vector<std::string> m_levelFilePaths;
 	std::vector<std::string> m_levelFileNames;
 
-	std::function<void(std::string)> m_callback;
+	std::function<void(std::string, std::string)> m_callback;
 };

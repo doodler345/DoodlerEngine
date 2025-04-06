@@ -34,6 +34,7 @@ void CreateLobbyForm::EntityInit()
 	// Background
 	m_background = std::make_shared<RectangleComponent>(this, 1);
 	m_background->GetRectangle()->setSize(sf::Vector2f(windowSize.x * m_RELATIVE_SIZE.x, windowSize.y * m_RELATIVE_SIZE.y));
+	m_background->GetRectangle()->setFillColor(sf::Color::Blue);
 	m_background->Center();
 	m_background->GetOwner()->GetTransformable().move(windowSize.x / 2, windowSize.y / 2);
 	m_background->SetRenderLayer(1);
@@ -64,12 +65,13 @@ void CreateLobbyForm::EntityInit()
 
 	buttons[0]->SetText("Create");
 	buttons[1]->SetText("X");
-	buttons[2]->SetText("Level Selection");
+	buttons[2]->SetText("DefaultMap");
 
 	buttons[0]->SetButtonCallback(std::bind(&CreateLobbyForm::CreateLobby, this));
 	buttons[1]->SetButtonCallback(std::bind(&CreateLobbyForm::SetVisibility, this, false));
 	buttons[2]->SetButtonCallback(std::bind(&CreateLobbyForm::ToggleSelectLevelPanel, this, true));
 
+	m_levelSelectionButton = buttons[2];
 
 	// Input Field
 	m_lobbyNameInputField->SetText("LobbyName");
@@ -77,7 +79,7 @@ void CreateLobbyForm::EntityInit()
 	m_lobbyNameInputField->SetRenderLayer(2);
 
 	// Level Selection
-	m_levelSelection->SetCallback(std::bind(&CreateLobbyForm::OnSelectLevel, this, std::placeholders::_1));
+	m_levelSelection->SetCallback(std::bind(&CreateLobbyForm::OnSelectLevel, this, std::placeholders::_1, std::placeholders::_2));
 	m_levelSelection->SetActive(false);
 	m_levelSelection->GetButtonMenu()->SetRenderLayer(2);
 
@@ -117,8 +119,9 @@ void CreateLobbyForm::ToggleSelectLevelPanel(bool value)
 	reinterpret_cast<MultiplayerLobbyListScene*>(m_scene)->SetCreateLobbyButtonVisibility(!value);
 }
 
-void CreateLobbyForm::OnSelectLevel(std::string filePath)
+void CreateLobbyForm::OnSelectLevel(std::string filePath, std::string fileName)
 {
+	m_levelSelectionButton->SetText(fileName);
 	SetSelectedLevelPath(filePath);
 	ToggleSelectLevelPanel(false);
 }

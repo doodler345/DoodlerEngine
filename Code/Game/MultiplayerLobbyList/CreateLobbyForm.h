@@ -24,7 +24,7 @@ public:
 
 private:
 	void ToggleSelectLevelPanel(bool value);
-	void OnSelectLevel(std::string filePath);
+	void OnSelectLevel(std::string filePath, std::string fileName);
 	void SetSelectedLevelPath(std::string filePath) { m_selectedWorldPath = filePath; }
 	void CreateLobby();
 	void BroadcastLobby(float deltaTime);
@@ -34,6 +34,7 @@ private:
 	Scene* m_scene = nullptr;
 	std::shared_ptr<RectangleComponent> m_background = nullptr;
 	ButtonMenu* m_buttonMenu = nullptr;
+	Button* m_levelSelectionButton = nullptr;
 	LevelSelection* m_levelSelection = nullptr;
 	Text* m_waitForPlayerText = nullptr;
 	InputField* m_lobbyNameInputField = nullptr;

@@ -45,13 +45,14 @@ void LevelSelection::EntityInit()
 	int column = 1;
 	for (int i = 0; i < levelCount; i++)
 	{
-		buttons[i]->SetText(m_levelFileNames[i]);
+		std::string& fileName = m_levelFileNames[i];
+		std::string& filePath = m_levelFilePaths[i];
 
-		std::string filePath = m_levelFilePaths[i];
+		buttons[i]->SetText(fileName);
 		//std::function<void()> callback = [filePath]() { dynamic_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->SwitchToPlayScene(filePath); };
 		//buttons[i]->SetButtonCallback(callback);
 
-		std::function<void()> callback = std::bind(&LevelSelection::InvokeCallback, this, filePath);
+		std::function<void()> callback = std::bind(&LevelSelection::InvokeCallback, this, filePath, fileName);
 		buttons[i]->SetButtonCallback(callback);
 
 		if (row % 10 == 0)
@@ -73,7 +74,7 @@ void LevelSelection::DestroyDerived()
 {
 }
 
-void LevelSelection::InvokeCallback(std::string filePath)
+void LevelSelection::InvokeCallback(std::string filePath, std::string fileName)
 {
-	m_callback(filePath);
+	m_callback(filePath, fileName);
 }
