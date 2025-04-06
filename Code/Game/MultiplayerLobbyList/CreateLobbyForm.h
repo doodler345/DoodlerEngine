@@ -2,12 +2,12 @@
 
 #include <SFML/Network.hpp>
 
-#include "../Engine/Entity/Entity.h"
-#include "../Engine/UI_Elements/ButtonMenu.h"
-#include "../Engine/UI_Elements/Text.h"
-#include "../Engine/EntityComponents/Drawables/RectangleComponent.h"
-#include "../Engine/Scene.h"
-#include "World.h"
+#include "../../Engine/Entity/Entity.h"
+#include "../../Engine/UI_Elements/ButtonMenu.h"
+#include "../../Engine/UI_Elements/Text.h"
+#include "../../Engine/EntityComponents/Drawables/RectangleComponent.h"
+#include "../../Engine/Scene.h"
+#include "../World.h"
 
 class CreateLobbyForm : public Entity
 {
@@ -31,8 +31,13 @@ private:
 	Text* m_waitForPlayerText = nullptr;
 
 	// Broadcast
+	const unsigned short m_PORT = 54000;
+
 	World* m_broadcastWorld = nullptr;
-	sf::Packet m_packet;
+	sf::IpAddress m_broadcastIp;
+	sf::Packet m_lobbyPacket;
+	sf::Packet m_worldPacket;
+	sf::UdpSocket m_udpSocket;
 	sf::TcpListener m_tcpListener;
 	sf::TcpSocket m_tcpClientSocket;
 	bool m_isBroadcastingLobby;

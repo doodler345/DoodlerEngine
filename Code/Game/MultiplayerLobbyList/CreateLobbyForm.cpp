@@ -2,9 +2,9 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../Engine/Engine.h"
-#include "GameManager.h"
-#include "Scenes/MultiplayerLobbyListScene.h"
+#include "../../Engine/Engine.h"
+#include "../GameManager.h"
+#include "../Scenes/MultiplayerLobbyListScene.h"
 
 void CreateLobbyForm::EntityInit()
 {
@@ -87,22 +87,41 @@ void CreateLobbyForm::CreateLobby()
 	const char* path = strPath.c_str();
 	m_broadcastWorld->Setup(path);
 
-	// Create Broadcast
-	unsigned const short port = 54000;
-	m_packet << m_broadcastWorld->m_pixelValues;
+	// Create Broadcast address
+	std::string localAddress = sf::IpAddress::getLocalAddress().toString();
+
+	int i = localAddress.length() - 1;
+	while (localAddress[i] != '.')
+	{
+		i--;
+	}
+	std::string broadcastAddress = localAddress;
+	broadcastAddress.erase(i + 1, localAddress.length() - 1);
+	broadcastAddress.append("255");
+	m_broadcastIp = sf::IpAddress(broadcastAddress);
+
+	m_lobbyPacket << "LobbyName";
+	m_worldPacket << m_broadcastWorld->m_pixelValues;
+	
+	m_udpSocket.setBlocking(false);
+	m_udpSocket.bind(m_PORT);
+	
 	m_tcpListener.setBlocking(false);
 	m_tcpClientSocket.setBlocking(false);
-	m_tcpListener.listen(port);
+	
+	m_tcpListener.listen(m_PORT);
 
 	m_isBroadcastingLobby = true;
 }
 
 void CreateLobbyForm::BroadcastLobby()
 {
+	m_udpSocket.send(m_lobbyPacket, m_broadcastIp, m_udpSocket.getLocalPort());
+
 	if (m_tcpListener.accept(m_tcpClientSocket) != sf::Socket::Done)
 	{
 		return;
 	}
 
-	m_tcpClientSocket.send(m_packet);
+	m_tcpClientSocket.send(m_worldPacket);
 }

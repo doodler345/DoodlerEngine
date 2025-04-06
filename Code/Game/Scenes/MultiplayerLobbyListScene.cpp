@@ -11,7 +11,8 @@ void MultiplayerLobbyListScene::Init()
 	m_infoText = Instantiate(Text, InfoText);
 	m_createLobbyButton = Instantiate(Button, CreateLobbyButton);
 	m_connectButton = Instantiate(Button, ConnectButton);
-	m_createLobbyForm = Instantiate(CreateLobbyForm, CreateLobbyForm);
+	m_createLobbyForm = Instantiate(CreateLobbyForm, CreateLobbyFormEntity);
+	m_lobbySearcher = Instantiate(LobbySearcher, LobbySearch);
 
 	// Text Setup
 	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
@@ -52,13 +53,11 @@ void MultiplayerLobbyListScene::ToggleCreateLobbyForm(bool value)
 
 void MultiplayerLobbyListScene::Connect()
 {
-	unsigned short port = 54000;
-
 	sf::Packet packet;
 
 	sf::TcpSocket socket;
 	sf::IpAddress serverIP = sf::IpAddress("192.168.178.164");
-	sf::Socket::Status status = socket.connect(serverIP, port, sf::Time(sf::seconds(1)));
+	sf::Socket::Status status = socket.connect(serverIP, m_PORT, sf::Time(sf::seconds(1)));
 
 	socket.receive(packet);
 	std::vector<int> data;

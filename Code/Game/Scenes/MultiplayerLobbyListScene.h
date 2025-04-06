@@ -3,7 +3,8 @@
 #include "../../Engine/Scene.h"
 #include "../../Engine/UI_Elements/Text.h"
 #include "../../Engine/UI_Elements/Button.h"
-#include "../CreateLobbyForm.h"
+#include "../MultiplayerLobbyList/CreateLobbyForm.h"
+#include "../MultiplayerLobbyList/LobbySearcher.h"
 
 class MultiplayerLobbyListScene : public Scene
 {
@@ -15,11 +16,13 @@ private:
 	void ToggleCreateLobbyForm(bool value);
 	void Connect();
 
+	const unsigned short m_PORT = 54000;
+
 	Text* m_headerText = nullptr;
 	Text* m_infoText = nullptr;
 	Button* m_createLobbyButton = nullptr;
 	Button* m_connectButton = nullptr;
 	CreateLobbyForm* m_createLobbyForm = nullptr;
-	// LobbySearcher (own entity)
+	LobbySearcher* m_lobbySearcher = nullptr;
 	// List of LobbyListEntries (entities)
 };

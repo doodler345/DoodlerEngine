@@ -89,8 +89,10 @@ ${GAME_SOURCE_PATH}/Bazooka.h
 ${GAME_SOURCE_PATH}/Bazooka.cpp
 ${GAME_SOURCE_PATH}/BazookaRocket.h
 ${GAME_SOURCE_PATH}/BazookaRocket.cpp
-${GAME_SOURCE_PATH}/CreateLobbyForm.h
-${GAME_SOURCE_PATH}/CreateLobbyForm.cpp
+${GAME_SOURCE_PATH}/MultiplayerLobbyList/CreateLobbyForm.h
+${GAME_SOURCE_PATH}/MultiplayerLobbyList/CreateLobbyForm.cpp
+${GAME_SOURCE_PATH}/MultiplayerLobbyList/LobbySearcher.h
+${GAME_SOURCE_PATH}/MultiplayerLobbyList/LobbySearcher.cpp
 ${GAME_SOURCE_PATH}/Scenes/MainMenu.h
 ${GAME_SOURCE_PATH}/Scenes/MainMenu.cpp
 ${GAME_SOURCE_PATH}/Scenes/LevelSelectionScene.h
