@@ -34,24 +34,6 @@ WorldGenerator::~WorldGenerator()
 void WorldGenerator::Init()
 {
 	///////////////////////////////////////////
-	//unsigned short port = 54000;
-
-	//sf::Packet packet;
-
-	//sf::TcpSocket socket;
-	//sf::IpAddress serverIP = sf::IpAddress("192.168.178.164");
-	//sf::Socket::Status status = socket.connect(serverIP, port, sf::Time(sf::seconds(20)));
-
-	//socket.receive(packet);
-	//std::vector<int> data;
-	//
-	//packet >> data;
-	///////////////////////////////////////////
-
-
-
-
-	///////////////////////////////////////////
 	// WorldGenerator
 
 	std::srand(time(NULL));
@@ -199,27 +181,6 @@ void WorldGenerator::Init()
 	//Finalizing
 	OnGenerateNoisemap();
 	m_initializing = false;
-
-
-
-
-
-	///////////////////////////////////////////
-	//int i = 0;
-	//BMPImage bmpWorld = BMPImage(m_worldGenerationImage->m_worldWidth, m_worldGenerationImage->m_worldHeight);
-	//for (int y = 0; y < m_worldGenerationImage->m_worldHeight; y++)
-	//{
-	//	for (int x = 0; x < m_worldGenerationImage->m_worldWidth; x++)
-	//	{
-	//		bmp::Color texColor = bmp::Color(data[i]);
-	//		bmpWorld.SetColor(texColor, x, y);
-	//		i++;
-	//	}
-	//}
-
-	//std::string savePath = "../Resources/bmp/CopiedMap.bmp";
-	//bmpWorld.Export(savePath.c_str());
-	///////////////////////////////////////////
 }
 
 void WorldGenerator::OnChangeDensity(float relativeValue)

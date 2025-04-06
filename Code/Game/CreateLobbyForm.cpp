@@ -1,11 +1,9 @@
 #include "CreateLobbyForm.h"
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Network.hpp>
 
 #include "../Engine/Engine.h"
 #include "GameManager.h"
-#include "World.h"
 #include "Scenes/MultiplayerLobbyListScene.h"
 
 void CreateLobbyForm::EntityInit()
@@ -59,6 +57,14 @@ void CreateLobbyForm::EntityInit()
 	m_waitForPlayerText->m_textComponent->SetVisibility(false);
 }
 
+void CreateLobbyForm::Update(float deltaTime)
+{
+	if (m_isBroadcastingLobby)
+	{
+		BroadcastLobby();
+	}
+}
+
 void CreateLobbyForm::DestroyDerived()
 {
 }
@@ -75,22 +81,28 @@ void CreateLobbyForm::CreateLobby()
 	m_buttonMenu->SetVisibility(false);
 	m_waitForPlayerText->m_textComponent->SetVisibility(true);
 
-	//World* world = m_scene->Instantiate(World, GameWorld);
+	// Create World
+	m_broadcastWorld = m_scene->Instantiate(World, GameWorld);
+	std::string strPath = "../Resources/bmp/DontDelete/DefaultMap.bmp";
+	const char* path = strPath.c_str();
+	m_broadcastWorld->Setup(path);
 
-	//std::string strPath = "../Resources/bmp/DontDelete/DefaultMap.bmp";
-	//const char* path = strPath.c_str();
-	//world->Setup(path);
+	// Create Broadcast
+	unsigned const short port = 54000;
+	m_packet << m_broadcastWorld->m_pixelValues;
+	m_tcpListener.setBlocking(false);
+	m_tcpClientSocket.setBlocking(false);
+	m_tcpListener.listen(port);
 
-	//unsigned short port = 54000;
+	m_isBroadcastingLobby = true;
+}
 
-	//sf::Packet packet;
-	//packet << world->m_pixelValues;
+void CreateLobbyForm::BroadcastLobby()
+{
+	if (m_tcpListener.accept(m_tcpClientSocket) != sf::Socket::Done)
+	{
+		return;
+	}
 
-	//sf::TcpListener listener;
-	//listener.listen(port);
-
-	//sf::TcpSocket clientSocket;
-	//listener.accept(clientSocket);
-
-	//clientSocket.send(packet);
+	m_tcpClientSocket.send(m_packet);
 }

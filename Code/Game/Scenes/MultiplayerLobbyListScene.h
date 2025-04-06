@@ -13,10 +13,12 @@ public:
 
 private:
 	void ToggleCreateLobbyForm(bool value);
+	void Connect();
 
 	Text* m_headerText = nullptr;
 	Text* m_infoText = nullptr;
 	Button* m_createLobbyButton = nullptr;
+	Button* m_connectButton = nullptr;
 	CreateLobbyForm* m_createLobbyForm = nullptr;
 	// LobbySearcher (own entity)
 	// List of LobbyListEntries (entities)

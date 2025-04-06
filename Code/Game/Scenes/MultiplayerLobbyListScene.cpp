@@ -10,6 +10,7 @@ void MultiplayerLobbyListScene::Init()
 	m_headerText = Instantiate(Text, HeaderText);
 	m_infoText = Instantiate(Text, InfoText);
 	m_createLobbyButton = Instantiate(Button, CreateLobbyButton);
+	m_connectButton = Instantiate(Button, ConnectButton);
 	m_createLobbyForm = Instantiate(CreateLobbyForm, CreateLobbyForm);
 
 	// Text Setup
@@ -30,6 +31,11 @@ void MultiplayerLobbyListScene::Init()
 	m_createLobbyButton->SetFontSize(30);
 	m_createLobbyButton->GetTransformable().move(windowSize.x / 7.0f, windowSize.y * 0.9f);
 	m_createLobbyButton->SetButtonCallback(std::bind(&MultiplayerLobbyListScene::ToggleCreateLobbyForm, this, true));
+
+	m_connectButton->SetText("Connect");
+	m_connectButton->SetFontSize(30);
+	m_connectButton->GetTransformable().move(windowSize.x / 7.0f * 6, windowSize.y * 0.9f);
+	m_connectButton->SetButtonCallback(std::bind(&MultiplayerLobbyListScene::Connect, this));
 }
 
 void MultiplayerLobbyListScene::SetCreateLobbyButtonVisibility(bool value)
@@ -42,4 +48,36 @@ void MultiplayerLobbyListScene::ToggleCreateLobbyForm(bool value)
 {
 	SetCreateLobbyButtonVisibility(!value);
 	m_createLobbyForm->SetActive(true);
+}
+
+void MultiplayerLobbyListScene::Connect()
+{
+	unsigned short port = 54000;
+
+	sf::Packet packet;
+
+	sf::TcpSocket socket;
+	sf::IpAddress serverIP = sf::IpAddress("192.168.178.164");
+	sf::Socket::Status status = socket.connect(serverIP, port, sf::Time(sf::seconds(1)));
+
+	socket.receive(packet);
+	std::vector<int> data;
+
+	packet >> data;
+
+	int i = 0;
+	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
+	BMPImage bmpWorld = BMPImage(windowSize.x, windowSize.y);
+	for (int y = 0; y < windowSize.y; y++)
+	{
+		for (int x = 0; x < windowSize.x; x++)
+		{
+			bmp::Color texColor = bmp::Color(data[i]);
+			bmpWorld.SetColor(texColor, x, y);
+			i++;
+		}
+	}
+
+	std::string savePath = "../Resources/bmp/CopiedMap.bmp";
+	bmpWorld.Export(savePath.c_str());
 }
