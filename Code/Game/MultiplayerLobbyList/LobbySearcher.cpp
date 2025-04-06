@@ -26,15 +26,24 @@ void LobbySearcher::SearchForLobbies()
 {
 	sf::Packet lobbyPacket;
 	sf::IpAddress sender;
+
+	// TODO: udpSocket manage multiple servers
+
 	m_udpSocket.receive(lobbyPacket, sender, m_remotePort);
 
 	Lobby lobby;
 	if (lobbyPacket >> lobby)
 	{
+		if (m_activeLobbies.contains(lobby.id))
+		{
+			return;
+		}
+
+		m_activeLobbies[lobby.id] = lobby;
 		std::cout << "Lobby found: " << lobby.id << " " << lobby.ipAddress << std::endl;
 	}
 	else
 	{
-		//std::cout << "No lobby found." << std::endl;
+		m_activeLobbies.clear();
 	}
 }

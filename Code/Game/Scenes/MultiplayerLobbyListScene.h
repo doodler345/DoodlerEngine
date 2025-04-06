@@ -24,5 +24,4 @@ private:
 	Button* m_connectButton = nullptr;
 	CreateLobbyForm* m_createLobbyForm = nullptr;
 	LobbySearcher* m_lobbySearcher = nullptr;
-	// TODO: List of LobbyListEntries (entities)
 };
