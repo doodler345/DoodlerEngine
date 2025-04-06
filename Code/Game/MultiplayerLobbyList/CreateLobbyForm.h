@@ -5,6 +5,7 @@
 #include "../../Engine/Entity/Entity.h"
 #include "../../Engine/UI_Elements/ButtonMenu.h"
 #include "../../Engine/UI_Elements/Text.h"
+#include "../../Engine/UI_Elements/InputField.h"
 #include "../../Engine/EntityComponents/Drawables/RectangleComponent.h"
 #include "../../Engine/Scene.h"
 #include "../World.h"
@@ -16,7 +17,7 @@ public:
 	void Update(float deltaTime) override;
 	void DestroyDerived() override;
 
-	void SetActive(bool value);
+	void SetVisibility(bool value);
 
 private:
 	void CreateLobby();
@@ -29,11 +30,11 @@ private:
 	std::shared_ptr<RectangleComponent> m_background = nullptr;
 	ButtonMenu* m_buttonMenu = nullptr;
 	Text* m_waitForPlayerText = nullptr;
+	InputField* m_lobbyNameInputField = nullptr;
 
 	// Broadcast
 	const unsigned short m_PORT = 54000;
-
-	World* m_broadcastWorld = nullptr;
+	World* m_world = nullptr;
 	sf::IpAddress m_broadcastIp;
 	sf::Packet m_lobbyPacket;
 	sf::Packet m_worldPacket;

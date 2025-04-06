@@ -17,6 +17,8 @@ public:
 	void SetText(std::string text);
 	void SetFileEnding(std::string fileEnding);
 	void SetMaxChars(int maxChars);
+	void SetVisibility(bool value);
+	void SetRenderLayer(int layer);
 	void AppendCharacter(std::string newChar);
 	void RemoveCharacter();
 	std::string GetText() { return m_inputText; }

@@ -15,16 +15,19 @@ void CreateLobbyForm::EntityInit()
 	sf::Vector2u windowSize = engine->GetRenderWindow().getSize();
 	m_scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->GetCurrentScene();
 
+	m_buttonMenu = m_scene->Instantiate(ButtonMenu, ButtonMenu);
+	m_waitForPlayerText = m_scene->Instantiate(Text, WaitForPlayerText);
+	m_lobbyNameInputField = m_scene->Instantiate(InputField, LobbyNameInputField);
+
 	// Background
 	m_background = std::make_shared<RectangleComponent>(this, 1);
 	m_background->GetRectangle()->setSize(sf::Vector2f(windowSize.x * m_RELATIVE_SIZE.x, windowSize.y * m_RELATIVE_SIZE.y));
 	m_background->Center();
 	m_background->GetOwner()->GetTransformable().move(windowSize.x / 2, windowSize.y / 2);
+	m_background->SetRenderLayer(1);
 	AddComponent(m_background);
 
 	// Buttons
-	m_buttonMenu = m_scene->Instantiate(ButtonMenu, ButtonMenu);
-
 	std::array<KEY, 3> keys =
 	{
 		KEY::W,
@@ -45,16 +48,20 @@ void CreateLobbyForm::EntityInit()
 	buttons[1]->SetText("X");
 
 	buttons[0]->SetButtonCallback(std::bind(&CreateLobbyForm::CreateLobby, this));
-	buttons[1]->SetButtonCallback(std::bind(&CreateLobbyForm::SetActive, this, false));
+	buttons[1]->SetButtonCallback(std::bind(&CreateLobbyForm::SetVisibility, this, false));
 
-	buttons[0]->SetRenderLayer(1);
-	buttons[1]->SetRenderLayer(1);
+	buttons[0]->SetRenderLayer(2);
+	buttons[1]->SetRenderLayer(2);
 
-	// Text
-	m_waitForPlayerText = m_scene->Instantiate(Text, WaitForPlayerText);
+	// Input Field
+	m_lobbyNameInputField->SetText("LobbyName");
+	m_lobbyNameInputField->GetTransformable().move(windowCenter);
+	m_lobbyNameInputField->SetRenderLayer(2);
+
+	// Text (Wait for Player)
 	m_waitForPlayerText->m_textComponent->SetText("Waiting for player...");
 	m_waitForPlayerText->m_textComponent->SetFontSize(50);
-	m_waitForPlayerText->m_textComponent->SetRenderLayer(1);
+	m_waitForPlayerText->m_textComponent->SetRenderLayer(2);
 	m_waitForPlayerText->GetTransformable().move(windowCenter);
 	m_waitForPlayerText->m_textComponent->SetVisibility(false);
 }
@@ -71,23 +78,25 @@ void CreateLobbyForm::DestroyDerived()
 {
 }
 
-void CreateLobbyForm::SetActive(bool value)
+void CreateLobbyForm::SetVisibility(bool value)
 {
 	m_buttonMenu->SetVisibility(value);
 	m_background->SetVisibility(value);
+	m_lobbyNameInputField->SetVisibility(value);
 	reinterpret_cast<MultiplayerLobbyListScene*>(m_scene)->SetCreateLobbyButtonVisibility(!value);
 }
 
 void CreateLobbyForm::CreateLobby()
 {
 	m_buttonMenu->SetVisibility(false);
+	m_lobbyNameInputField->SetVisibility(false);
 	m_waitForPlayerText->m_textComponent->SetVisibility(true);
 
 	// Create World
-	m_broadcastWorld = m_scene->Instantiate(World, GameWorld);
+	m_world = m_scene->Instantiate(World, GameWorld);
 	std::string strPath = "../Resources/bmp/DontDelete/DefaultMap.bmp";
 	const char* path = strPath.c_str();
-	m_broadcastWorld->Setup(path);
+	m_world->Setup(path);
 
 	// Create Broadcast address
 	std::string localAddress = sf::IpAddress::getLocalAddress().toString();
@@ -102,9 +111,9 @@ void CreateLobbyForm::CreateLobby()
 	broadcastAddress.append("255");
 	m_broadcastIp = sf::IpAddress(broadcastAddress);
 
-	std::string lobbyName = "LobbyName";
+	std::string lobbyName = m_lobbyNameInputField->GetText();
 	m_lobbyPacket << lobbyName;
-	m_worldPacket << m_broadcastWorld->m_pixelValues;
+	m_worldPacket << m_world->m_pixelValues;
 	
 	m_udpSocket.setBlocking(false);
 	m_udpSocket.bind(m_PORT);

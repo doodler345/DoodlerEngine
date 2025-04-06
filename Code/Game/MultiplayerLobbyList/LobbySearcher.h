@@ -14,6 +14,9 @@ public:
 private:
 	void SearchForLobbies();
 
-	unsigned short m_PORT = 54000;
+	const float m_SEARCH_INTERVAL_SECONDS = 1.0f;
+	float m_timer = 0.0f;
+
+	unsigned short m_port = 54000;
 	sf::UdpSocket m_udpSocket;
 };

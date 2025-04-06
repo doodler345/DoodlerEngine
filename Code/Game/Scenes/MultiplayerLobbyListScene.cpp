@@ -25,7 +25,7 @@ void MultiplayerLobbyListScene::Init()
 	m_infoText->GetTransformable().move(windowSize.x / 2.0f, windowSize.y / 6.0f + 60);
 
 	// Create Lobby Form Setup
-	m_createLobbyForm->SetActive(false);
+	m_createLobbyForm->SetVisibility(false);
 	
 	// Button Setup
 	m_createLobbyButton->SetText("Create Lobby");
@@ -48,7 +48,7 @@ void MultiplayerLobbyListScene::SetCreateLobbyButtonVisibility(bool value)
 void MultiplayerLobbyListScene::ToggleCreateLobbyForm(bool value)
 {
 	SetCreateLobbyButtonVisibility(!value);
-	m_createLobbyForm->SetActive(true);
+	m_createLobbyForm->SetVisibility(true);
 }
 
 void MultiplayerLobbyListScene::Connect()

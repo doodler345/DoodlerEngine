@@ -95,6 +95,22 @@ void InputField::SetMaxChars(int maxChars)
 	m_maxChars = maxChars;
 }
 
+void InputField::SetVisibility(bool value)
+{
+	m_rectangleComponent->SetVisibility(value);
+	m_rectangleMarker->SetVisibility(value);
+	m_textComponent->SetVisibility(value);
+	m_textComponentFileEnding->SetVisibility(value);
+}
+
+void InputField::SetRenderLayer(int layer)
+{
+	m_rectangleComponent->SetRenderLayer(layer);
+	m_rectangleMarker->SetRenderLayer(layer);
+	m_textComponent->SetRenderLayer(layer);
+	m_textComponentFileEnding->SetRenderLayer(layer);
+}
+
 void InputField::AppendCharacter(std::string newChar)
 {
 	if (m_inputText.size() < m_maxChars)
