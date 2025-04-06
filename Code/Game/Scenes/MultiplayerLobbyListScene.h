@@ -16,7 +16,7 @@ private:
 	void ToggleCreateLobbyForm(bool value);
 	void Connect();
 
-	const unsigned short m_PORT = 54000;
+	//unsigned short m_port = 54000;
 
 	Text* m_headerText = nullptr;
 	Text* m_infoText = nullptr;
@@ -24,5 +24,5 @@ private:
 	Button* m_connectButton = nullptr;
 	CreateLobbyForm* m_createLobbyForm = nullptr;
 	LobbySearcher* m_lobbySearcher = nullptr;
-	// List of LobbyListEntries (entities)
+	// TODO: List of LobbyListEntries (entities)
 };

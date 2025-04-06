@@ -9,6 +9,7 @@
 #include "../../Engine/EntityComponents/Drawables/RectangleComponent.h"
 #include "../../Engine/Scene.h"
 #include "../World.h"
+#include "Lobby.h"
 
 class CreateLobbyForm : public Entity
 {
@@ -33,8 +34,10 @@ private:
 	InputField* m_lobbyNameInputField = nullptr;
 
 	// Broadcast
-	const unsigned short m_PORT = 54000;
+	unsigned short m_port = 54000;
+	unsigned short m_remotePort = 54001;
 	World* m_world = nullptr;
+	Lobby m_lobby;
 	sf::IpAddress m_broadcastIp;
 	sf::Packet m_lobbyPacket;
 	sf::Packet m_worldPacket;

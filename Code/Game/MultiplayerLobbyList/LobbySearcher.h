@@ -17,6 +17,7 @@ private:
 	const float m_SEARCH_INTERVAL_SECONDS = 1.0f;
 	float m_timer = 0.0f;
 
-	unsigned short m_port = 54000;
+	unsigned short m_port = 54001;
+	unsigned short m_remotePort = 54000;
 	sf::UdpSocket m_udpSocket;
 };

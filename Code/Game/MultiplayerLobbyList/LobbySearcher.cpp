@@ -1,5 +1,7 @@
 #include "LobbySearcher.h"
 
+#include "Lobby.h"
+
 void LobbySearcher::EntityInit()
 {
 	m_udpSocket.setBlocking(false);
@@ -24,12 +26,12 @@ void LobbySearcher::SearchForLobbies()
 {
 	sf::Packet lobbyPacket;
 	sf::IpAddress sender;
-	m_udpSocket.receive(lobbyPacket, sender, m_port);
+	m_udpSocket.receive(lobbyPacket, sender, m_remotePort);
 
-	std::string lobbyName;
-	if (lobbyPacket >> lobbyName)
+	Lobby lobby;
+	if (lobbyPacket >> lobby)
 	{
-		std::cout << "Lobby found: " << lobbyName << std::endl;
+		std::cout << "Lobby found: " << lobby.id << " " << lobby.ipAddress << std::endl;
 	}
 	else
 	{

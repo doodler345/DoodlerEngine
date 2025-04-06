@@ -1,6 +1,8 @@
 #include "CreateLobbyForm.h"
 
 #include <string>
+#include <cstdlib>
+#include <ctime>
 
 #include <SFML/Graphics.hpp>
 
@@ -14,7 +16,15 @@ void CreateLobbyForm::EntityInit()
 	Engine* engine = Engine::GetInstance();
 	sf::Vector2u windowSize = engine->GetRenderWindow().getSize();
 	m_scene = reinterpret_cast<GameManager*>(Engine::GetInstance()->GetGameManagerEntity())->GetCurrentScene();
+	std::srand(std::time({}));
 
+	// Networking Setup
+	m_udpSocket.setBlocking(false);
+	m_tcpListener.setBlocking(false);
+	m_tcpClientSocket.setBlocking(false);
+	m_udpSocket.bind(m_port);
+
+	// Instantiations
 	m_buttonMenu = m_scene->Instantiate(ButtonMenu, ButtonMenu);
 	m_waitForPlayerText = m_scene->Instantiate(Text, WaitForPlayerText);
 	m_lobbyNameInputField = m_scene->Instantiate(InputField, LobbyNameInputField);
@@ -111,24 +121,22 @@ void CreateLobbyForm::CreateLobby()
 	broadcastAddress.append("255");
 	m_broadcastIp = sf::IpAddress(broadcastAddress);
 
-	std::string lobbyName = m_lobbyNameInputField->GetText();
-	m_lobbyPacket << lobbyName;
+	// Lobby Setup
+	m_lobby.id = rand(); 
+	m_lobby.name = m_lobbyNameInputField->GetText();
+	m_lobby.ipAddress = localAddress;
+
+	m_lobbyPacket << m_lobby;
 	m_worldPacket << m_world->m_pixelValues;
 	
-	m_udpSocket.setBlocking(false);
-	m_udpSocket.bind(m_PORT);
-	
-	m_tcpListener.setBlocking(false);
-	m_tcpClientSocket.setBlocking(false);
-	
-	m_tcpListener.listen(m_PORT);
+	m_tcpListener.listen(m_port);
 
 	m_isBroadcastingLobby = true;
 }
 
 void CreateLobbyForm::BroadcastLobby()
 {
-	m_udpSocket.send(m_lobbyPacket, m_broadcastIp, m_PORT);
+	m_udpSocket.send(m_lobbyPacket, m_broadcastIp, m_remotePort);
 
 	if (m_tcpListener.accept(m_tcpClientSocket) != sf::Socket::Done)
 	{

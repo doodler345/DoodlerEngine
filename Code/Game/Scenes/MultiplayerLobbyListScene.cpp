@@ -53,30 +53,30 @@ void MultiplayerLobbyListScene::ToggleCreateLobbyForm(bool value)
 
 void MultiplayerLobbyListScene::Connect()
 {
-	sf::Packet packet;
+	//sf::Packet packet;
 
-	sf::TcpSocket socket;
-	sf::IpAddress serverIP = sf::IpAddress("192.168.178.164");
-	sf::Socket::Status status = socket.connect(serverIP, m_PORT, sf::Time(sf::seconds(1)));
+	//sf::TcpSocket socket;
+	//sf::IpAddress serverIP = sf::IpAddress("192.168.178.164");
+	//sf::Socket::Status status = socket.connect(serverIP, m_port, sf::Time(sf::seconds(1)));
 
-	socket.receive(packet);
-	std::vector<int> data;
+	//socket.receive(packet);
+	//std::vector<int> data;
 
-	packet >> data;
+	//packet >> data;
 
-	int i = 0;
-	sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
-	BMPImage bmpWorld = BMPImage(windowSize.x, windowSize.y);
-	for (int y = 0; y < windowSize.y; y++)
-	{
-		for (int x = 0; x < windowSize.x; x++)
-		{
-			bmp::Color texColor = bmp::Color(data[i]);
-			bmpWorld.SetColor(texColor, x, y);
-			i++;
-		}
-	}
+	//int i = 0;
+	//sf::Vector2u windowSize = Engine::GetInstance()->GetRenderWindow().getSize();
+	//BMPImage bmpWorld = BMPImage(windowSize.x, windowSize.y);
+	//for (int y = 0; y < windowSize.y; y++)
+	//{
+	//	for (int x = 0; x < windowSize.x; x++)
+	//	{
+	//		bmp::Color texColor = bmp::Color(data[i]);
+	//		bmpWorld.SetColor(texColor, x, y);
+	//		i++;
+	//	}
+	//}
 
-	std::string savePath = "../Resources/bmp/CopiedMap.bmp";
-	bmpWorld.Export(savePath.c_str());
+	//std::string savePath = "../Resources/bmp/CopiedMap.bmp";
+	//bmpWorld.Export(savePath.c_str());
 }
